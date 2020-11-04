@@ -13,4 +13,10 @@ class Category extends Model
     {
         return $this->belongsTo('App\MainCategory');
     }
+
+    // relation with sub category
+    public function sub_categories()
+    {
+        return $this->hasMany('App\SubCategory');
+    }
 }

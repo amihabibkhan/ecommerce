@@ -104,11 +104,11 @@
                         @csrf
                         <div class="form-group">
                             <label for="">Name</label>
-                            <input type="text" class="form-control" name="name">
+                            <input type="text" value="{{ old('name') }}" class="form-control" name="name">
                         </div>
                         <div class="form-group">
                             <label for="">Description</label>
-                            <textarea name="description" class="form-control"></textarea>
+                            <textarea name="description" class="form-control">{{ old('description') }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="">Profile Picture (200x200) </label>

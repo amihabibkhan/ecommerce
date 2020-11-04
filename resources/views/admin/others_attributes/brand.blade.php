@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
-@section('page_title') Publications @endsection
+@section('page_title') Brand @endsection
 
 @section('main_content')
     <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-heading bg-purple">
-                    <h3 class="card-title text-white">All Publications List</h3>
+                    <h3 class="card-title text-white">All Brand List</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-striped text-center">
                         <tr>
                             <th>SL</th>
-                            <th>Publication Name</th>
+                            <th>Brand Name</th>
                             <th>Logo</th>
                             <th>Action</th>
                         </tr>
-                        @foreach($publications as $single_item)
+                        @foreach($brands as $single_item)
                             <tr>
                                 <td style="vertical-align: middle">{{ $loop->index + 1 }}</td>
                                 <td style="vertical-align: middle">{{ $single_item->name }}</td>
@@ -47,9 +47,9 @@
                                 <button type="button" class="close" onclick="Custombox.close();">
                                     <span>&times;</span><span class="sr-only">Close</span>
                                 </button>
-                                <h4 class="custom-modal-title">Update Publication Info</h4>
+                                <h4 class="custom-modal-title">Update Brand Info</h4>
                                 <div class="custom-modal-text">
-                                    <form action="{{ route('manage_publications.update', $single_item->id) }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('manage_brands.update', $single_item->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method("PUT")
                                         <div class="form-group">
@@ -65,7 +65,7 @@
                                             <input type="file" name="image" class="form-control">
                                         </div>
                                         <div class="text-center">
-                                            <input type="submit" class="btn btn-success" value="Update Publication">
+                                            <input type="submit" class="btn btn-success" value="Update Brand">
                                         </div>
                                     </form>
                                 </div>
@@ -75,15 +75,15 @@
                                 <button type="button" class="close" onclick="Custombox.close();">
                                     <span>&times;</span><span class="sr-only">Close</span>
                                 </button>
-                                <h4 class="custom-modal-title">Delete Publication</h4>
+                                <h4 class="custom-modal-title">Delete Brand</h4>
                                 <div class="custom-modal-text text-center">
                                     <h4 style="font-size: 24px">Are you sure to delete?</h4>
                                     <p>NB: All of books of this writer will be affected.</p>
-                                    <form action="{{ route('manage_publications.destroy', $single_item->id) }}" method="POST">
+                                    <form action="{{ route('manage_brands.destroy', $single_item->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <div class="text-center">
-                                            <input type="submit" class="btn btn-danger m-r-5" value="DELETE PUBLICATION">
+                                            <input type="submit" class="btn btn-danger m-r-5" value="DELETE BRAND">
                                             <button onclick="Custombox.close();" type="button" class="btn btn-success">NOT NOW</button>
                                         </div>
                                     </form>
@@ -97,13 +97,13 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-heading bg-purple">
-                    <h3 class="card-title text-white">Add New Publication</h3>
+                    <h3 class="card-title text-white">Add New Brand</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('manage_publications.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('manage_brands.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="">Publication Name</label>
+                            <label for="">Brand Name</label>
                             <input type="text" class="form-control" value="{{ old('name') }}" name="name">
                         </div>
                         <div class="form-group">
@@ -115,7 +115,7 @@
                             <input type="file" class="dropify" data-height="100" name="image"/>
                         </div>
                         <div class="text-center">
-                            <input type="submit" class="btn btn-success" value="Add Publication">
+                            <input type="submit" class="btn btn-success" value="Add Brand">
                         </div>
                     </form>
                 </div>

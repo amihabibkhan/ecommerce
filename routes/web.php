@@ -30,3 +30,10 @@ Route::resource('manage_writer', 'Book\WriterController');
 Route::resource('manage_publications', 'Book\PublicationController');
 Route::resource('manage_languages', 'Book\LanguageController');
 Route::resource('manage_countries', 'Book\CountryController');
+
+Route::resource('manage_brands', 'Attributes\BrandController');
+Route::resource('manage_colors', 'Attributes\ColorController');
+Route::resource('manage_sizes', 'Attributes\SizeController');
+Route::resource('manage_tags', 'Attributes\TagController');
+
+Route::resource('manage_products', 'Ecommerce\ProductController');

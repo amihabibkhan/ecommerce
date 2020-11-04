@@ -99,13 +99,13 @@
                             <label for="">Parent Category</label>
                             <select name="category_id" class="form-control">
                                 @foreach($categories as $single_item)
-                                    <option value="{{ $single_item->id }}">{{ $single_item->title }}</option>
+                                    <option value="{{ $single_item->id }}" {{ old('category_id') == $single_item->id ? 'selected' : '' }}>{{ $single_item->title }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="">Category Name</label>
-                            <input type="text" class="form-control" name="title">
+                            <input type="text" class="form-control" value="{{ old('title') }}" name="title">
                         </div>
                         <div class="text-center">
                             <input type="submit" class="btn btn-success" value="Add Category">

@@ -155,6 +155,13 @@
                     <li>
                         <a href="{{ route('home') }}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span> Dashboard </span> </a>
                     </li>
+                    {{-- products --}}
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class=" mdi mdi-cube"></i><span> Products </span> <span class="menu-arrow"></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="{{ route('manage_products.create') }}">Add New</a></li>
+                        </ul>
+                    </li>
                     {{-- categories --}}
                     <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-format-list-bulleted-type"></i><span> Categories </span> <span class="menu-arrow"></span></a>
@@ -164,7 +171,8 @@
                             <li><a href="{{ route('manage_sub_category.index') }}">Sub Categories</a></li>
                         </ul>
                     </li>
-                    {{-- Books Info --}}
+                    <li class="menu-title">Attributes</li>
+                    {{-- Books attributes --}}
                     <li class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span> Book Attributes </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
@@ -172,6 +180,16 @@
                             <li><a href="{{ route('manage_publications.index') }}">Publications</a></li>
                             <li><a href="{{ route('manage_countries.index') }}">Countries</a></li>
                             <li><a href="{{ route('manage_languages.index') }}">Languages</a></li>
+                        </ul>
+                    </li>
+                    {{-- others attributes --}}
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-artstation"></i><span> Others Attributes </span> <span class="menu-arrow"></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="{{ route('manage_brands.index') }}">Brands</a></li>
+                            <li><a href="{{ route('manage_colors.index') }}">Colors</a></li>
+                            <li><a href="{{ route('manage_sizes.index') }}">Sizes</a></li>
+                            <li><a href="{{ route('manage_tags.index') }}">Tags</a></li>
                         </ul>
                     </li>
                 </ul>

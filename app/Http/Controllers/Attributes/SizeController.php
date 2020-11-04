@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Book;
+namespace App\Http\Controllers\Attributes;
 
-use App\Country;
 use App\Http\Controllers\Controller;
-use App\Language;
+use App\Size;
+use App\Tag;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
-class LanguageController extends Controller
+class SizeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        $languages = Language::all();
-        return view('admin.book.language', compact('languages'));
+        $sizes = Size::all();
+        return view('admin.others_attributes.size', compact('sizes'));
     }
 
     /**
@@ -40,21 +40,14 @@ class LanguageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'size' => 'required'
         ]);
-        $new_item = new Language();
-        $new_item->name = $request->name;
+        $new_item = new Size();
+        $new_item->title = $request->title;
+        $new_item->size = $request->size;
         $new_item->save();
 
-        $slug = slug_maker($request->name);
-        if (Country::where('slug', $slug)->exists()){
-            $new_item->slug = $slug . '-' . $new_item->id;
-        }else{
-            $new_item->slug = $slug;
-        }
-        $new_item->save();
-
-        Toastr::success('Language added', 'Success');
+        Toastr::success('Size added', 'Success');
         return back();
     }
 
@@ -90,22 +83,14 @@ class LanguageController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required'
+            'size' => 'required'
         ]);
-        $new_item = Language::findOrFail($id);
-        $new_item->name = $request->name;
-        $new_item->slug = ' ';
+        $new_item = Size::findOrFail($id);
+        $new_item->title = $request->title;
+        $new_item->size = $request->size;
         $new_item->save();
 
-        $slug = slug_maker($request->name);
-        if (Country::where('slug', $slug)->exists()){
-            $new_item->slug = $slug . '-' . $new_item->id;
-        }else{
-            $new_item->slug = $slug;
-        }
-        $new_item->save();
-
-        Toastr::success('Language updated', 'Success');
+        Toastr::success('Size updated', 'Success');
         return back();
     }
 
@@ -118,14 +103,15 @@ class LanguageController extends Controller
     public function destroy($id)
     {
         if ($id == 1){
-            Toastr::error('This language will not be deleted', 'Sorry');
+            Toastr::error('This size will not be deleted', 'Sorry');
             return back();
         }
-        // products will be detach from this country
 
-        Language::find($id)->delete();
+        // detach all product
 
-        Toastr::success('Language Deleted', 'Success');
+        Size::find($id)->delete();
+
+        Toastr::success('Size Deleted', 'Success');
         return back();
     }
 }
