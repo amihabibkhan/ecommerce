@@ -1,6 +1,4 @@
 <?php
-
-
 // slug maker
 function slug_maker($text){
     // creating slug
@@ -11,5 +9,10 @@ function slug_maker($text){
     $remove_brackets_2 = str_replace(')', ' ', $remove_brackets);
     $slug = preg_replace('/\s+/u', '-', trim($remove_brackets_2));
     return $slug;
+}
+
+// date maker
+function date_maker($date, $format){
+    return date_format(date_create($date), $format);
 }
 

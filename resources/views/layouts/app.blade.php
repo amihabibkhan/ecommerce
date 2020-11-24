@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-    <meta name="author" content="Coderthemes">
+    <meta name="description" content="BIKIRON SHOP">
+    <meta name="author" content="RUHUL AMIN">
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('admin') }}/images/favicon.ico">
@@ -60,11 +60,12 @@
                             </button>
                         </li>
                         <li class="d-none d-sm-inline-block">
-                            <form role="search" class="app-search">
-                                <input type="text" placeholder="Search..."
-                                       class="form-control">
-                                <a href=""><i class="fa fa-search"></i></a>
-                            </form>
+                            @yield('search')
+{{--                            <form role="search" class="app-search">--}}
+{{--                                <input type="text" placeholder="Search..."--}}
+{{--                                       class="form-control">--}}
+{{--                                <a href=""><i class="fa fa-search"></i></a>--}}
+{{--                            </form>--}}
                         </li>
                     </ul>
 
@@ -131,8 +132,12 @@
                                 </li>
                                 <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-user m-r-5"></i> Profile</a></li>
                                 <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-settings m-r-5"></i> Settings</a></li>
-                                <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
-                                <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-power-off m-r-5"></i> Logout</a></li>
+                                <li>
+                                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item"><i class="ti-power-off m-r-5"></i> Logout</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </li>
                             </ul>
                         </li>
 
@@ -160,6 +165,7 @@
                         <a href="javascript:void(0);" class="waves-effect"><i class=" mdi mdi-cube"></i><span> Products </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
                             <li><a href="{{ route('manage_products.create') }}">Add New</a></li>
+                            <li><a href="{{ route('manage_products.index') }}">All Products</a></li>
                         </ul>
                     </li>
                     {{-- categories --}}

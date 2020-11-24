@@ -3,193 +3,310 @@
 @section('page_title') New Product @endsection
 
 @section('main_content')
-
-    <form action="">
+    <form action="{{ route('manage_products.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
         <div class="row">
             <div class="col-lg-8">
-                <div class="card-box">
-                    <div class="">
+                <div class="card">
+                    <div class="card-heading bg-purple">
+                        <h3 class="card-title text-white" style="font-size: 20px">
+                            Title and Description
+                        </h3>
+                    </div>
+                    <div class="card-body">
                         <div class="form-group m-b-20">
-                            <label for="exampleInputEmail1">Product Title</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter title">
+                            <label for="title">Product Title</label>
+                            <input type="text" name="title" value="{{ old('title') }}" class="form-control" id="title" placeholder="Enter title">
                         </div>
                         <div class="form-group m-b-20">
-                            <label for="exampleInputEmail1">Product Sub Title</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter sub title">
+                            <label for="sub_title">Product Sub Title</label>
+                            <input type="text" name="sub_title" value="{{ old('sub_title') }}" class="form-control" id="sub_title" placeholder="Enter sub title">
                         </div>
                         <div class="form-group m-b-20">
                             <label>Product Description</label>
-                            <textarea name="description" class="summernote">{{ old('description') }}</textarea>
+                            <textarea id="description" name="description" class="form-control">{!! old('description') !!}</textarea>
                         </div>
                         <div class="form-group m-b-20">
-                            <label>Post Category</label>
-                            <select class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
-                                <option value="lifestyle">Lifestyle</option>
-                                <option value="Music">Music</option>
-                                <option value="Travel">Travel</option>
-                                <option value="Fashion">Fashion</option>
-                            </select>
-                        </div>
-                        <div class="form-group m-b-20">
-                            <label>Main Image (Cover Photo)</label>
+                            <label>Main Image (Cover Photo 200x300 | General Product 800x800)</label>
                             <input type="file" class="dropify" name="main_image" data-height="210" />
                         </div>
                         <div class="form-group m-b-20">
                             <label for="videourl">Product Video URL (Youtube)</label>
-                            <input type="text" class="form-control" id="videourl" placeholder="Enter url..">
+                            <input type="text" class="form-control" name="video_url" id="videourl" placeholder="Enter url..">
                         </div>
-                        <button type="submit" class="btn btn-success waves-effect waves-light">Publish</button>
-                        <button type="button" class="btn btn-danger waves-effect waves-light">Save as Draft</button>
+                        <button type="submit" value="publish" name="publish" class="btn btn-success waves-effect waves-light">Publish</button>
+                        <button type="submit" value="save" name="save" class="btn btn-danger waves-effect waves-light">Save as Draft</button>
                     </div>
                 </div> <!-- end p-20 -->
             </div> <!-- end col -->
             <div class="col-md-4">
-                <div class="card-box">
-                    <div class="form-group">
-                        <label for="">Categories and Subjects</label>
-                        <div style="overflow-y: scroll; max-height: 200px">
-                            @foreach($main_categories as $main_category)
-                                @if($main_category->id == 1)
-                                    @continue
-                                @endif
-                                <ul class="category_show">
-                                    <li>
-                                        <div class="checkbox checkbox-success">
-                                            <input type="checkbox" id="main{{ $main_category->id }}" value="option1">
-                                            <label for="main{{ $main_category->id }}">{{ $main_category->title }}</label>
-                                        </div>
-                                        @foreach($main_category->categories as $category)
-                                            <ul>
-                                                <li>
-                                                    <div class="checkbox checkbox-pink">
-                                                        <input type="checkbox" id="cat{{ $category->id }}" value="option1">
-                                                        <label for="cat{{ $category->id }}">{{ $category->title }}</label>
-                                                    </div>
-                                                    @foreach($category->sub_categories as $sub_category)
-                                                        <ul>
-                                                            <li>
-                                                                <div class="checkbox checkbox-purple">
-                                                                    <input type="checkbox" id="sub{{ $sub_category->id }}" value="option1">
-                                                                    <label for="sub{{ $sub_category->id }}">{{ $sub_category->title }}</label>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    @endforeach
-                                                </li>
-                                            </ul>
-                                        @endforeach
-                                    </li>
-                                </ul>
-                            @endforeach
+                {{-- categories --}}
+                <div class="portlet">
+                    <a data-toggle="collapse" href="#categories">
+                        <div class="portlet-heading bg-purple">
+                            <h3 class="portlet-title">
+                                Categories and Subjects
+                            </h3>
+                            <div class="portlet-widgets">
+                                <i class="ion ion-md-remove"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                    <div id="categories" class="panel-collapse collapse show">
+                        <div class="portlet-body">
+                            <div style="overflow-y: scroll; max-height: 200px">
+                                @foreach($main_categories as $main_category)
+                                    @if($main_category->id == 1)
+                                        @continue
+                                    @endif
+                                    <ul class="category_show">
+                                        <li>
+                                            <div class="checkbox checkbox-success">
+                                                <input type="checkbox" name="main_categories[]" id="main{{ $main_category->id }}" value="{{ $main_category->id }}">
+                                                <label for="main{{ $main_category->id }}">{{ $main_category->title }}</label>
+                                            </div>
+                                            @foreach($main_category->categories as $category)
+                                                <ul>
+                                                    <li>
+                                                        <div class="checkbox checkbox-pink">
+                                                            <input type="checkbox" name="categories[]" id="cat{{ $category->id }}" value="{{ $category->id }}">
+                                                            <label for="cat{{ $category->id }}">{{ $category->title }}</label>
+                                                        </div>
+                                                        @foreach($category->sub_categories as $sub_category)
+                                                            <ul>
+                                                                <li>
+                                                                    <div class="checkbox checkbox-purple">
+                                                                        <input type="checkbox" name="sub_categories[]" id="sub{{ $sub_category->id }}" value="{{ $sub_category->id }}">
+                                                                        <label for="sub{{ $sub_category->id }}">{{ $sub_category->title }}</label>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        @endforeach
+                                                    </li>
+                                                </ul>
+                                            @endforeach
+                                        </li>
+                                    </ul>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
+                </div>
 
-
-
-
-
-
-
-
-
-
-{{--                    <div class="">--}}
-{{--                        <div class="form-group m-b-20">--}}
-{{--                            <label class="m-b-10">Product Type</label>--}}
-{{--                            <br/>--}}
-{{--                            <div class="radio radio-info form-check-inline pl-2">--}}
-{{--                                <input type="radio" id="inlineRadio1" value="1"--}}
-{{--                                       name="type" checked>--}}
-{{--                                <label for="inlineRadio1"> Book </label>--}}
-{{--                            </div>--}}
-{{--                            <div class="radio radio-info form-check-inline">--}}
-{{--                                <input type="radio" id="inlineRadio2" value="2"--}}
-{{--                                       name="type">--}}
-{{--                                <label for="inlineRadio2"> Others </label>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-                    <div class="if_book">
-                        <div class="form-group">
-                            <label for="">Select a Writer</label>
-                            <select class="select2 form-control" name="writer_id">
-                                @foreach($writers as $writer)
-                                    <option {{ old('writer_id') == $writer->id ? 'selected' : '' }} value="{{ $writer->id }}">{{ $writer->name }}</option>
-                                @endforeach
-                            </select>
+                {{-- book --}}
+                <div class="portlet">
+                    <a data-toggle="collapse" href="#book_info">
+                        <div class="portlet-heading bg-purple">
+                            <h3 class="portlet-title">
+                                Book Info
+                            </h3>
+                            <div class="portlet-widgets">
+                                <i class="ion ion-md-remove"></i>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="">Select a Publication</label>
-                            <select class="select2 form-control" name="publication_id">
-                                @foreach($publications as $publication)
-                                    <option {{ old('publication_id') == $publication->id ? 'selected' : '' }} value="{{ $publication->id }}">{{ $publication->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="">ISBN Number</label>
-                            <input type="text" class="form-control" name="isbn">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Edition</label>
-                            <input type="text" class="form-control" name="edition" placeholder="ex: 1st, 15th etc">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Total Page</label>
-                            <input type="number" class="form-control" name="total_page">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Language</label>
-                            <select class="select2 form-control" name="language_id">
-                                @foreach($languages as $language)
-                                    <option {{ old('language_id') == $language->id ? 'selected' : '' }} value="{{ $language->id }}">{{ $language->name }}</option>
-                                @endforeach
-                            </select>
+                    </a>
+                    <div id="book_info" class="panel-collapse collapse show">
+                        <div class="portlet-body">
+                            <div class="form-group m-b-20">
+                                <label class="m-b-10">Product Type</label>
+                                <br/>
+                                <div class="radio radio-info form-check-inline pl-2">
+                                    <input type="radio" id="p_book" value="1"
+                                           name="type" checked>
+                                    <label for="p_book"> Book </label>
+                                </div>
+                                <div class="radio radio-info form-check-inline pl-2">
+                                    <input type="radio" id="p_others" value="2"
+                                           name="type">
+                                    <label for="p_others"> Others </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Writer</label>
+                                <select class="select2 form-control" name="writer_id">
+                                    <option disabled selected>Select a Writer</option>
+                                    @foreach($writers as $writer)
+                                        <option {{ old('writer_id') == $writer->id ? 'selected' : '' }} value="{{ $writer->id }}">{{ $writer->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Publication</label>
+                                <select class="select2 form-control" name="publication_id">
+                                    <option disabled selected>Select a Publication</option>
+                                    @foreach($publications as $publication)
+                                        <option {{ old('publication_id') == $publication->id ? 'selected' : '' }} value="{{ $publication->id }}">{{ $publication->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">ISBN Number</label>
+                                <input type="text" class="form-control" value="{{ old('isbn') }}" name="isbn">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Edition</label>
+                                <input type="text" class="form-control" value="{{ old('edition') }}" name="edition" placeholder="ex: 1st, 15th etc">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Total Page</label>
+                                <input type="number" class="form-control" value="{{ old('total_page') }}" name="total_page">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Language</label>
+                                <select class="select2 form-control" name="language_id">
+                                    @foreach($languages as $language)
+                                        <option {{ old('language_id') == $language->id ? 'selected' : '' }} value="{{ $language->id }}">{{ $language->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="">
-                        <div class="form-group">
-                            <label for="">Regular Price</label>
-                            <input type="number" class="form-control" name="regular_price">
+                </div>
+
+                {{-- Others info --}}
+                <div class="portlet">
+                    <a data-toggle="collapse" href="#others_info">
+                        <div class="portlet-heading bg-purple">
+                            <h3 class="portlet-title">
+                                Price and Others Info
+                            </h3>
+                            <div class="portlet-widgets">
+                                <i class="ion ion-md-remove"></i>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="">Sale Price (Optional)</label>
-                            <input type="number" class="form-control" name="sale_price">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Product Country (Optional)</label>
-                            <select class="select2 form-control" name="country_id">
-                                @foreach($countries as $country)
-                                    <option {{ old('country_id') == $country->id ? 'selected' : '' }} value="{{ $country->id }}">{{ $country->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Brand</label>
-                            <select class="select2 form-control" name="brand_id">
-                                @foreach($brands as $brand)
-                                    <option {{ old('brand_id') == $brand->id ? 'selected' : '' }} value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="">MODEL NO.</label>
-                            <input type="text" class="form-control" name="model">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Weight (gm)</label>
-                            <input type="number" class="form-control" name="weight">
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="" class="mr-2">Stock Available</label>
-                                    <input type="checkbox" name="stock" checked data-plugin="switchery" data-color="#64b0f2" data-size="small"/>
+                    </a>
+                    <div id="others_info" class="panel-collapse collapse">
+                        <div class="portlet-body">
+                            <div class="form-group">
+                                <label for="">Regular Price</label>
+                                <input type="number" class="form-control" value="{{ old('regular_price') }}" name="regular_price">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Sale Price (Optional)</label>
+                                <input type="number" class="form-control" value="{{ old('sale_price') }}" name="sale_price">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Product Country (Optional)</label>
+                                <select class="select2 form-control" name="country_id">
+                                    @foreach($countries as $country)
+                                        <option {{ old('country_id') == $country->id ? 'selected' : '' }} value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Brand</label>
+                                <select class="select2 form-control" name="brand_id">
+                                    <option disabled selected>Select a brand</option>
+                                    @foreach($brands as $brand)
+                                        <option {{ old('brand_id') == $brand->id ? 'selected' : '' }} value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">MODEL NO.</label>
+                                <input type="text" class="form-control" value="{{ old('model') }}" name="model">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Product Code</label>
+                                <input type="text" class="form-control" value="{{ old('product_code') }}" name="product_code">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Weight (gm)</label>
+                                <input type="number" class="form-control" value="{{ old('weight') }}" name="weight">
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="" class="mr-2">Stock Available</label>
+                                        <input type="checkbox" name="stock" checked data-plugin="switchery" data-color="#64b0f2" data-size="small"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="" class="mr-2">Publish</label>
+                                        <input type="checkbox" name="status" checked data-plugin="switchery" data-color="#64b0f2" data-size="small"/>
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                    <label for="" class="mr-2">Publish</label>
-                                    <input type="checkbox" name="status" checked data-plugin="switchery" data-color="#64b0f2" data-size="small"/>
-                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- attributes --}}
+                <div class="portlet">
+                    <a data-toggle="collapse" href="#attributes">
+                        <div class="portlet-heading bg-purple">
+                            <h3 class="portlet-title">
+                                Attributes
+                            </h3>
+                            <div class="portlet-widgets">
+                                <i class="ion ion-md-remove"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                    <div id="attributes" class="panel-collapse collapse">
+                        <div class="portlet-body">
+                            <div class="form-group">
+                                <label for="">Tags</label>
+                                <select name="tags[]" class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose tags...">
+                                    @foreach($tags as $tag)
+                                        @if($tag->id == 1)
+                                            @continue
+                                        @endif
+                                        <option value="{{ $tag->id }}">{{ $tag->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Colors</label>
+                                <select name="colors[]" class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose colors ...">
+                                    @foreach($colors as $color)
+                                        @if($color->id == 1)
+                                            @continue
+                                        @endif
+                                        <option value="{{ $color->id }}">{{ $color->color_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Sizes</label>
+                                <select name="sizes[]" class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose sizes...">
+                                    @foreach($sizes as $size)
+                                        @if($size->id == 1)
+                                            @continue
+                                        @endif
+                                        <option value="{{ $size->id }}">{{ $size->title }} ({{ $size->size }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- images and pages --}}
+                <div class="portlet">
+                    <a data-toggle="collapse" href="#page_and_images">
+                        <div class="portlet-heading bg-purple">
+                            <h3 class="portlet-title">
+                                Product Image and pages
+                            </h3>
+                            <div class="portlet-widgets">
+                                <i class="ion ion-md-remove"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                    <div id="page_and_images" class="panel-collapse collapse">
+                        <div class="portlet-body">
+                            <div class="form-group">
+                                <label for="">Product Images (Select multiple item)</label>
+                                <input type="file" class="form-control" name="images[]" multiple>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Page Images (Select multiple item)</label>
+                                <input type="file" class="form-control" multiple name="pages[]">
                             </div>
                         </div>
                     </div>
@@ -220,13 +337,11 @@
             list-style-type: none;
             padding-left: 20px;
         }
-
     </style>
 @endsection
 
 @section('javascript')
-    <!--Summernote js-->
-    <script src="{{ asset('admin/plugins') }}/summernote/summernote-bs4.min.js"></script>
+
     <!-- Select 2 -->
     <script src="{{ asset('admin/plugins') }}/select2/js/select2.min.js"></script>
     <!-- dropify js -->
@@ -238,14 +353,6 @@
     <script>
 
         jQuery(document).ready(function(){
-
-            $('.summernote').summernote({
-                height: 240,                 // set editor height
-                minHeight: null,             // set minimum height of editor
-                maxHeight: null,             // set maximum height of editor
-                focus: false                 // set focus to editable area after initializing summernote
-            });
-            // Select2
             $(".select2").select2();
 
             $(".select2-limiting").select2({
@@ -253,5 +360,47 @@
             });
         });
     </script>
+    <script src="{{ asset('admin/plugins/ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('description', options = {
+            height: '405px',
+            toolbarGroups: [{
+                "name": "basicstyles",
+                "groups": ["basicstyles"]
+            },
+                {
+                    "name": "links",
+                    "groups": ["links"]
+                },
+                {
+                    "name": "paragraph",
+                    "groups": ["list", "blocks"]
+                },
+                {
+                    "name": "document",
+                    "groups": ["mode"]
+                },
+                {
+                    "name": "insert",
+                    "groups": ["insert"]
+                },
+                {
+                    "name": "styles",
+                    "groups": ["styles"]
+                },
+                {
+                    "name": "about",
+                    "groups": ["about"]
+                }
+            ],
+            // Remove the redundant buttons from toolbar groups defined above.
+            removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
+            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+        });
+    </script>
+
 
 @endsection

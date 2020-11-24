@@ -19,4 +19,10 @@ class Category extends Model
     {
         return $this->hasMany('App\SubCategory');
     }
+
+    // relation with product table
+    public function products()
+    {
+        return $this->belongsToMany('App\Product');
+    }
 }

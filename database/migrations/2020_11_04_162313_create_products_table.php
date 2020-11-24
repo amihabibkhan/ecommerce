@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration
             $table->integer('country_id')->nullable(); //
             $table->integer('language_id')->nullable(); //
             $table->string('main_image')->nullable(); //
+            $table->string('thumbnail')->nullable(); //
             $table->integer('regular_price')->nullable(); //
             $table->integer('sale_price')->nullable(); //
             $table->text('description')->nullable(); //
@@ -32,8 +33,9 @@ class CreateProductsTable extends Migration
             $table->string('model')->nullable(); //
             $table->string('video_url')->nullable(); //
             $table->integer('weight')->nullable(); //
-            $table->integer('stock')->default(1); //
+            $table->integer('stock')->default(1); // 1 for available 0 for stock out
             $table->integer('status')->default(1); //
+            $table->string('product_code')->nullable(); //
             $table->integer('type')->default(1); // book = 1, others = 2
             $table->timestamps();
         });

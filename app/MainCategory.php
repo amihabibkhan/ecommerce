@@ -13,4 +13,10 @@ class MainCategory extends Model
     {
         return $this->hasMany('App\Category');
     }
+
+    // relation with product table
+    public function products()
+    {
+        return $this->belongsToMany('App\Product');
+    }
 }
