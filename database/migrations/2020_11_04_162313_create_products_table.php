@@ -16,6 +16,9 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title'); //
+            $table->string('banglish_title')->nullable(); //
+            $table->string('slug'); //
+            $table->integer('user_id')->nullable(); // book creator (admin)
             $table->string('sub_title')->nullable(); //
             $table->integer('writer_id')->nullable(); //
             $table->integer('publication_id')->nullable(); //
@@ -36,6 +39,7 @@ class CreateProductsTable extends Migration
             $table->integer('stock')->default(1); // 1 for available 0 for stock out
             $table->integer('status')->default(1); //
             $table->string('product_code')->nullable(); //
+            $table->string('cover')->nullable()->default("হার্ড কভার"); //
             $table->integer('type')->default(1); // book = 1, others = 2
             $table->timestamps();
         });

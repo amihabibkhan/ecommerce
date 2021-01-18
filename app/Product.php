@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
+    use Searchable;
+
     protected $guarded = [];
 
     // relation with main categories
@@ -66,5 +69,11 @@ class Product extends Model
     public function publication()
     {
         return $this->belongsTo('App\Publication');
+    }
+
+    // relation with review table
+    public function reviews()
+    {
+        return $this->hasMany('App\Review')->where('status', 2);
     }
 }

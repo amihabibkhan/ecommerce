@@ -19,6 +19,8 @@ use App\Tag;
 use App\Writer;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -34,6 +36,9 @@ class ProductController extends Controller
         $search_items = [];
         if ($request->search_by_name){
             $search_items[] = ['title', 'like', '%' . $request->search_by_name . '%'];
+        }
+        if ($request->search_by_id){
+            $search_items[] = ['product_code', $request->search_by_id];
         }
         if ($request->writer){
             $search_items[] = ['writer_id', $request->writer];
@@ -77,8 +82,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $data['last_used_writers'] = Product::where('writer_id', '!=', null)->select('writer_id')->distinct()->orderBy('id','desc')->take(5)->get();
+        $data['last_used_pubs'] = Product::where('publication_id', '!=', null)->select('publication_id')->distinct()->orderBy('id','desc')->take(5)->get();
         $data['writers'] = Writer::all();
         $data['publications'] = Publication::all();
         $data['languages'] = Language::all();
@@ -111,6 +118,12 @@ class ProductController extends Controller
         // attach categories and subcategories
         $this->attachCategories($request, $product);
 
+        // add new category
+        $this->add_new_category($request, $product);
+
+        // add new writers, tags and publication
+        $this->add_new_writerTagPub($request, $product);
+
         // attach tag, color and size
         $this->attachTagColorSize($request, $product);
 
@@ -127,6 +140,111 @@ class ProductController extends Controller
 
         Toastr::success('Product added', 'Success');
         return back();
+    }
+
+    // add new writer, tag and publication
+    protected function add_new_writerTagPub($request, $product)
+    {
+        if ($request->new_writer){
+            $writer = new Writer();
+            $writer->name = $request->new_writer;
+            $writer->save();
+
+            $slug = slug_maker($request->new_writer);
+            if (Writer::where('slug', $slug)->exists()){
+                $writer->slug = $slug . '-' . $writer->id;
+            }else{
+                $writer->slug = $slug;
+            }
+            $writer->save();
+            $product->writer_id = $writer->id;
+        }
+
+        if ($request->new_publication){
+            $publication = new Publication();
+            $publication->name = $request->new_publication;
+            $publication->save();
+
+            $slug = slug_maker($request->new_publication);
+            if (Publication::where('slug', $slug)->exists()){
+                $publication->slug = $slug . '-' . $publication->id;
+            }else{
+                $publication->slug = $slug;
+            }
+            $publication->save();
+            $product->publication_id = $publication->id;
+        }
+
+        if ($request->new_tags) {
+            if (count($request->new_tags) > 0) {
+                foreach ($request->new_tags as $single_tag) {
+                    $tag = Tag::create([
+                        'title' => $single_tag
+                    ]);
+                    $product->tags()->syncWithoutDetaching($tag);
+                }
+            }
+        }
+        $product->save();
+        return;
+    }
+
+    // add new category
+    protected function add_new_category($request, $product){
+        if ($request->new_category){
+            if ($request->new_category_parent){
+                $get_parent_type = substr($request->new_category_parent, 0, 1);
+                $get_parent_id = substr($request->new_category_parent, 2);
+                if ($get_parent_type == 'm'){
+                    // it will be added to category table
+                    $new_item = new Category();
+                    $new_item->title = $request->new_category;
+                    $new_item->main_category_id = $get_parent_id;
+                    $new_item->save();
+
+                    $slug = slug_maker($request->new_category);
+                    if (Category::where('slug', $slug)->exists()){
+                        $new_item->slug = $slug . '-' . $new_item->id;
+                    }else{
+                        $new_item->slug = $slug;
+                    }
+                    $new_item->save();
+                    $product->categories()->syncWithoutDetaching($new_item->id);
+                }elseif ($get_parent_type == 'c'){
+                    // it will be added to sub category table
+                    $new_item = new SubCategory();
+                    $new_item->title = $request->new_category;
+                    $new_item->category_id = $get_parent_id;
+                    $new_item->save();
+
+                    $slug = slug_maker($request->new_category);
+                    if (SubCategory::where('slug', $slug)->exists()){
+                        $new_item->slug = $slug . '-' . $new_item->id;
+                    }else{
+                        $new_item->slug = $slug;
+                    }
+                    $new_item->save();
+                    $product->sub_categories()->syncWithoutDetaching($new_item->id);
+                }
+            }else{
+                // it will be added to main category table
+                $new_item = new MainCategory();
+                $new_item->title = $request->new_category;
+                $new_item->save();
+
+                $slug = slug_maker($request->new_category);
+                if (MainCategory::where('slug', $slug)->exists()){
+                    $new_item->slug = $slug . '-' . $new_item->id;
+                }else{
+                    $new_item->slug = $slug;
+                }
+                $new_item->save();
+
+                $product->main_categories()->syncWithoutDetaching($new_item->id);
+                return;
+            }
+        }
+        return;
     }
 
     /**
@@ -262,7 +380,10 @@ class ProductController extends Controller
         }
 
         $product->title = $request->title;
+        $product->slug = ' ';
+        $product->user_id = Auth::id();
         $product->sub_title = $request->sub_title;
+        $product->banglish_title = $request->banglish_title;
         $product->writer_id = $request->writer_id;
         $product->publication_id = $request->publication_id;
         $product->isbn = $request->isbn;
@@ -277,11 +398,26 @@ class ProductController extends Controller
         $product->model = $request->model;
         $product->video_url = $request->video_url;
         $product->weight = $request->weight;
+        $product->cover = $request->cover;
         $product->stock = $request->stock ? 1 : 0;
         $product->status = $request->status ? 1 : 0;
         $product->product_code = $request->product_code;
         $product->type = $request->type;
 
+        $product->save();
+
+
+        $slug = slug_maker($request->title);
+        if (Product::where('slug', $slug)->exists()){
+            $product->slug = $slug . '-' . $product->id;
+        }else{
+            $product->slug = $slug;
+        }
+        $product->save();
+
+        if ($type == 'store') {
+            $product->product_code = date('ym') . $product->id;
+        }
         $product->save();
         return $product;
     }
@@ -416,6 +552,9 @@ class ProductController extends Controller
     // product bulk action
     public function bulk_action(Request $request)
     {
+        $request->validate([
+           'selected' => 'required'
+        ]);
         Product::wherein('id', $request->selected)->update([
             'stock' => $request->action
         ]);

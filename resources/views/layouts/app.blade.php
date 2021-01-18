@@ -198,6 +198,28 @@
                             <li><a href="{{ route('manage_tags.index') }}">Tags</a></li>
                         </ul>
                     </li>
+                    <li class="menu-title">Others</li>
+
+                    {{-- others attributes --}}
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-artstation"></i><span> Site Controls </span> <span class="menu-arrow"></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="{{ route('manage_home_page.index') }}">Home Page</a></li>
+                            <li><a href="{{ route('manage_slider.index') }}">Slider</a></li>
+                            <li><a href="{{ route('manage_offer.index') }}">Weekly Offer</a></li>
+                            <li><a href="{{ route('manage_coupon.index') }}">Coupons</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-star-box"></i><span> Reviews</span> <span class="menu-arrow"></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="{{ route('admin.viewReviews', 'pending') }}">Pending Reviews</a></li>
+                            <li><a href="{{ route('admin.viewReviews', 'all') }}">All Review</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ route('index') }}" target="_blank" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span>Visit Website</span> </a>
+                    </li>
                 </ul>
             </div>
             <!-- Sidebar -->

@@ -19,6 +19,10 @@
                             <input type="text" name="title" value="{{ old('title') }}" class="form-control" id="title" placeholder="Enter title">
                         </div>
                         <div class="form-group m-b-20">
+                            <label for="title">Banglish Title</label>
+                            <input type="text" name="banglish_title" value="{{ old('banglish_title') }}" class="form-control" id="banglish_title" placeholder="Enter banglish title">
+                        </div>
+                        <div class="form-group m-b-20">
                             <label for="sub_title">Product Sub Title</label>
                             <input type="text" name="sub_title" value="{{ old('sub_title') }}" class="form-control" id="sub_title" placeholder="Enter sub title">
                         </div>
@@ -32,14 +36,14 @@
                         </div>
                         <div class="form-group m-b-20">
                             <label for="videourl">Product Video URL (Youtube)</label>
-                            <input type="text" class="form-control" name="video_url" id="videourl" placeholder="Enter url..">
+                            <input type="text" class="form-control" name="video_url" id="videourl" placeholder="Enter url...">
                         </div>
                         <button type="submit" value="publish" name="publish" class="btn btn-success waves-effect waves-light">Publish</button>
                         <button type="submit" value="save" name="save" class="btn btn-danger waves-effect waves-light">Save as Draft</button>
                     </div>
                 </div> <!-- end p-20 -->
             </div> <!-- end col -->
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 {{-- categories --}}
                 <div class="portlet">
                     <a data-toggle="collapse" href="#categories">
@@ -55,7 +59,7 @@
                     </a>
                     <div id="categories" class="panel-collapse collapse show">
                         <div class="portlet-body">
-                            <div style="overflow-y: scroll; max-height: 200px">
+                            <div style="overflow-y: scroll; max-height: 200px; margin-bottom: 15px">
                                 @foreach($main_categories as $main_category)
                                     @if($main_category->id == 1)
                                         @continue
@@ -89,6 +93,26 @@
                                         </li>
                                     </ul>
                                 @endforeach
+                            </div>
+                            <a data-toggle="collapse" href="#create_category">+ Create new category</a>
+                            <div id="create_category" class="collapse">
+                                <div class="form-group mt-3">
+                                    <input name="new_category" type="text" placeholder="Category Name" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <select name="new_category_parent" class="form-control">
+                                        <option disabled selected>Select Parent Category</option>
+                                        @foreach($main_categories as $main_category)
+                                        <option value="m_{{ $main_category->id }}">{{ $main_category->title }}</option>
+                                            @foreach($main_category->categories as $category)
+                                            @if($category->id == 1)
+                                                @continue
+                                            @endif
+                                            <option value="c_{{ $category->id }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $category->title }}</option>
+                                            @endforeach
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -127,19 +151,39 @@
                                 <label for="">Writer</label>
                                 <select class="select2 form-control" name="writer_id">
                                     <option disabled selected>Select a Writer</option>
+                                    @foreach($last_used_writers as $single_writer)
+                                        <option value="{{ @$single_writer->writer->id }}">{{ @$single_writer->writer->name }}</option>
+                                    @endforeach
                                     @foreach($writers as $writer)
+                                        @if($last_used_writers->where('writer_id', $writer->id)->first())
+                                            @continue
+                                        @endif
                                         <option {{ old('writer_id') == $writer->id ? 'selected' : '' }} value="{{ $writer->id }}">{{ $writer->name }}</option>
                                     @endforeach
                                 </select>
+                                <a data-toggle="collapse" href="#create_writer">+ Create new writer</a>
+                                <div id="create_writer" class="collapse">
+                                    <input type="text" name="new_writer" placeholder="Writer name" class="form-control mt-3">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="">Publication</label>
                                 <select class="select2 form-control" name="publication_id">
                                     <option disabled selected>Select a Publication</option>
+                                    @foreach($last_used_pubs as $single_pub)
+                                        <option value="{{ $single_pub->publication->id }}">{{ $single_pub->publication->name }}</option>
+                                    @endforeach
                                     @foreach($publications as $publication)
+                                        @if($last_used_pubs->where('publication_id', $publication->id)->first())
+                                            @continue
+                                        @endif
                                         <option {{ old('publication_id') == $publication->id ? 'selected' : '' }} value="{{ $publication->id }}">{{ $publication->name }}</option>
                                     @endforeach
                                 </select>
+                                <a data-toggle="collapse" href="#create_publication">+ Create new Publication</a>
+                                <div id="create_publication" class="collapse">
+                                    <input type="text" name="new_publication" placeholder="Publication name" class="form-control mt-3">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="">ISBN Number</label>
@@ -148,6 +192,20 @@
                             <div class="form-group">
                                 <label for="">Edition</label>
                                 <input type="text" class="form-control" value="{{ old('edition') }}" name="edition" placeholder="ex: 1st, 15th etc">
+                            </div>
+                            <div class="form-group m-b-20">
+                                <label class="m-b-10">Cover Type</label>
+                                <br/>
+                                <div class="radio radio-info form-check-inline pl-2">
+                                    <input type="radio" id="book_cover_hard" value="হার্ড কভার"
+                                           name="cover" checked>
+                                    <label for="book_cover_hard"> Hard Cover </label>
+                                </div>
+                                <div class="radio radio-info form-check-inline pl-2">
+                                    <input type="radio" id="book_cover_paper" value="পেপার ব্যাক"
+                                           name="cover">
+                                    <label for="book_cover_paper"> Paper Back </label>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="">Total Page</label>
@@ -162,6 +220,7 @@
                                 </select>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -258,6 +317,11 @@
                                         <option value="{{ $tag->id }}">{{ $tag->title }}</option>
                                     @endforeach
                                 </select>
+                                <a data-toggle="collapse" href="#create_tags">+ Add new tags</a>
+                                <div id="create_tags" class="collapse">
+                                    <select multiple data-role="tagsinput" name="new_tags[]">
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="">Colors</label>
@@ -326,6 +390,8 @@
 
     <!-- dropify css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/plugins') }}/dropify/css/dropify.css" />
+
+    <link rel="stylesheet" href="{{ asset('admin/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
     <style>
         .switchery{
             margin-top: -3px;
@@ -349,6 +415,7 @@
 
     <!-- page specific js -->
     <script src="{{ asset('admin') }}/pages/jquery.blog-add.init.js"></script>
+    <script src="{{ asset('admin/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js') }}"></script>
 
     <script>
 

@@ -1,0 +1,218 @@
+.nav_container{
+    border-bottom: 1px solid #cca200;
+}
+.custom-nav{
+    padding: 0;
+    margin-bottom: -1px;
+}
+
+#my_nav ul li a{
+    font-size: 18px;
+}
+
+#my_nav ul li.active a{
+    border-top: 1px solid #cca200;
+    border-left: 1px solid #cca200;
+    border-right: 1px solid #cca200;
+    border-bottom: 1px solid white;
+    padding: 7px 20px;
+}
+#my_nav ul li{
+    margin: 0 10px;
+}
+
+.sub_nav > ul{
+    display: flex;
+}
+.sub_nav ul li a{
+    padding: 10px 20px;
+    position: relative;
+}
+.sub_nav ul li.has_menu > a::after{
+    content: '';
+    position: absolute;
+    left: calc(100% - 12px);
+    width: 6px;
+    height: 6px;
+    border: 1px solid black;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    top: 50%;
+    transition: all .3s;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.sub_nav ul li:hover a::after{
+    transform: translateY(-50%) rotate(225deg);
+}
+
+
+
+
+
+
+.mega_menu ul li{
+    position: relative;
+    padding-left: 7px;
+}
+
+.mega_menu ul li::before{
+    position: absolute;
+    content: '';
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 2px;
+    background-color: black;
+}
+.sub_nav_container{
+    position: relative;
+}
+.sub_nav_container .mega_menu{
+    box-shadow: 0px 20px 20px 0 #00000096;
+    position: absolute;
+    top: 100%;
+    background-color: white;
+    padding: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+    z-index: 9999;
+    width: 100%;
+}
+.sub_nav_container .mega_menu:hover,
+.mega_menu_show{
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+.mega_menu ul li a{
+    padding: 5px 20px;
+}
+.logo {
+    padding-bottom: 30px;
+}
+.logo img{
+    width: 140px;
+}
+header{
+    padding-top: 10px;
+}
+
+.typed-fade-out{
+    display: none;
+}
+
+.search_field{
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-color: #fbca0c;
+}
+.search_button {
+    color: #000;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border: 1px solid #fbca0c;
+    background: #fbca0c;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.cart-icon {
+    display: inline-block;
+    margin-right: 30px;
+    position: relative;
+    top: 5px;
+}
+.cart-icon a i {
+    font-size: 30px;
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+    line-height: 1;
+}
+.cart-icon a span {
+    position: absolute;
+    top: -4px;
+    right: -7px;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    background-color: var(--main-color);
+    border-radius: 50%;
+    text-align: center;
+    color: var(--white-color);
+    font-size: 11px;
+}
+.cart-icon a.user_icon {
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+    border: 1px solid black;
+    padding-top: 4px;
+    text-align: center;
+}
+.menu_button,
+.account_icon{
+    margin-right: 0;
+}
+header{
+    padding-top: 0 !important;
+}
+.navbar-collapse{
+    transition: all 1s;
+}
+
+
+ /* responsive */
+
+@media(max-width: 991px) {
+    .logo{
+        padding-bottom: 20px;
+    }
+    .logo img{
+        width: 100px;
+    }
+    .account_icon{
+        margin-right: 10px;
+    }
+    #my_nav .navbar-nav{
+        height: 300px;
+        overflow-y: scroll;
+    }
+    .navbar-collapse{
+        padding-top: 15px;
+        transition: all .5s;
+        margin: 0 -15px;
+    }
+    .nav-item{
+        margin: 0 !important;
+    }
+    #my_nav ul li.active a,
+    #my_nav ul li a{
+        border-width: 0px 0px 1px 0px;
+        border-style: solid;
+        border-color: #DBEEFD;
+        font-size: 16px;
+        padding: 1em 5%;
+        color: #677294;
+        display: block;
+    }
+    #my_nav ul li ul{
+        padding-left: 20px;
+    }
+}
+
+
+/* search bar */
+.search_form{
+    position: relative;
+}
+.search_form .search_result{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    max-height: 300px;
+    overflow-y: scroll;
+    background-color: #fff;
+    z-index: 999;
+    width: 100%;
+}

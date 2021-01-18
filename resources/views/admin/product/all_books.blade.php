@@ -21,6 +21,9 @@
                                 <input type="text" placeholder="Search by Name" name="search_by_name" class="form-control">
                             </div>
                             <div class="col-md">
+                                <input type="text" placeholder="Search by ID" name="search_by_id" class="form-control">
+                            </div>
+                            <div class="col-md">
                                 <select name="writer" class="form-control">
                                     <option disabled selected>Filter by Writer</option>
                                     @foreach($writers as $writer)
@@ -72,14 +75,7 @@
                                 </select>
                             </div>
                             <div class="col-md">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="submit" class="form-control btn btn-success" value="Search">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="reset" class="form-control btn btn-danger" value="Reset">
-                                    </div>
-                                </div>
+                                <input type="submit" class="form-control btn btn-success" value="Search">
                             </div>
                         </div>
                     </form>
@@ -100,10 +96,13 @@
                             <tr>
                                 <td><input type="checkbox" form="bulk_action" name="selected[]" value="{{ $single_product->id }}" class="checkList"></td>
                                 <td><img src="{{ asset('storage') }}/{{ $single_product->main_image }}" alt="IMG" height="50"></td>
-                                <td>{{ $single_product->title }}</td>
+                                <td>
+                                    <span>{{ $single_product->title }}</span> <br>
+                                    <span>ID: {{ $single_product->product_code }}</span>
+                                </td>
                                 <td><a href="?type={{ $single_product->type }}">{{ $single_product->type == 1 ? 'Book' : 'Others' }}</a></td>
-                                <td><a href="?writer={{ $single_product->writer_id }}">{{ $single_product->writer['name'] }}</a></td>
-                                <td><a href="?publication={{ $single_product->publication_id }}">{{ $single_product->publication['name'] }}</a></td>
+                                <td><a href="?writer={{ $single_product->writer_id }}">{{ $single_product->writer_id ? @$single_product->writer->name : '' }}</a></td>
+                                <td><a href="?publication={{ $single_product->publication_id }}">{{ $single_product->publication_id ? @$single_product->publication->name : '' }}</a></td>
                                 <td>
                                     @if($single_product->stock == 1)
                                         <a href="?stock=available"><strong style="color: green">In Stock</strong></a>
@@ -130,6 +129,7 @@
                                 </td>
                                 <td style="padding: 0; vertical-align: middle">
                                     <a href="{{ route('manage_products.edit', $single_product->id) }}" class="btn btn-success"><i class="far fa-edit"></i></a>
+                                    <a target="_blank" href="{{ route('frontend.singleProduct', $single_product->product_code) }}" class="btn btn-dark"><i class="far fa-eye"></i></a>
                                     <a href="#delete-modal-{{ $single_product->id }}" class="btn btn-danger waves-effect waves-light" data-animation="sign" data-plugin="custommodal"
                                        data-overlaySpeed="100" data-overlayColor="#36404a"><i class="far fa-trash-alt"></i></a>
                                 </td>
