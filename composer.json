@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5|^8.0",
         "algolia/algoliasearch-client-php": "^2.7",
+        "algolia/scout-extended": "^1.12",
         "brian2694/laravel-toastr": "^5.54",
         "bumbummen99/shoppingcart": "^3.2",
         "fideloper/proxy": "^4.4",

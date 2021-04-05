@@ -12,6 +12,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('options')->insert([
+           ['name' => 'logo'],
+           ['name' => 'address'],
+           ['name' => 'phone_1'],
+           ['name' => 'phone_2'],
+           ['name' => 'email_1'],
+           ['name' => 'email_2'],
+        ]);
+
         DB::table('couriers')->insert([
            ['system' => 'কুরিয়ার ঢাকার ভিতর', 'cost' => 50],
            ['system' => 'কুরিয়ার ঢাকার বাহির', 'cost' => 100],

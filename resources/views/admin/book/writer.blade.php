@@ -91,6 +91,7 @@
                             </div>
                         @endforeach
                     </table>
+                    {{ $writers->links() }}
                 </div>
             </div>
         </div>

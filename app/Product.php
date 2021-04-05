@@ -65,10 +65,22 @@ class Product extends Model
         return $this->belongsTo('App\Writer');
     }
 
+    // relation with translator table
+    public function translator()
+    {
+        return $this->belongsTo(Translator::class);
+    }
+
     // relation with publication table
     public function publication()
     {
         return $this->belongsTo('App\Publication');
+    }
+
+    // relation with brand table
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     // relation with review table

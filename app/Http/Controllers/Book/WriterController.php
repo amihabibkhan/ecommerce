@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Book;
 
 use App\Http\Controllers\Controller;
+use App\Product;
 use App\Writer;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class WriterController extends Controller
      */
     public function index()
     {
-        $writers = Writer::all();
+        $writers = Writer::paginate(20);
         return view('admin.book.writer', compact('writers'));
     }
 
@@ -145,6 +146,10 @@ class WriterController extends Controller
         }
 
         // product related with this writer will be changed
+        Product::where('writer_id', $id)->update([
+            'writer_id' => 1
+        ]);
+
 
         $writer = Writer::findOrFail($id);
         Storage::delete($writer->image);

@@ -91,6 +91,7 @@
                             </div>
                         @endforeach
                     </table>
+                    {{ $brands->links() }}
                 </div>
             </div>
         </div>

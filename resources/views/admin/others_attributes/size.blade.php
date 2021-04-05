@@ -77,6 +77,7 @@
                             </div>
                         @endforeach
                     </table>
+                    {{ $sizes->links() }}
                 </div>
             </div>
         </div>

@@ -30,7 +30,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('sub_total');
             $table->decimal('total');
             $table->string('discount_type')->nullable(); // offer or coupon or special sale
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(1); // 1 = pending, 2 = processing, 3 = cancelled, 4 = delivered
             $table->timestamps();
         });
     }

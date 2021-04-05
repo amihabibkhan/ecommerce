@@ -91,6 +91,7 @@
                             </div>
                         @endforeach
                     </table>
+                    {{ $publications->links() }}
                 </div>
             </div>
         </div>

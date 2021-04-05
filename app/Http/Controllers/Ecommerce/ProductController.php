@@ -16,6 +16,7 @@ use App\Publication;
 use App\Size;
 use App\SubCategory;
 use App\Tag;
+use App\Translator;
 use App\Writer;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
@@ -42,6 +43,9 @@ class ProductController extends Controller
         }
         if ($request->writer){
             $search_items[] = ['writer_id', $request->writer];
+        }
+        if ($request->translator){
+            $search_items[] = ['translator_id', $request->translator];
         }
         if ($request->type){
             $search_items[] = ['type', $request->type];
@@ -86,7 +90,9 @@ class ProductController extends Controller
     {
         $data['last_used_writers'] = Product::where('writer_id', '!=', null)->select('writer_id')->distinct()->orderBy('id','desc')->take(5)->get();
         $data['last_used_pubs'] = Product::where('publication_id', '!=', null)->select('publication_id')->distinct()->orderBy('id','desc')->take(5)->get();
+        $data['last_used_translators'] = Product::where('translator_id', '!=', null)->select('translator_id')->distinct()->orderBy('id','desc')->take(5)->get();
         $data['writers'] = Writer::all();
+        $data['translators'] = Translator::all();
         $data['publications'] = Publication::all();
         $data['languages'] = Language::all();
         $data['countries'] = Country::all();
@@ -158,6 +164,21 @@ class ProductController extends Controller
             }
             $writer->save();
             $product->writer_id = $writer->id;
+        }
+
+        if ($request->new_translator){
+            $translator = new Translator();
+            $translator->name = $request->new_translator;
+            $translator->save();
+
+            $slug = slug_maker($request->new_translator);
+            if (Translator::where('slug', $slug)->exists()){
+                $translator->slug = $slug . '-' . $translator->id;
+            }else{
+                $translator->slug = $slug;
+            }
+            $translator->save();
+            $product->translator_id = $translator->id;
         }
 
         if ($request->new_publication){
@@ -385,6 +406,7 @@ class ProductController extends Controller
         $product->sub_title = $request->sub_title;
         $product->banglish_title = $request->banglish_title;
         $product->writer_id = $request->writer_id;
+        $product->translator_id = $request->translator_id;
         $product->publication_id = $request->publication_id;
         $product->isbn = $request->isbn;
         $product->edition = $request->edition;

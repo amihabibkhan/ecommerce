@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Book;
 
 use App\Country;
 use App\Http\Controllers\Controller;
+use App\Product;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        $countries = Country::all();
+        $countries = Country::paginate(20);
         return view('admin.book.country', compact('countries'));
     }
 
@@ -121,6 +122,9 @@ class CountryController extends Controller
             return back();
         }
         // products will be detach from this country
+        Product::where('country_id', $id)->update([
+            'country_id' => 1
+        ]);
 
         Country::find($id)->delete();
 

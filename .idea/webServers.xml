@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ac66d902-fd27-45a9-a943-0289dd7630fd" name="Bikiron Shop" url="http://ftp.dawahcontent.com">
+        <fileTransfer rootFolder="/bikironshop.com" host="ftp.dawahcontent.com" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

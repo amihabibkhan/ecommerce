@@ -10,19 +10,25 @@ use App\Offer;
 use App\Product;
 use App\Publication;
 use App\Review;
+use App\Slider;
 use App\SubCategory;
+use App\Translator;
+use App\User;
 use App\Writer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class FrontendController extends Controller
 {
     public function index()
-    { 
+    {
+        $sliders = Slider::all();
         $products = Product::orderBy('id')->take(6)->get();
         $sections = Homepage::orderBy('order')->get();
         $writers = Writer::orderBy('id')->take(6)->get();
         $offers = Offer::where('last_date', '>=', date('Y-m-d'))->orderBy('last_date', 'asc')->take(2)->get();
-        return view('frontend.index', compact( 'sections', 'writers', 'offers'));
+        return view('frontend.index', compact( 'sections', 'writers', 'offers', 'sliders'));
     }
 
     // single writer
@@ -33,6 +39,16 @@ class FrontendController extends Controller
         $products = Product::where('writer_id', $writer->id)->paginate(18);
 
         return view('frontend.pages.single_writer', compact('writer', 'products'));
+    }
+
+    // single writer
+    public function singleTranslator($slug)
+    {
+        $translator = Translator::where('slug', $slug)->firstOrFail();
+
+        $products = Product::where('translator_id', $translator->id)->paginate(18);
+
+        return view('frontend.pages.single_translator', compact('translator', 'products'));
     }
 
     // single publication
@@ -57,7 +73,11 @@ class FrontendController extends Controller
 
         $average_rating = rating_calculator($product->reviews->sum('ratings'), $total_review);
 
-        return view('frontend.pages.single_product', compact( 'product', 'total_review', 'average_rating'));
+
+        $related_product = Product::where('writer_id', $product->writer_id)
+                            ->orWhere('publication_id', $product->publication_id)
+                            ->paginate(4);
+        return view('frontend.pages.single_product', compact( 'product', 'total_review', 'average_rating', 'related_product'));
     }
 
     // single category page view
@@ -170,6 +190,7 @@ class FrontendController extends Controller
 
         $data['request'] = $request;
 
+
         if (count($data['pubs']) > 0 && count($data['selected_writers']) > 0){
             $data['products'] = Product::whereHas('sub_categories', function ($query) use(&$data){
                     if (count($data['topics']) > 0){
@@ -208,6 +229,13 @@ class FrontendController extends Controller
                 ->paginate(12);
         }
 
+        if ($request->search){
+            $data['products'] = Product::where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('banglish_title', 'like', '%' . $request->search . '%')
+                ->orWhere('product_code', 'like', $request->search)
+                ->paginate(12);
+        }
+
         $data['writers'] = Writer::all();
         $data['publications'] = Publication::all();
         $data['sub_categories'] = SubCategory::all();
@@ -238,11 +266,39 @@ class FrontendController extends Controller
     public function allPublications(Request $request)
     {
         $data['title'] = "প্রকাশনী তালিকা";
-        $data['publications'] = Publication::paginate(18);
+        $data['publications'] = Publication::paginate(20);
         if ($request->search_by_name){
             $data['publications'] = Publication::where('name', 'like', '%' . $request->search_by_name . '%')->paginate(18);
         }
         return view('frontend.pages.all_publications', $data);
+    }
+
+    // user registration page view
+    public function user_register()
+    {
+        return view('auth.user_register');
+    }
+
+    // user registration
+    public function user_register_post(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+            'phone' => ['required', 'min:11'],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
+
+        Auth::login($user);
+
+        return redirect(route('home'));
     }
 }
 

@@ -39,7 +39,7 @@ class CreateProductsTable extends Migration
             $table->integer('stock')->default(1); // 1 for available 0 for stock out
             $table->integer('status')->default(1); //
             $table->string('product_code')->nullable(); //
-            $table->string('cover')->nullable()->default("হার্ড কভার"); //
+            $table->string('cover')->nullable(); //
             $table->integer('type')->default(1); // book = 1, others = 2
             $table->timestamps();
         });

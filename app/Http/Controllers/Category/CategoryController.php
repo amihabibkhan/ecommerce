@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(20);
         $main_categories = MainCategory::all();
         return view('admin.category.category', compact('categories', 'main_categories'));
     }
@@ -45,6 +45,7 @@ class CategoryController extends Controller
             'title' => 'required',
             'main_category_id' => 'required',
         ]);
+
         $new_item = new Category();
         $new_item->title = $request->title;
         $new_item->main_category_id = $request->main_category_id;

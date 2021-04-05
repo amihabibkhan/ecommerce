@@ -71,6 +71,7 @@
                             </div>
                         @endforeach
                     </table>
+                    {{ $countries->links() }}
                 </div>
             </div>
         </div>

@@ -93,7 +93,7 @@
     padding-bottom: 30px;
 }
 .logo img{
-    width: 140px;
+    width: 170px;
 }
 header{
     padding-top: 10px;
@@ -215,4 +215,54 @@ header{
     background-color: #fff;
     z-index: 999;
     width: 100%;
+    border: 1px solid #fbca0c;
+    padding: 0 10px;
+}
+.search_form .search_result a{
+    border-bottom: 1px solid #fbca0c;
+    display: flex;
+    padding: 5px 0;
+}
+.search_form .search_result a img{
+    height: 60px;
+    margin-right: 10px;
+}
+.search_form .search_result a p{
+    margin: 0;
+    line-height: normal;
+}
+form.search_form div#hits:hover{
+    display: block !important;
+}
+
+
+/* single writer css */
+
+.writer_pubs{
+    margin-bottom: 30px;
+    position: relative;
+    height: 120px;
+    display: flex;
+    align-items: center;
+}
+.writer_pubs .section_logo{
+    position: absolute;
+    height: 120px;
+    width: 120px;
+    background-color: #e3f4ff;
+    border: 2px solid #fbca0c;
+    border-radius: 50%;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+}
+.writer_pubs .section_title{
+    padding: 15px 15px 15px 135px;
+    width: 100%;
+    background-color: #e3f4ff;
+    border: 2px solid #fbca0c;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
 }

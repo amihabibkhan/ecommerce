@@ -75,6 +75,7 @@
                                 </div>
                             @endforeach
                         </tbody>
+                        {{ $tags->links() }}
                     </table>
                 </div>
             </div>

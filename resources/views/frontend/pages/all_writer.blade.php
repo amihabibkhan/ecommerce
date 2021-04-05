@@ -6,11 +6,11 @@
     <!-- Start Single Event Area -->
     <section class="single-event-area  ptb-70">
         <div class="container">
-            <div class="row justify-content-end">
+            <div class="row justify-content-start">
                 <div class="col-md-3">
                     <div class="sidebar-widget search">
                         <form class="search-form" method="get" action="{{ route('frontend.allWriters') }}">
-                            <input class="form-control" name="search_by_name" placeholder="লিখক সার্চ করুন" type="text">
+                            <input class="form-control" name="search_by_name" placeholder="লেখক সার্চ করুন" type="text">
                             <button class="search-button" type="submit">
                                 <i class="bx bx-search"></i>
                             </button>
@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 @forelse($writers as $writer)
-                    <div class="col-md-3 col-sm-4 col-6">
+                    <div class="col-sm-6 col-md-4">
                         <x-writer :writer="$writer" />
                     </div>
                 @empty

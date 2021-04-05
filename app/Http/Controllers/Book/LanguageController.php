@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Book;
 use App\Country;
 use App\Http\Controllers\Controller;
 use App\Language;
+use App\Product;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        $languages = Language::all();
+        $languages = Language::paginate(20);
         return view('admin.book.language', compact('languages'));
     }
 
@@ -122,6 +123,10 @@ class LanguageController extends Controller
             return back();
         }
         // products will be detach from this country
+        Product::where('language_id', $id)->update([
+            'language_id' => 1
+        ]);
+
 
         Language::find($id)->delete();
 

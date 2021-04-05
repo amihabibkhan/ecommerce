@@ -10,6 +10,7 @@ use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class OrderController extends Controller
@@ -75,6 +76,9 @@ class OrderController extends Controller
             }
         }
 
+        if (Auth::check()){
+            $order->user_id = Auth::id();
+        }
 
         $order->district_id = $request->district_id;
         $order->courier_id = $request->courier_id;

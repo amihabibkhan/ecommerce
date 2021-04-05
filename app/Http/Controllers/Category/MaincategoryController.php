@@ -17,7 +17,7 @@ class MaincategoryController extends Controller
      */
     public function index()
     {
-        $main_categories = MainCategory::all();
+        $main_categories = MainCategory::paginate(20);
         return view('admin.category.main_category', compact('main_categories'));
     }
 

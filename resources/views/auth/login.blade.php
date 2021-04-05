@@ -14,6 +14,7 @@
                 <!--<h4 class="text-uppercase font-bold m-b-0">Sign In</h4>-->
             </div>
             <div class="account-content">
+                <h2 class="text-center m-0 pb-3">Login</h2>
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 
@@ -76,7 +77,7 @@
 
         <div class="row m-t-50">
             <div class="col-sm-12 text-center">
-                <p class="text-muted">Don't have an account? <a href="{{ route('register') }}" class="text-primary m-l-5"><b>Sign Up</b></a></p>
+                <p class="text-muted">Don't have an account? <a href="{{ route('user_register') }}" class="text-primary m-l-5"><b>Sign Up</b></a></p>
             </div>
         </div>
 

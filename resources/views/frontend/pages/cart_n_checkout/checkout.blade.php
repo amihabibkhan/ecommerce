@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
-                                        <label>জরুরী ফোন<span class="required">*</span></label>
+                                        <label>জরুরী ফোন</label>
                                         <input type="text" name="emergency_phone" value="{{ old('emergency_phone') }}" class="form-control">
                                     </div>
                                 </div>

@@ -1,4 +1,7 @@
 <?php
+
+use App\Option;
+
 // slug maker
 function slug_maker($text){
     // creating slug
@@ -45,3 +48,6 @@ function share_to_mail($subject, $link){
     return "mailto:?subject={$subject}&body={$link}";
 }
 
+function get_option($name){
+    return Option::where('name', $name)->first()->value;
+}

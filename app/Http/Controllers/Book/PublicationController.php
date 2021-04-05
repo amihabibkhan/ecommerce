@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Book;
 
 use App\Http\Controllers\Controller;
+use App\Product;
 use App\Publication;
 use App\Writer;
 use Brian2694\Toastr\Facades\Toastr;
@@ -19,7 +20,7 @@ class PublicationController extends Controller
      */
     public function index()
     {
-        $publications = Publication::all();
+        $publications = Publication::paginate(20);
         return view('admin.book.publication', compact('publications'));
     }
 
@@ -147,6 +148,9 @@ class PublicationController extends Controller
         }
 
         // product related with this publication will be changed
+        Product::where('publication_id', $id)->update([
+            'publication_id' => 1
+        ]);
 
         $publication = Publication::findOrFail($id);
         Storage::delete($publication->logo);

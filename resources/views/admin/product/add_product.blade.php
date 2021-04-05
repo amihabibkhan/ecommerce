@@ -68,21 +68,21 @@
                                         <li>
                                             <div class="checkbox checkbox-success">
                                                 <input type="checkbox" name="main_categories[]" id="main{{ $main_category->id }}" value="{{ $main_category->id }}">
-                                                <label for="main{{ $main_category->id }}">{{ $main_category->title }}</label>
+                                                <label for="main{{ $main_category->id }}">{{ $main_category->title }} ({{ count($main_category->products) }})</label>
                                             </div>
                                             @foreach($main_category->categories as $category)
                                                 <ul>
                                                     <li>
                                                         <div class="checkbox checkbox-pink">
                                                             <input type="checkbox" name="categories[]" id="cat{{ $category->id }}" value="{{ $category->id }}">
-                                                            <label for="cat{{ $category->id }}">{{ $category->title }}</label>
+                                                            <label for="cat{{ $category->id }}">{{ $category->title }} ({{ count($category->products) }})</label>
                                                         </div>
                                                         @foreach($category->sub_categories as $sub_category)
                                                             <ul>
                                                                 <li>
                                                                     <div class="checkbox checkbox-purple">
                                                                         <input type="checkbox" name="sub_categories[]" id="sub{{ $sub_category->id }}" value="{{ $sub_category->id }}">
-                                                                        <label for="sub{{ $sub_category->id }}">{{ $sub_category->title }}</label>
+                                                                        <label for="sub{{ $sub_category->id }}">{{ $sub_category->title }} ({{ count($sub_category->products) }})</label>
                                                                     </div>
                                                                 </li>
                                                             </ul>
@@ -167,11 +167,30 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="">Translator</label>
+                                <select class="select2 form-control" name="translator_id">
+                                    <option disabled selected>Select a Translator</option>
+                                    @foreach($last_used_translators as $single_translator)
+                                        <option value="{{ @$single_translator->translator->id }}">{{ @$single_translator->translator->name }}</option>
+                                    @endforeach
+                                    @foreach($translators as $translator)
+                                        @if($last_used_translators->where('translator_id', $translator->id)->first())
+                                            @continue
+                                        @endif
+                                        <option {{ old('translator_id') == $translator->id ? 'selected' : '' }} value="{{ $translator->id }}">{{ $translator->name }}</option>
+                                    @endforeach
+                                </select>
+                                <a data-toggle="collapse" href="#create_translator">+ Create new translator</a>
+                                <div id="create_translator" class="collapse">
+                                    <input type="text" name="new_translator" placeholder="Translator name" class="form-control mt-3">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="">Publication</label>
                                 <select class="select2 form-control" name="publication_id">
                                     <option disabled selected>Select a Publication</option>
                                     @foreach($last_used_pubs as $single_pub)
-                                        <option value="{{ $single_pub->publication->id }}">{{ $single_pub->publication->name }}</option>
+                                        <option value="{{ @$single_pub->publication->id }}">{{ @$single_pub->publication->name }}</option>
                                     @endforeach
                                     @foreach($publications as $publication)
                                         @if($last_used_pubs->where('publication_id', $publication->id)->first())
@@ -198,7 +217,7 @@
                                 <br/>
                                 <div class="radio radio-info form-check-inline pl-2">
                                     <input type="radio" id="book_cover_hard" value="হার্ড কভার"
-                                           name="cover" checked>
+                                           name="cover">
                                     <label for="book_cover_hard"> Hard Cover </label>
                                 </div>
                                 <div class="radio radio-info form-check-inline pl-2">

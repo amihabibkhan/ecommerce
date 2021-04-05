@@ -23,8 +23,8 @@
 
                 <div class="col-lg-4 order-1 order-md-2">
                     <div class="single-teachers">
-                        @if($publication->image)
-                            <img src="{{ asset('storage') }}/{{ $publication->image }}" style="width: 100%" alt="{{ $publication->name }}">
+                        @if($publication->logo)
+                            <img src="{{ asset('storage') }}/{{ $publication->logo }}" style="width: 100%; border: 1px solid #e4e4e4" alt="{{ $publication->name }}">
                         @else
                             <div class="not_image_writer">
                                 <img src="{{ asset('images/default.jpg') }}" style="width: 100%" alt="{{ $publication->name }}">

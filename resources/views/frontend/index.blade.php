@@ -1,7 +1,75 @@
 @extends('frontend.layout.frontend_layout')
 
-@section('main_content')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('frontend/plugins/slider/css/jquery.animateSlider.css') }}">
+@endsection
 
+@section('main_content')
+    <style>
+        .slider_parent{
+            position: relative;
+        }
+        .slider_parent .prev_arrow,
+        .slider_parent .next_arrow{
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background-color: white;
+            color: #000;
+            cursor: pointer;
+            line-height: 50px;
+            text-align: center;
+            opacity: .3;
+            transition: all .5s;
+        }
+        .slider_parent:hover .prev_arrow,
+        .slider_parent:hover .next_arrow{
+            opacity: 1;
+        }
+        .slider_parent .prev_arrow{
+            left: 30px;
+        }
+        .slider_parent .next_arrow{
+            right: 30px;
+        }
+        .home_slider{
+            position: relative;
+        }
+        .home_slider ul.slick-dots{
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .home_slider ul.slick-dots li{
+            float: left;
+        }
+        .home_slider ul.slick-dots li button{
+            color: transparent;
+            height: 10px;
+            width: 20px;
+            background-color: #fbca0c;
+            margin-right: 10px;
+            transition: all .5s;
+            border-radius: 10px;
+            border: 1px solid black;
+        }
+        .home_slider ul.slick-dots li.slick-active button{
+            width: 40px;
+        }
+        .home_slider .single_slider{
+            height: 400px;
+            overflow: hidden;
+        }
+        .home_slider .single_slider img{
+            width: 100%;
+            transform: translateY(-50%);
+        }
+    </style>
 
     <ul class="anim-slider">
 
@@ -11,16 +79,16 @@
             <h1 class="slider_sub_title_1">প্রিয়জনদেরকে গিফট করুন</h1>
             <h2 class="slider_main_title_1">প্রোডাক্টিভ মুসলিম</h2>
             <a href="#" class="slider_button_1">বিস্তারিত দেখুন</a>
-            <img src="{{ asset('frontend') }}/img/book.png" class="slider_book_1" alt="">
+            <img src="assets/img/book.png" class="slider_book_1" alt="">
         </li>
 
         <!-- Slide No1 -->
         <li class="anim-slide">
             <p class="slider_text_2">সবচেয়ে বেশি চলছে</p>
-            <h1 class="slider_sub_title_2">প্রিয়জনদেরকে গিফট করুন </h1>
+            <h1 class="slider_sub_title_2">প্রিয়জনদেরকে গিফট করুন কারণ সকাল থেকে </h1>
             <h2 class="slider_main_title_2">প্রোডাক্টিভ মুসলিম</h2>
             <a href="#" class="slider_button_2">বিস্তারিত দেখুন</a>
-            <img src="{{ asset('frontend') }}/img/book2.png" class="slider_book_2" alt="">
+            <img src="assets/img/book2.png" class="slider_book_2" alt="">
         </li>
 
         <!-- Slide No1 -->
@@ -29,7 +97,7 @@
             <h1 class="slider_sub_title_1">প্রিয়জনদেরকে গিফট করুন</h1>
             <h2 class="slider_main_title_1">প্রোডাক্টিভ মুসলিম</h2>
             <a href="#" class="slider_button_1">বিস্তারিত দেখুন</a>
-            <img src="{{ asset('frontend') }}/img/book3.png" class="slider_book_1" alt="">
+            <img src="assets/img/book3.png" class="slider_book_1" alt="">
         </li>
 
 
@@ -42,7 +110,28 @@
 
     </ul>
 
-    {{-- slider end here --}}
+
+
+
+
+
+{{--    --}}{{-- normal slider start --}}
+{{--    <div class="slider_parent">--}}
+{{--        <i class="fas fa-arrow-left prev_arrow"></i>--}}
+{{--        <i class="fas fa-arrow-right next_arrow"></i>--}}
+{{--        <div class="home_slider">--}}
+{{--            @foreach($sliders as $single_slider)--}}
+{{--            <div class="single_slider">--}}
+{{--                <img src="{{ asset('storage') }}/{{ $single_slider->image }}" alt="{{ $single_slider->title }}">--}}
+{{--            </div>--}}
+{{--            @endforeach--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    --}}{{-- normal slider end --}}
+
+
+
+
 
 
     @foreach($sections as $section)
@@ -93,7 +182,7 @@
 
                     <div class="row">
                         @foreach($writers as $writer)
-                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                            <div class="col-lg-4 col-xl-3 col-sm-6">
                                 <x-writer :writer="$writer" />
                             </div>
                         @endforeach
@@ -166,121 +255,133 @@
 @endsection
 
 @section('javascript')
+
+{{--    <script src="{{ asset('frontend/plugins/slick_slider/slick.min.js') }}"></script>--}}
+    <script src="{{ asset('frontend/plugins/slider/js/jquery.animateSlider.js') }}"></script>
+
     <script>
         $(function(){
             var container_width = $('#get_width').width();
             $('.mega_menu').width(container_width);
+
+            $('.home_slider').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                dots: true,
+                arrows: true,
+                prevArrow: '.prev_arrow',
+                nextArrow: '.next_arrow',
+            });
+
+            $(".anim-slider").animateSlider(
+                {
+                    autoplay	:true,
+                    interval	:10000,
+                    animations 	:
+                        {
+                            0	: 	//Slide No1
+                                {
+                                    ".slider_text_1"	:
+                                        {
+                                            show   	  : "bounceIn",
+                                            hide 	  : "flipOutX",
+                                            delayShow : "delay1s"
+                                        },
+                                    ".slider_sub_title_1":
+                                        {
+                                            show 	  : "fadeInUpBig",
+                                            hide 	  : "fadeOutDownBig",
+                                            delayShow : "delay1-5s"
+                                        },
+                                    ".slider_main_title_1" 	:
+                                        {
+                                            show   	  : "bounceInRight",
+                                            hide 	  : "fadeOutRightBig",
+                                            delayShow : "delay2s"
+                                        },
+                                    ".slider_button_1":
+                                        {
+                                            show 	  : "bounceInUp",
+                                            hide 	  : "fadeOutLeftBig",
+                                            delayShow : "delay3s"
+                                        },
+                                    ".slider_book_1" :{
+                                        show 	  : "bounceInUp",
+                                        hide 	  : "fadeOutLeftBig",
+                                        delayShow : "delay2-5s"
+                                    }
+                                },
+                            1	: //Slide No2
+                                {
+                                    ".slider_text_2"	:
+                                        {
+                                            show   	  : "bounceIn",
+                                            hide 	  : "flipOutX",
+                                            delayShow : "delay1s"
+                                        },
+                                    ".slider_sub_title_2":
+                                        {
+                                            show 	  : "fadeInUpBig",
+                                            hide 	  : "fadeOutDownBig",
+                                            delayShow : "delay1-5s"
+                                        },
+                                    ".slider_main_title_2" 	:
+                                        {
+                                            show   	  : "bounceInRight",
+                                            hide 	  : "fadeOutRightBig",
+                                            delayShow : "delay2s"
+                                        },
+                                    ".slider_button_2":
+                                        {
+                                            show 	  : "bounceInUp",
+                                            hide 	  : "fadeOutLeftBig",
+                                            delayShow : "delay3s"
+                                        },
+                                    ".slider_book_2" :{
+                                        show 	  : "bounceInUp",
+                                        hide 	  : "fadeOutLeftBig",
+                                        delayShow : "delay2-5s"
+                                    }
+                                },
+                            2	: //Slide No3
+                                {
+                                    ".slider_text_1"	:
+                                        {
+                                            show   	  : "bounceIn",
+                                            hide 	  : "flipOutX",
+                                            delayShow : "delay1s"
+                                        },
+                                    ".slider_sub_title_1":
+                                        {
+                                            show 	  : "fadeInUpBig",
+                                            hide 	  : "fadeOutDownBig",
+                                            delayShow : "delay1-5s"
+                                        },
+                                    ".slider_main_title_1" 	:
+                                        {
+                                            show   	  : "bounceInRight",
+                                            hide 	  : "fadeOutRightBig",
+                                            delayShow : "delay2s"
+                                        },
+                                    ".slider_button_1":
+                                        {
+                                            show 	  : "bounceInUp",
+                                            hide 	  : "fadeOutLeftBig",
+                                            delayShow : "delay3s"
+                                        },
+                                    ".slider_book_1" :{
+                                        show 	  : "bounceInUp",
+                                        hide 	  : "fadeOutLeftBig",
+                                        delayShow : "delay2-5s"
+                                    }
+                                }
+                        }
+                });
+
         });
 
-    </script>
 
-    <script src="{{ asset('frontend') }}/plugins/slider/js/modernizr.js"></script>
-    <!-- Load the plugin -->
-    <script src="{{ asset('frontend') }}/plugins/slider/js/jquery.animateSlider.js"></script>
-    <script>
-        $(".anim-slider").animateSlider(
-            {
-                autoplay	:true,
-                interval	:10000,
-                animations 	:
-                    {
-                        0	: 	//Slide No1
-                            {
-                                ".slider_text_1"	:
-                                    {
-                                        show   	  : "bounceIn",
-                                        hide 	  : "flipOutX",
-                                        delayShow : "delay1s"
-                                    },
-                                ".slider_sub_title_1":
-                                    {
-                                        show 	  : "fadeInUpBig",
-                                        hide 	  : "fadeOutDownBig",
-                                        delayShow : "delay1-5s"
-                                    },
-                                ".slider_main_title_1" 	:
-                                    {
-                                        show   	  : "bounceInRight",
-                                        hide 	  : "fadeOutRightBig",
-                                        delayShow : "delay2s"
-                                    },
-                                ".slider_button_1":
-                                    {
-                                        show 	  : "bounceInUp",
-                                        hide 	  : "fadeOutLeftBig",
-                                        delayShow : "delay3s"
-                                    },
-                                ".slider_book_1" :{
-                                    show 	  : "bounceInUp",
-                                    hide 	  : "fadeOutLeftBig",
-                                    delayShow : "delay2-5s"
-                                }
-                            },
-                        1	: //Slide No2
-                            {
-                                ".slider_text_2"	:
-                                    {
-                                        show   	  : "bounceIn",
-                                        hide 	  : "flipOutX",
-                                        delayShow : "delay1s"
-                                    },
-                                ".slider_sub_title_2":
-                                    {
-                                        show 	  : "fadeInUpBig",
-                                        hide 	  : "fadeOutDownBig",
-                                        delayShow : "delay1-5s"
-                                    },
-                                ".slider_main_title_2" 	:
-                                    {
-                                        show   	  : "bounceInRight",
-                                        hide 	  : "fadeOutRightBig",
-                                        delayShow : "delay2s"
-                                    },
-                                ".slider_button_2":
-                                    {
-                                        show 	  : "bounceInUp",
-                                        hide 	  : "fadeOutLeftBig",
-                                        delayShow : "delay3s"
-                                    },
-                                ".slider_book_2" :{
-                                    show 	  : "bounceInUp",
-                                    hide 	  : "fadeOutLeftBig",
-                                    delayShow : "delay2-5s"
-                                }
-                            },
-                        2	: //Slide No3
-                            {
-                                ".slider_text_1"	:
-                                    {
-                                        show   	  : "bounceIn",
-                                        hide 	  : "flipOutX",
-                                        delayShow : "delay1s"
-                                    },
-                                ".slider_sub_title_1":
-                                    {
-                                        show 	  : "fadeInUpBig",
-                                        hide 	  : "fadeOutDownBig",
-                                        delayShow : "delay1-5s"
-                                    },
-                                ".slider_main_title_1" 	:
-                                    {
-                                        show   	  : "bounceInRight",
-                                        hide 	  : "fadeOutRightBig",
-                                        delayShow : "delay2s"
-                                    },
-                                ".slider_button_1":
-                                    {
-                                        show 	  : "bounceInUp",
-                                        hide 	  : "fadeOutLeftBig",
-                                        delayShow : "delay3s"
-                                    },
-                                ".slider_book_1" :{
-                                    show 	  : "bounceInUp",
-                                    hide 	  : "fadeOutLeftBig",
-                                    delayShow : "delay2-5s"
-                                }
-                            }
-                    }
-            });
     </script>
 @endsection

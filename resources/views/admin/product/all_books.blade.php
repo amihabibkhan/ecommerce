@@ -79,13 +79,14 @@
                             </div>
                         </div>
                     </form>
-                    <table class="table table-bordered table-striped text-center my_table">
+                    <table class="table table-bordered table-striped my_table">
                         <tr>
                             <th style="width: 40px"><input type="checkbox" value="1" id="check_all"></th>
                             <th><i class="fas fa-image"></i></th>
                             <th>Title</th>
                             <th>Type</th>
                             <th>Writer</th>
+                            <th>Translator</th>
                             <th>Publication</th>
                             <th>Stock</th>
                             <th>Price</th>
@@ -102,6 +103,7 @@
                                 </td>
                                 <td><a href="?type={{ $single_product->type }}">{{ $single_product->type == 1 ? 'Book' : 'Others' }}</a></td>
                                 <td><a href="?writer={{ $single_product->writer_id }}">{{ $single_product->writer_id ? @$single_product->writer->name : '' }}</a></td>
+                                <td><a href="?translator={{ $single_product->translator_id }}">{{ $single_product->translator_id ? @$single_product->translator->name : '' }}</a></td>
                                 <td><a href="?publication={{ $single_product->publication_id }}">{{ $single_product->publication_id ? @$single_product->publication->name : '' }}</a></td>
                                 <td>
                                     @if($single_product->stock == 1)
@@ -127,9 +129,9 @@
                                         <span>{{ date_maker($single_product->updated_at, 'd-m-Y') }}</span>
                                     @endif
                                 </td>
-                                <td style="padding: 0; vertical-align: middle">
+                                <td style="padding: 0; vertical-align: middle; text-align: center">
                                     <a href="{{ route('manage_products.edit', $single_product->id) }}" class="btn btn-success"><i class="far fa-edit"></i></a>
-                                    <a target="_blank" href="{{ route('frontend.singleProduct', $single_product->product_code) }}" class="btn btn-dark"><i class="far fa-eye"></i></a>
+                                    <a target="_blank" href="{{ route('frontend.singleProduct', $single_product->slug) }}" class="btn btn-dark"><i class="far fa-eye"></i></a>
                                     <a href="#delete-modal-{{ $single_product->id }}" class="btn btn-danger waves-effect waves-light" data-animation="sign" data-plugin="custommodal"
                                        data-overlaySpeed="100" data-overlayColor="#36404a"><i class="far fa-trash-alt"></i></a>
                                 </td>

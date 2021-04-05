@@ -31,6 +31,13 @@
 
     <script src="{{ asset('admin') }}/js/modernizr.min.js"></script>
 
+    <style>
+        table tr td,
+        table tr th{
+            vertical-align: middle !important;
+        }
+    </style>
+
 </head>
 
 
@@ -128,7 +135,7 @@
 
                             <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
                                 <li>
-                                    <h5>Hi, John</h5>
+                                    <h5>Hi, {{ auth::user()->name }}</h5>
                                 </li>
                                 <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-user m-r-5"></i> Profile</a></li>
                                 <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-settings m-r-5"></i> Settings</a></li>
@@ -160,69 +167,113 @@
                     <li>
                         <a href="{{ route('home') }}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span> Dashboard </span> </a>
                     </li>
-                    {{-- products --}}
-                    <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class=" mdi mdi-cube"></i><span> Products </span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li><a href="{{ route('manage_products.create') }}">Add New</a></li>
-                            <li><a href="{{ route('manage_products.index') }}">All Products</a></li>
-                        </ul>
-                    </li>
-                    {{-- categories --}}
-                    <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-format-list-bulleted-type"></i><span> Categories </span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li><a href="{{ route('manage_main_category.index') }}">Main Categories</a></li>
-                            <li><a href="{{ route('manage_category.index') }}">Categories</a></li>
-                            <li><a href="{{ route('manage_sub_category.index') }}">Sub Categories</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-title">Attributes</li>
-                    {{-- Books attributes --}}
-                    <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span> Book Attributes </span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li><a href="{{ route('manage_writer.index') }}">Writers</a></li>
-                            <li><a href="{{ route('manage_publications.index') }}">Publications</a></li>
-                            <li><a href="{{ route('manage_countries.index') }}">Countries</a></li>
-                            <li><a href="{{ route('manage_languages.index') }}">Languages</a></li>
-                        </ul>
-                    </li>
-                    {{-- others attributes --}}
-                    <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-artstation"></i><span> Others Attributes </span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li><a href="{{ route('manage_brands.index') }}">Brands</a></li>
-                            <li><a href="{{ route('manage_colors.index') }}">Colors</a></li>
-                            <li><a href="{{ route('manage_sizes.index') }}">Sizes</a></li>
-                            <li><a href="{{ route('manage_tags.index') }}">Tags</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-title">Others</li>
 
-                    {{-- others attributes --}}
-                    <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-artstation"></i><span> Site Controls </span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li><a href="{{ route('manage_home_page.index') }}">Home Page</a></li>
-                            <li><a href="{{ route('manage_slider.index') }}">Slider</a></li>
-                            <li><a href="{{ route('manage_offer.index') }}">Weekly Offer</a></li>
-                            <li><a href="{{ route('manage_coupon.index') }}">Coupons</a></li>
-                        </ul>
-                    </li>
-                    <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-star-box"></i><span> Reviews</span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li><a href="{{ route('admin.viewReviews', 'pending') }}">Pending Reviews</a></li>
-                            <li><a href="{{ route('admin.viewReviews', 'all') }}">All Review</a></li>
-                        </ul>
-                    </li>
+
+                    @if(auth::user()->role_id == 1 || auth::user()->role_id == 2 || auth::user()->role_id == 4)
+                        {{-- products --}}
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-cube"></i><span> Products </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="{{ route('manage_products.create') }}">Add New</a></li>
+                                <li><a href="{{ route('manage_products.index') }}">All Products</a></li>
+                            </ul>
+                        </li>
+                        {{-- categories --}}
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-format-list-bulleted-type"></i><span> Categories </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="{{ route('manage_main_category.index') }}">Main Categories</a></li>
+                                <li><a href="{{ route('manage_category.index') }}">Categories</a></li>
+                                <li><a href="{{ route('manage_sub_category.index') }}">Sub Categories</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-title">Attributes</li>
+                        {{-- Books attributes --}}
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-book-open-variant"></i><span> Book Attributes </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="{{ route('manage_writer.index') }}">Writers</a></li>
+                                <li><a href="{{ route('manage_translator.index') }}">Translator</a></li>
+                                <li><a href="{{ route('manage_publications.index') }}">Publications</a></li>
+                                <li><a href="{{ route('manage_countries.index') }}">Countries</a></li>
+                                <li><a href="{{ route('manage_languages.index') }}">Languages</a></li>
+                            </ul>
+                        </li>
+                        {{-- others attributes --}}
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-artstation"></i><span> Others Attributes </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="{{ route('manage_brands.index') }}">Brands</a></li>
+                                <li><a href="{{ route('manage_colors.index') }}">Colors</a></li>
+                                <li><a href="{{ route('manage_sizes.index') }}">Sizes</a></li>
+                                <li><a href="{{ route('manage_tags.index') }}">Tags</a></li>
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if(auth::user()->role_id == 1 || auth::user()->role_id == 2)
+                        {{-- orders --}}
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-google-analytics"></i><span>Analytics </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="{{ route('order_processing.index') }}?type=new">New Orders</a></li>
+                                <li><a href="{{ route('order_processing.index') }}">All Orders</a></li>
+                                <li><a href="{{ route('manage_offer.index') }}">Weekly Offer</a></li>
+                                <li><a href="{{ route('manage_coupon.index') }}">Coupons</a></li>
+                            </ul>
+                        </li>
+
+                    @endif
+
+                    @if(auth::user()->role_id == 1)
+                        <li class="menu-title">Others</li>
+
+                        {{-- others attributes --}}
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-artstation"></i><span> Site Controls </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="{{ route('manage_home_page.index') }}">Home Page</a></li>
+                                <li><a href="{{ route('manage_slider.index') }}">Slider</a></li>
+                                <li><a href="{{ route('manage_options.index') }}">Options</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-star-box"></i><span> Reviews</span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="{{ route('admin.viewReviews', 'pending') }}">Pending Reviews</a></li>
+                                <li><a href="{{ route('admin.viewReviews', 'all') }}">All Review</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{{ route('manage_user.index') }}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span>User List</span> </a>
+                        </li>
+                    @endif
+
                     <li>
                         <a href="{{ route('index') }}" target="_blank" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span>Visit Website</span> </a>
                     </li>
                 </ul>
             </div>
             <!-- Sidebar -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div class="clearfix"></div>
 
             <div class="help-box">

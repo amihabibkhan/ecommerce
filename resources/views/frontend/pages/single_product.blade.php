@@ -1,5 +1,11 @@
 @extends('frontend.layout.frontend_layout')
 
+@section('title'){{ $product->title }}@endsection
+@section('image'){{ asset('storage') }}/{{ $product->main_image }}@endsection
+@section('brand'){{ $product->publication_id ? @$product->publication->name : @$product->brand->name }}@endsection
+@section('availability'){{ $product->stock ? 'in stock' : 'out of stock' }}@endsection
+@section('price'){{ $product->sale_price ? $product->sale_price : $product->regular_price }}@endsection
+
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
     <style>
@@ -95,21 +101,27 @@
                 <div class="col-lg-8 col-md-12">
                     <div class="product-details-desc">
                         <h3 class="mb-1">{{ $product->title }} </h3>
-                        <div class="mb-1">লেখক:
-                            @if($product->writer_id)
-                                <a href="{{ route('frontend.singleWriter', @$product->writer->slug ) }}"> {{ @$product->writer->name }} </a></div>
-                            @endif
-                        <div class="mb-1">প্রকাশণী:
-                            @if($product->publication_id)
-                                <a href="{{ route('frontend.singlePublication', @$product->publication->slug ) }}"> {{ @$product->publication->name }} </a>
-                            @endif
-                        </div>
+                        @if($product->writer_id)
+                            <div class="mb-1">লেখক:
+                                <a href="{{ route('frontend.singleWriter', @$product->writer->slug ) }}"> {{ @$product->writer->name }} </a>
+                            </div>
+                        @endif
+                        @if($product->translator_id)
+                            <div class="mb-1">অনুবাদক:
+                                <a href="{{ route('frontend.singleTranslator', @$product->translator->slug ) }}"> {{ @$product->translator->name }} </a>
+                            </div>
+                        @endif
+                        @if($product->publication_id)
+                            <div class="mb-1">প্রকাশণী:
+                                <a href="{{ route('frontend.singlePublication', @$product->publication->slug ?? '#' ) }}"> {{ @$product->publication->name }} </a>
+                            </div>
+                        @endif
                         <div class="mb-1">বিষয়:
                         @foreach($product->categories as $single_category)
-                                <a href="#"> {{ $single_category->title }}</a>,
+                            <a href="#"> {{ $single_category->title }}</a>,
                         @endforeach
                         @foreach($product->sub_categories as $single_category)
-                                <a href="#"> {{ $single_category->title }}</a>,
+                            <a href="#"> {{ $single_category->title }}</a>,
                         @endforeach
                         </div>
                         <div class="mb-1">পৃষ্ঠা: {{ $product->total_page }}</div>
@@ -143,7 +155,7 @@
                             </div>
 
                             <button type="submit" class="default-btn mr-md-3" >
-                                কার্টে ফেলুন
+                                অর্ডার করুন
                             </button>
                             <button type="button" class="default-btn default-outline" data-toggle="modal" data-target="#readSomething">
                                 একটু পড়ে দেখুন
@@ -403,6 +415,24 @@
         </div>
     </section>
     <!-- End Product Details Area -->
+
+    <section class="product-details-area" style="padding: 40px 0">
+        <div class="container">
+            <h2>রিলেডেট প্রডাক্ট</h2>
+            <div class="row">
+                @foreach($related_product as $product)
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <x-product :product="$product"/>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+
+
+
+
 
     <script>
         $(function () {

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Slider;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
 {
@@ -14,7 +17,8 @@ class SliderController extends Controller
      */
     public function index()
     {
-        return view('admin.pages.slider');
+        $sliders = Slider::all();
+        return view('admin.pages.slider', compact('sliders'));
     }
 
     /**
@@ -36,10 +40,17 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'title' => 'required',
-           'link' => 'required',
-           'image' => 'required',
+           'image' => 'required|image|max:1025',
         ]);
+
+        $slider_image = $request->file('image')->store('slider');
+        Slider::create([
+           'title' => $request->title,
+           'image' => $slider_image,
+        ]);
+
+        Toastr::success('Slider added');
+        return back();
     }
 
     /**
@@ -73,7 +84,25 @@ class SliderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'image' => 'required|image|max:1025',
+        ]);
+
+        // upload new image
+        $slider_image = $request->file('image')->store('slider');
+
+        // delete previous image
+        $slider = Slider::findOrFail($id);
+        Storage::delete($slider->image);
+
+        // update database
+        $slider->update([
+            'title' => $request->title,
+            'image' => $slider_image,
+        ]);
+
+        Toastr::success('Slider Updated');
+        return back();
     }
 
     /**
@@ -84,6 +113,12 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $slider = Slider::findOrFail($id);
+
+        Storage::delete($slider->image);
+        $slider->delete();
+
+        Toastr::success('Slider deleted');
+        return back();
     }
 }

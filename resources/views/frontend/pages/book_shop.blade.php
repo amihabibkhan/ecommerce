@@ -9,7 +9,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4">
-                    <form action="{{ route('frontend.bookShop', 'ssfdsdff') }}" method="get" id="filter_form">
+                    <form action="{{ route('frontend.bookShop') }}" method="get" id="filter_form">
                         <div class="showing-result mr-0">
                             <div class="showing-top-bar-ordering">
                                 <select name="sort_by" onchange="filterBook()">
@@ -96,7 +96,7 @@
 
                         <div class="row">
                             @forelse($products as $product)
-                                <div class="col-lg-4 col-sm-6">
+                                <div class="col-lg-4 col-md-4 col-6">
                                     <x-product :product="$product"/>
                                 </div>
                             @empty

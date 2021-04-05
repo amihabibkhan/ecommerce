@@ -21,7 +21,7 @@
                         @foreach($subcategories as $single_item)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $single_item->title }}</td>
+                                <td>{{ $single_item->title }} ({{ count($single_item->products) }})</td>
                                 <td>{{ $single_item->category->title }}</td>
                                 <td>{{ $single_item->category->main_category->title }}</td>
                                 <td style="padding: 0; vertical-align: middle">
@@ -84,6 +84,7 @@
                             </div>
                         @endforeach
                     </table>
+                    {{ $subcategories->links() }}
                 </div>
             </div>
         </div>

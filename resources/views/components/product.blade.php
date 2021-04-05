@@ -64,13 +64,13 @@
                     TK. {{ $product->regular_price }}
                 @endif
             </div>
-            <div style="background-color: #ffdf93; flex: 1; color: black; padding: 2px 0">
-                @if($product->stock == 1)
-                    স্টকে আছে
-                @else
-                    স্টকে নেই
-                @endif
-            </div>
+{{--            <div style="background-color: #ffdf93; flex: 1; color: black; padding: 2px 0">--}}
+{{--                @if($product->stock == 1)--}}
+{{--                    স্টকে আছে--}}
+{{--                @else--}}
+{{--                    স্টকে নেই--}}
+{{--                @endif--}}
+{{--            </div>--}}
         </div>
     </div>
 
@@ -160,7 +160,7 @@
                                     </div>
 
                                     <button type="submit" class="default-btn">
-                                        কার্টে ফেলুন
+                                        অর্ডার করুন
                                         <i class="flaticon-right"></i>
                                     </button>
                                 </div>

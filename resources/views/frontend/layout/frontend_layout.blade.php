@@ -7,6 +7,16 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <meta property="og:title" content="@yield('title', 'BIKIRONSHOP')">
+    <meta property="og:description" content="@yield('description', 'BIKIRONSHOP Product')">
+    <meta property="og:url" content="{{ Request::url() }}">
+    <meta property="og:image" content="@yield('image')">
+    <meta property="product:brand" content="@yield('brand', 'BIKIRONSHOP')">
+    <meta property="product:availability" content="@yield('availability', 'in stock')">
+    <meta property="product:condition" content="New">
+    <meta property="product:price:amount" content="@yield('price', '0')">
+    <meta property="product:price:currency" content="BDT">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/bootstrap.min.css">
     <!-- Owl Theme Default CSS -->
@@ -53,21 +63,73 @@
             content: unset;
         }
     </style>
+
+    {{-- instantjs for algolia--}}
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js" integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin="anonymous"></script>
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '130776775568255');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=130776775568255&ev=PageView&noscript=1"
+        /></noscript>
+    <!-- End Facebook Pixel Code -->
 </head>
 
 <body>
-<!-- Start Preloader Area -->
-<div class="loader-wrapper">
-    <div class="loader">
-        <div class="dot-wrap">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
-    </div>
+{{--<!-- Start Preloader Area -->--}}
+{{--<div class="loader-wrapper">--}}
+{{--    <div class="loader">--}}
+{{--        <div class="dot-wrap">--}}
+{{--            <span class="dot"></span>--}}
+{{--            <span class="dot"></span>--}}
+{{--            <span class="dot"></span>--}}
+{{--            <span class="dot"></span>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
+{{--<!-- End Preloader Area -->--}}
+
+
+
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            xfbml            : true,
+            version          : 'v9.0'
+        });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/bn_IN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your Chat Plugin code -->
+<div class="fb-customerchat"
+     attribution=setup_tool
+     page_id="2258326131078463"
+     theme_color="#fa3c4c"
+     logged_in_greeting="আসসালামু আলাইকুম। বিকিরণ লাইভ চ্যাটে স্বাগতম। দয়া করে আপনার প্রশ্ন করুন।"
+     logged_out_greeting="আসসালামু আলাইকুম। বিকিরণ লাইভ চ্যাটে স্বাগতম। দয়া করে আপনার প্রশ্ন করুন।">
 </div>
-<!-- End Preloader Area -->
+
 
 
 
@@ -77,26 +139,105 @@
             <div class="col-lg-2 col-6">
                 <div class="logo">
                     <a href="{{ route('index') }}">
-                        <img src="{{ asset('frontend') }}/img/logo.png" alt="BIKIRON SHOP">
+                        <img src="{{ asset('storage') }}/{{ get_option('logo') }}" alt="BIKIRON SHOP">
                     </a>
                 </div>
             </div>
             <div class="col-lg-7 mb-4 mb-lg-0 order-3 order-lg-2 d-flex">
-                <form action="" class="align-self-center search_form" style="flex: 1;">
+                <form action="{{ route('frontend.bookShop') }}" class="align-self-center search_form" style="flex: 1;">
                     <div class="input-group mb-0">
-                        <input type="text" id="search_input" class="search_field form-control" placeholder="">
+                        <input type="text" name="search" onblur="close_search()" onfocus="start_search()" id="search_input" class="search_field form-control" placeholder="">
                         <div class="input-group-append">
-                            <button class="btn search_button" type="button" id="button-addon2">সার্চ করুন</button>
+                            <button class="btn search_button" type="submit" id="button-addon2">সার্চ করুন</button>
                         </div>
                     </div>
-                    <div class="search_result">
-                        <ul>
-                            <li>বেলা ফুরাবার আগে (bel<b id="ui-id-251" tabindex="-1" class="ui-menu-item-wrapper">a</b> fur<b id="ui-id-252" tabindex="-1" class="ui-menu-item-wrapper">a</b>b<b id="ui-id-253" tabindex="-1" class="ui-menu-item-wrapper">a</b>r <b id="ui-id-254" tabindex="-1" class="ui-menu-item-wrapper">a</b>ge)<span id="ui-id-255" tabindex="-1" class="ui-menu-item-wrapper">আরিফ আজাদ | সমকালীন প্রকাশন</span>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="search_result d-none" id="hits"></div>
                 </form>
             </div>
+
+
+            <script>
+                function close_search(){
+                    document.getElementById('hits').classList.add('d-none')
+                }
+                function start_search(){
+                    document.getElementById('hits').classList.remove('d-none')
+                }
+                const algoliaClient = algoliasearch(
+                    '{{ config("scout.algolia.id") }}',
+                    'a3306e7956f83141adc475124b8a185e'
+                );
+
+                const searchClient = {
+                    search(requests) {
+                        if (requests.every(({ params }) => !params.query)) {
+                            return Promise.resolve({
+                                results: requests.map(() => ({
+                                    hits: [],
+                                    nbHits: 0,
+                                    nbPages: 0,
+                                })),
+                            });
+                        }
+
+                        return algoliaClient.search(requests);
+                    },
+                };
+
+                const search = instantsearch({
+                    indexName: 'products',
+                    searchClient,
+                    searchFunction(helper) {
+                        const container = document.querySelector('#hits');
+                        container.style.display = helper.state.query === '' ? 'none' : '';
+
+                        helper.search();
+                    }
+                });
+
+                search.addWidgets([
+                    {
+                        init(opts) {
+                            const helper = opts.helper;
+                            const input = document.querySelector('#search_input');
+                            input.addEventListener('input', ({currentTarget}) => {
+                                helper.setQuery(currentTarget.value) // update the parameters
+                                    .search(); // launch the query
+                            });
+                        }
+                    },
+                    {
+                        render(options) {
+                            const results = options.results;
+                            // read the hits from the results and transform them into HTML.
+                            document.querySelector('#hits').innerHTML = results.hits
+                                .map(
+                                    hit => `<a href='{{ url('/product') }}/${hit.slug}'>
+                                                <div>
+                                                    <img src='{{ asset('storage') }}/${hit.main_image}'/>
+                                                </div>
+                                                <div>
+                                                <p>${hit.title}</p>
+                                                <p>প্রোডাক্ট কোড: ${hit.product_code}</p>
+                                                </div>
+                                            </a>`
+                                )
+                                .join('');
+                        },
+                    }
+                ]);
+                search.start();
+
+            </script>
+
+
+
+
+
+
+
+
+
             <div class="col-lg-2 col-6 order-2 order-lg-3 d-flex justify-content-end">
                 <div class="cart-icon align-self-center">
                     <a href="{{ route('show_cart') }}">
@@ -156,6 +297,7 @@
                     <li><a href="{{ route('frontend.singleCategory', $single_item->slug) }}">{{ $single_item->title }}</a></li>
                 @endforeach
             @endif
+
             @foreach($main_menu as $single_menu)
                 @if($single_menu->id == 1)
                     @continue
@@ -226,19 +368,19 @@
                     <ul class="address">
                         <li class="location">
                             <i class="bx bx-home-alt"></i>
-                            ২২৫, এলিফ্যান্ট রোড, কাটাবন, <br>
-                            ঢাকা - ১২০৫
+                            {{ get_option('address') }}
                         </li>
 
                         <li>
                             <i class="bx bxs-envelope"></i>
-                            <a href="mailto:info@bikironshop.com">info@bikironshop.com</a>
-                            <a href="mailto:office@bikironshop.com">office@bikironshop.com</a>
+                            <a href="mailto:{{ get_option('email_1') }}">{{ get_option('email_1') }}</a>
+                            <a href="mailto:{{ get_option('email_2') }}">{{ get_option('email_2') }}</a>
                         </li>
 
                         <li>
                             <i class="bx bxs-phone-call"></i>
-                            <a href="tel:01770496249">+880 1770496249</a>
+                            <a href="tel:{{ get_option('phone_1') }}">{{ get_option('phone_1') }}</a>
+                            <a href="tel:{{ get_option('phone_2') }}">{{ get_option('phone_2') }}</a>
                         </li>
                     </ul>
                 </div>
@@ -349,7 +491,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>
 <script src="{{ asset('admin/plugins/toastr/toastr.min.js') }}"></script>
-
 
 
 {!! Toastr::message() !!}

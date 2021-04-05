@@ -6,7 +6,7 @@
     <!-- Start Single Event Area -->
     <section class="single-event-area  ptb-70">
         <div class="container">
-            <div class="row justify-content-end">
+            <div class="row justify-content-start">
                 <div class="col-md-3">
                     <div class="sidebar-widget search">
                         <form class="search-form" method="get" action="{{ route('frontend.allPublications') }}">
@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 @forelse($publications as $publication)
-                    <div class="col-md-3 col-sm-4 col-6">
+                    <div class="col-sm-6 col-md-4">
                         <x-publication :publication="$publication" />
                     </div>
                 @empty

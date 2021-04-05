@@ -77,6 +77,7 @@
                             </div>
                         @endforeach
                     </table>
+                    {{ $colors->links() }}
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@
                         @foreach($categories as $single_item)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $single_item->title }}</td>
+                                <td>{{ $single_item->title }} ({{ count($single_item->products) }}) </td>
                                 <td>{{ $single_item->main_category->title }}</td>
                                 <td style="padding: 0; vertical-align: middle">
                                     <a href="#custom-modal-{{ $single_item->id }}" class="btn btn-primary waves-effect waves-light m-r-5" data-animation="push" data-plugin="custommodal"
@@ -81,6 +81,8 @@
                             </div>
                         @endforeach
                     </table>
+
+                    {{ $categories->links() }}
                 </div>
             </div>
         </div>

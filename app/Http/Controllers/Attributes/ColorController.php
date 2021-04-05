@@ -18,7 +18,7 @@ class ColorController extends Controller
      */
     public function index()
     {
-        $colors = Color::all();
+        $colors = Color::paginate(20);
         return view('admin.others_attributes.color', compact('colors'));
     }
 

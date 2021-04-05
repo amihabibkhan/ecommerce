@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('phone')->nullable();
             $table->integer('status')->nullable()->default(1);
-            $table->integer('role_id')->default(3);
+            $table->integer('role_id')->default(3); // 1 for admin, 2 = manager, 3 = general user and 4 for editor
             $table->rememberToken();
             $table->timestamps();
         });
