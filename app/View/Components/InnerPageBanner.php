@@ -14,7 +14,7 @@ class InnerPageBanner extends Component
      *
      * @return void
      */
-    public function __construct($title)
+    public function __construct($title = null)
     {
         $this->title = $title;
     }

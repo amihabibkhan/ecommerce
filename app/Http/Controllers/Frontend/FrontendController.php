@@ -15,6 +15,7 @@ use App\SubCategory;
 use App\Translator;
 use App\User;
 use App\Writer;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

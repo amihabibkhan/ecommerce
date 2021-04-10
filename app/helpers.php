@@ -51,3 +51,62 @@ function share_to_mail($subject, $link){
 function get_option($name){
     return Option::where('name', $name)->first()->value;
 }
+
+
+if(!function_exists('exists_in_cart')){
+    function exists_in_cart($product_id){
+        $cart = Gloudemans\Shoppingcart\Facades\Cart::content();
+        $cart = (array) $cart;
+        foreach ($cart as $item) {
+            foreach ($item as $val){
+                if($val->id === $product_id){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+function shortText($string,$length = 50){
+    $string = strip_tags($string);
+    if (strlen($string) > $length) {
+
+        // truncate string
+        $stringCut = substr($string, 0, $length);
+        $endPoint = strrpos($stringCut, ' ');
+
+        //if the string doesn't contain any space then it will cut without word basis.
+        $string = $endPoint? substr($stringCut, 0, $endPoint)."..." : substr($stringCut, 0)."...";
+    }
+    return $string;
+}
+
+
+if (! function_exists('img')) {
+
+    function img($image_name = '') {
+
+        if ($image_name == '') {
+            return empty_img();
+        }
+
+        if (file_exists(public_path().'/storage/'.$image_name)) {
+            return asset('/storage/'.$image_name);
+        }
+
+        return empty_img();
+
+    }
+}
+
+
+if (! function_exists('empty_img')) {
+
+    function empty_img() {
+
+        return asset('./images/thumbnail.png');
+
+    }
+}
+

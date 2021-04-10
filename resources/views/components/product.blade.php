@@ -14,6 +14,12 @@
             color: black;
             left: 0;
         }
+        .single-shop .shop-img ul {
+             -webkit-transform: none;
+             transform: none;
+             -webkit-transition: none;
+             transition: none;
+        }
     </style>
 
     <div class="single-shop" style="background: #f3f3f3;">
@@ -21,7 +27,7 @@
 
             <a href="{{ route('frontend.singleProduct', $product->slug) }}" class="d-block" style="position: relative">
             @if($product->main_image)
-                <img src="{{ asset('storage') }}/{{ $product->main_image }}" style="width: 100%" alt="Image">
+                    <img src="{{ img($product->main_image) }}" style="width: 100%" alt="Image">
                 @else
                 <div class="not_image">
                     <span>
@@ -32,11 +38,6 @@
                 </div>
             @endif
             </a>
-
-            <form action="{{ route('add_to_cart') }}" method="POST">
-                @csrf
-                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                <input type="hidden" name="qty" value="1">
                 <ul>
                     <li>
                         <a href="#product_view{{ $product->id }}" data-toggle="modal">
@@ -44,22 +45,31 @@
                         </a>
                     </li>
                     <li>
-                        <button style="background-color: transparent; padding: 0" href="#">
-                            <i class="bx bx-cart"></i>
-                        </button>
+                        @if(!exists_in_cart($product->id))
+                            <button class="add_to_cart" data-operate="addition" data-id="{{ $product->id }}" data-qty="1" style="background-color: transparent; padding: 0" href="#">
+                                <i class="bx bx-cart"></i>
+                            </button>
+                        @else
+                            <button style="background-color: transparent; padding: 0" href="#" disabled>
+                                <i class="bg-success text-light bx bx-cart"></i>
+                            </button>
+                        @endif
                     </li>
                 </ul>
-            </form>
 
         </div>
-        <h3 style="font-size: 16px; margin-top: 0; font-weight: 700; color: #0baf01">
-            <a href="{{ route('frontend.singleProduct', $product->slug) }}">{{ $product->title }}</a>
-        </h3>
-        <h4 style="font-size: 16px; margin: 5px 0;">{{ @$product->writer->name }}</h4>
+        <div style="width: 100%;height: 50px !important;overflow: hidden">
+            <h3 style="font-size: 16px; margin-top: 0; font-weight: 700; color: #0baf01">
+                <a href="{{ route('frontend.singleProduct', $product->slug) }}">{{ $product->title }}</a>
+            </h3>
+        </div>
+        <div style="width: 100%; height: 25px; overflow: hidden">
+            <h4 style="font-size: 12px; margin: 5px 0;">{{ @$product->writer->name }}</h4>
+        </div>
         <div style="display:flex; background-color: black; justify-content: space-between;">
             <div style="background-color: #b5f2f7; flex: 1; font-weight: bold; font-family: 'Rubik', sans-serif; color: #3c3a00; padding: 2px 0">
                 @if($product->sale_price != null)
-                    <del>TK{{ $product->regular_price }}</del> TK. {{ $product->sale_price }}
+                    <del style="font-size: 12px; color: #888888">TK.{{ $product->regular_price }}</del> TK. {{ $product->sale_price }}
                 @else
                     TK. {{ $product->regular_price }}
                 @endif
@@ -73,8 +83,6 @@
 {{--            </div>--}}
         </div>
     </div>
-
-
 
     <style>
         .modal{
@@ -156,7 +164,7 @@
 
                                         <span class="plus-btn">
                                                 <i class="bx bx-plus"></i>
-                                            </span>
+                                        </span>
                                     </div>
 
                                     <button type="submit" class="default-btn">

@@ -20,46 +20,107 @@ class CartController extends Controller
         ]);
 
         $product = Product::findOrFail($request->product_id);
-        Cart::add([
-            'id' => $product->id,
-            'name' => $product->title,
-            'qty' => $request->qty,
-            'weight' => 0,
-            'price' => $product->sale_price ?? $product->regular_price,
-            'options' => [
-                'image' => $product->thumbnail ?? $product->main_image,
-                'slug' => $product->slug,
-                'writer_id' => $product->writer_id,
-                'publication_id' => $product->publication_id,
-            ]
-        ]);
+        if($product){
+
+            Cart::add([
+                'id' => $product->id,
+                'name' => $product->title,
+                'qty' => $request->qty,
+                'weight' => 0,
+                'price' => $product->sale_price ?? $product->regular_price,
+                'options' => [
+                    'image' => $product->thumbnail ?? $product->main_image,
+                    'slug' => $product->slug,
+                    'writer_id' => $product->writer_id,
+                    'publication_id' => $product->publication_id,
+                ]
+            ]);
+
+            return response()->json([
+                'quantity' => count(Cart::content()),
+            ]);
+        }
 
         Toastr::success('Product added to cart!');
-        return back();
     }
 
     public function updateCart(Request $request)
     {
         // update total to cart
-        Cart::update($request->rowId, $request->qty);
+        $cart = Cart::get($request->rowid);
 
-        Toastr::success('Cart Updated!');
-        return back();
+        $quantity = 0;
+
+        if($request->type == 'substruct'){
+            if($cart->qty > 0){
+                $quantity = $cart->qty - 1;
+            }else{
+                return response()->json([
+                    'msg' => 'error',
+                ]);
+            }
+        }else{
+            $quantity = $cart->qty + 1;
+        }
+
+        Cart::update($request->rowid, $quantity);
+
+
+        $total = Cart::subtotal(0,'','');
+        $discount = 0;
+
+        if ($request->coupon_code){
+            $coupon_check = $this->checkCoupon($request);
+            if ($coupon_check){
+                $coupon = Coupon::where('coupon_code', $request->coupon_code)->first();
+                $discount = $coupon ? ($coupon->discount_amount ? $coupon->discount_amount : ($total * $coupon->discount_percent / 100)) : 0;
+            }
+        }
+
+        return response()->json([
+            'msg' => 'success',
+            'rowId' => $request->rowId,
+            'current_pro_qty' => Cart::get($request->rowid)->qty,
+            'subtotal_single' => Cart::get($request->rowid)->subtotal,
+            'quantity' => count(Cart::content()),
+            'subtotal' => Cart::subtotal(0),
+            'total' => $total,
+            'discount' => $discount,
+            'intotal' => $total - $discount
+        ]);
     }
 
-    public function removeCartItem($rowId)
+    public function removeCartItem(Request $request)
     {
         // remove cart item
-        Cart::remove($rowId);
+        Cart::remove($request->rowId);
 
-        Toastr::success('Product removed from cart!');
-        return back();
+        $total = Cart::subtotal(0,'','');
+        $discount = 0;
+
+        if ($request->coupon_code){
+            $coupon_check = $this->checkCoupon($request);
+            if ($coupon_check){
+                $coupon = Coupon::where('coupon_code', $request->coupon_code)->first();
+                $discount = $coupon ? ($coupon->discount_amount ? $coupon->discount_amount : ($total * $coupon->discount_percent / 100)) : 0;
+            }
+        }
+
+        return response()->json([
+            'rowId' => $request->rowId,
+            'quantity' => count(Cart::content()),
+            'subtotal' => Cart::subtotal(0),
+            'total' => $total,
+            'discount' => $discount,
+            'intotal' => $total - $discount
+        ]);
     }
 
     // show cart page
     public function showCart(Request $request)
     {
         $coupon = false;
+        $coupon_code = $request->coupon_code;
         if ($request->coupon_code){
             $coupon_check = $this->checkCoupon($request);
             if ($coupon_check){
@@ -69,7 +130,8 @@ class CartController extends Controller
                 Toastr::error('Sorry! invalid coupon code');
             }
         }
-        return view('frontend.pages.cart_n_checkout.cart', compact('coupon'));
+
+        return view('frontend.pages.cart_n_checkout.cart', compact(['coupon','coupon_code']));
     }
 
     // check coupon

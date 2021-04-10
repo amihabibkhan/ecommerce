@@ -72,7 +72,7 @@ Route::post('/user_register', 'Frontend\FrontendController@user_register_post')-
 // cart routes
 Route::post('/add-to-cart', 'Frontend\CartController@addToCart')->name('add_to_cart');
 Route::post('/update-cart', 'Frontend\CartController@updateCart')->name('update_cart');
-Route::get('/remove-cart-item/{rid}', 'Frontend\CartController@removeCartItem')->name('remove_cart_item');
+Route::post('/remove-cart-item/', 'Frontend\CartController@removeCartItem')->name('remove_cart_item');
 Route::get('/show_cart', 'Frontend\CartController@showCart')->name('show_cart');
 Route::get('/checkout', 'Frontend\CheckoutController@checkoutPage')->name('checkout_page');
 

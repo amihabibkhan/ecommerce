@@ -30,6 +30,7 @@
     <!-- Boxicons CSS -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/icons/css/boxicons.min.css">
     <!-- <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.19/dist/css/uikit.min.css" />
 
     <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/jquery.animateSlider.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/font-awesome.css">
@@ -67,7 +68,6 @@
     {{-- instantjs for algolia--}}
     <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js" integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin="anonymous"></script>
-
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)
@@ -85,6 +85,7 @@
                    src="https://www.facebook.com/tr?id=130776775568255&ev=PageView&noscript=1"
         /></noscript>
     <!-- End Facebook Pixel Code -->
+    @livewireStyles
 </head>
 
 <body>
@@ -242,7 +243,7 @@
                 <div class="cart-icon align-self-center">
                     <a href="{{ route('show_cart') }}">
                         <i class="flaticon-shopping-cart"></i>
-                        <span style="color: black; font-weight: bold; padding: 2px">{{ count($cart) }}</span>
+                        <span style="color: black; font-weight: bold; padding: 2px" class="cart_quantity">{{ count($cart) }}</span>
                     </a>
                 </div>
                 <div class="cart-icon account_icon  align-self-center">
@@ -460,6 +461,61 @@
 <!-- End Go Top Area -->
 
 
+<style>
+    .remove {
+        margin-left: 50px;
+        width: 30px;
+        height: 30px;
+        line-height: 34px;
+        display: inline-block;
+        background-color: var(--white-color);
+        border-radius: 50%;
+        font-size: 20px;
+        -webkit-transition: var(--transition);
+        transition: var(--transition);
+        color: #444 !important;
+        -webkit-box-shadow: var(--box-shadow);
+        box-shadow: var(--box-shadow);
+        float: right;
+    }
+    .remove:hover {
+        background-color: #ff0000;
+        color: #fff !important;
+    }
+</style>
+<div id="cart-offcanvas" uk-offcanvas="flip: true; overlay: true">
+    <div class="uk-offcanvas-bar bg-light text-dark px-3">
+        <button class="text-dark uk-offcanvas-close" type="button" uk-close></button>
+        <p style="border-bottom: 2px solid #333">শপিং কার্ট</p>
+        <hr>
+            @livewire('offcanvas-cart')
+        <table class="uk-table uk-table-small">
+            <tr>
+                <td>
+                    <b>সর্বমোট</b>
+                </td>
+                <td class="text-right">
+                    <b class="intotal">{{ $total = \Gloudemans\Shoppingcart\Facades\Cart::subtotal(0, '', '')  }}/-</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{{ route('checkout_page') }}" class="default-btn two btn-block px-0">কিনে ফেলুন</a>
+                </td>
+                <td>
+                    <a href="{{ route('show_cart') }}" class="btn btn-secondary two btn-lg btn-block px-0">কার্ট দেখুন</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    window.addEventListener('showCartOffcanvas', event => {
+        UIkit.offcanvas("#cart-offcanvas").show();
+    });
+</script>
 <!-- Jquery-3.5.1.Slim.Min.JS -->
 <script src="{{ asset('frontend') }}/js/jquery-3.5.1.slim.min.js"></script>
 <!-- Popper JS -->
@@ -491,6 +547,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>
 <script src="{{ asset('admin/plugins/toastr/toastr.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.19/dist/js/uikit.min.js"></script>
+@livewireScripts
+
 
 
 {!! Toastr::message() !!}
@@ -550,13 +609,77 @@
         });
     });
 </script>
-
 <!-- Custom JS -->
 <script src="{{ asset('frontend') }}/js/custom.js"></script>
 
 
 @yield('javascript')
+@stack('footer_javascript')
+<script>
+        $(document).on('click','.add_to_cart',function(e){
+            var element  = $(this);
+            var id = $(this).data('id');
+            var qty = $(this).data('qty');
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('add_to_cart') }}",
+                headers: {
+                    'X-CSRF-TOKEN': "{{csrf_token()}}"
+                },
+                beforeSend: function(){
+                    element.attr('disabled',1);
+                    element.html('<i class="fas fa-spinner"></i>');
+                },
+                data: {product_id: id, qty: qty},
+                success:function(result){
+                    $(".cart_quantity").text(result.quantity);
+                    element.html('<i class="text-success fas fa-check"></i>');
+                    // UIkit.offcanvas("#cart-offcanvas").show();
+                    $("#showCartOffcanvas" ).trigger( "click" );
+                },
+                error:function(){
+                    alert('error');
+                }
+            });
+        });
+</script>
 
+
+
+<script>
+    $(document).on('click','.remove',function(e){
+        e.preventDefault();
+        var element  = $(this);
+        var coupon_code = "{{ $coupon_code ?? '' }}";
+        var rowId = $(this).data('rawid');
+        $.ajax({
+            method: 'POST',
+            url: "{{ route('remove_cart_item') }}",
+            headers: {
+                'X-CSRF-TOKEN': "{{csrf_token()}}"
+            },
+            beforeSend: function(){
+                element.attr('disabled',1);
+            },
+            data: {rowId: rowId,coupon_code: coupon_code},
+            success:function(result){
+                $(".cart-item_"+result.rowId).fadeOut();
+                $(".cart-item_"+result.rowId).remove();
+
+                $(".cart_quantity").text(result.quantity);
+
+                $("#subtotal").text(result.subtotal+"/-");
+                $("#total").text(result.total+"/-");
+                $("#discount").text(result.discount+"/-");
+                $(".intotal").text(result.intotal+"/-");
+                $("#intotal").text(result.intotal+"/-");
+            },
+            error:function(){
+
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
