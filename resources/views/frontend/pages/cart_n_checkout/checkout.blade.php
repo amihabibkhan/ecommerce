@@ -1,9 +1,9 @@
 @extends('frontend.layout.frontend_layout')
 
 @section('main_content')
-    <x-inner-page-banner :title="$title = 'চেক আউট'" />
+{{--    <x-inner-page-banner :title="$title = 'চেক আউট'" />--}}
     <!-- Start Checkout Area -->
-    <section class="checkout-area ptb-100">
+    <section class="checkout-area pb-100 pt-3">
         <div class="container">
             <form method="POST" action="{{ route('order_management.store') }}">
                 @csrf
@@ -89,6 +89,71 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div class="my-4">
+                                <input type="checkbox" value="true" name="diff_shipping_address_checkbox" id="diff_shipping_address_checkbox">
+                                <label for="diff_shipping_address_checkbox" class="cursor-pointer">পণ্য নতুন ঠিকানায়/উপহার পাঠান।</label>
+                            </div>
+
+                            <div class="d-none" id="diff_shipping_address">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>নাম <span class="required">*</span></label>
+                                            <input type="text" name="shipping_name" value="{{ old('shipping_name') }}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>ই-মেইল এড্রেস <span class="required">*</span></label>
+                                            <input type="email" name="shipping_email" value="{{ old('shipping_email') }}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>ফোন নাম্বার <span class="required">*</span></label>
+                                            <input type="text" name="shipping_phone" value="{{ old('shipping_phone') }}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>জরুরী ফোন</label>
+                                            <input type="text" name="shipping_emergency_phone" value="{{ old('shipping_emergency_phone') }}" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>জেলা <span class="required">*</span></label>
+
+                                            <div class="select-box">
+                                                <select class="form-control" name="shipping_district_id">
+                                                    @foreach($districts as $single_district)
+                                                        <option value="{{ $single_district->id }}">{{ $single_district->bn_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>পূর্ণ ঠিকানা <span class="required">*</span></label>
+                                            <input type="text" name="shipping_full_address" class="form-control" value="{{ old('shipping_full_address') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>অন্যান্য তথ্য (Optional)</label>
+                                            <textarea name="shipping_note" style="font-family: 'Hind Siliguri'" cols="30" rows="8" class="form-control" placeholder="অর্ডার বা পণ্য ডেলিভারি সংক্রান্ত আরো কোনো তথ্য থাকলে দিন">{{ old('shipping_note') }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -174,7 +239,7 @@
 @endsection
 
 
-@section('javascript')
+@push('footer_javascript')
 
     <script>
         $(function(){
@@ -182,4 +247,18 @@
         })
     </script>
 
-@endsection
+    <script>
+        $(function(){
+            $("#diff_shipping_address_checkbox").change(function (e){
+                if(this.checked){
+                    $('#diff_shipping_address').removeClass('d-none');
+                    $('#diff_shipping_address').addClass('d-inline');
+                }else{
+                    $('#diff_shipping_address').removeClass('d-inline');
+                    $('#diff_shipping_address').addClass('d-none');
+                }
+            });
+        });
+    </script>
+
+@endpush

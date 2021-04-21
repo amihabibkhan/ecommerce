@@ -12,6 +12,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('roles')->insert([
+           ['name' => 'Super-admin'],
+           ['name' => 'Manager'],
+           ['name' => 'General User'],
+           ['name' => 'Editor'],
+        ]);
+
+        DB::table('order_statuses')->insert([
+           ['title' => 'Pending'],
+           ['title' => 'Processing'],
+           ['title' => 'Cancel'],
+           ['title' => 'Delivered'],
+        ]);
+
         DB::table('options')->insert([
            ['name' => 'logo'],
            ['name' => 'address'],

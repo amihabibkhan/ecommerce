@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\OrderStatus;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -28,10 +30,19 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::user()->role_id != 3) {
-            return view('home');
+
+            return $this->adminDashboard();
+
         }else{
             return view('frontend.user.home');
         }
+    }
+
+    private function adminDashboard()
+    {
+        $orderStatus = OrderStatus::with(['pendings', 'processings', 'cancels', 'deliverts'])->get();
+        $roles = Role::with(['super_admins', 'managers', 'general_users', 'editors'])->get();
+        return view('admin.dashboard',compact(['orderStatus','roles']));
     }
 
     public function account_settings()

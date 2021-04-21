@@ -15,28 +15,28 @@
                         @csrf
                         <div class="form-group">
                             <label for="">Logo</label><br>
-                            <img src="{{ asset('storage') }}/{{ get_option('logo') }}" alt="Logo"><br> <br>
+                            <img src="{{ img($options->where('name','logo')->first()->value ?? '' ) }}" alt="Logo"><br> <br>
                             <input type="file" class="form-control" name="logo">
                         </div>
                         <div class="form-group">
                             <label for="">Address</label>
-                            <textarea name="address" class="form-control">{{ get_option('address') }}</textarea>
+                            <textarea name="address" class="form-control">{{ $options->where('name','address')->first()->value ?? '' }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="">Phone Number 1</label>
-                            <input type="text" class="form-control" value="{{ get_option('phone_1') }}" name="phone_1">
+                            <input type="text" class="form-control" value="{{ $options->where('name','phone_1')->first()->value ?? '' }}" name="phone_1">
                         </div>
                         <div class="form-group">
                             <label for="">Phone Number 2</label>
-                            <input type="text" class="form-control" value="{{ get_option('phone_2') }}" name="phone_2">
+                            <input type="text" class="form-control" value="{{ $options->where('name','phone_2')->first()->value ?? '' }}" name="phone_2">
                         </div>
                         <div class="form-group">
                             <label for="">Email 1</label>
-                            <input type="email" class="form-control" value="{{ get_option('email_1') }}" name="email_1">
+                            <input type="email" class="form-control" value="{{ $options->where('name','email_1')->first()->value ?? '' }}" name="email_1">
                         </div>
                         <div class="form-group">
                             <label for="">Email 2</label>
-                            <input type="email" class="form-control" value="{{ get_option('email_2') }}" name="email_2">
+                            <input type="email" class="form-control" value="{{ $options->where('name','email_2')->first()->value ?? '' }}" name="email_2">
                         </div>
                         <div class="text-center">
                             <button class="btn btn-success">Update Options</button>

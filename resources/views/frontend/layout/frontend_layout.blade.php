@@ -33,13 +33,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.19/dist/css/uikit.min.css" />
 
     <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/jquery.animateSlider.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" integrity="sha512-OdEXQYCOldjqUEsuMKsZRj93Ht23QRlhIb8E/X0sbwZhme8eUw6g8q7AdxGJKakcBbv7+/PX0Gc2btf7Ru8cZA==" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/normalize.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/demo1.css">
     <link rel="stylesheet" href="{{ asset('admin/plugins/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/offer.css') }}">
 
     @yield('css')
+    @stack('header_css')
+    <style>
+        .cursor-pointer{
+            cursor: pointer !important;
+        }
+    </style>
 
     <!-- Flaticon CSS -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/flaticon.css">
@@ -140,7 +146,7 @@
             <div class="col-lg-2 col-6">
                 <div class="logo">
                     <a href="{{ route('index') }}">
-                        <img src="{{ asset('storage') }}/{{ get_option('logo') }}" alt="BIKIRON SHOP">
+                        <img src="{{ img($options->where('name','logo')->first()->value ?? '') }}" alt="BIKIRON SHOP">
                     </a>
                 </div>
             </div>
@@ -275,6 +281,11 @@
                             @if(Request::segment(2) == $single_menu->slug)
                             active
                             @endif
+                            @isset($page_type)
+                                @if($page_type ==  'single_product' && $single_product['main_categories'][0]['id'] == $single_menu->id)
+                                    active
+                                @endif
+                            @endisset
                             ">
                             <a class="nav-link" href="{{ $single_menu->id == 2 ? route('frontend.bookShop'): route('frontend.singleMainCategory', $single_menu->slug) }}">{{ $single_menu->title }}</a>
                         </li>
@@ -369,19 +380,19 @@
                     <ul class="address">
                         <li class="location">
                             <i class="bx bx-home-alt"></i>
-                            {{ get_option('address') }}
+                            {{ $options->where('name','address')->first()->value ?? '' }}
                         </li>
 
                         <li>
                             <i class="bx bxs-envelope"></i>
-                            <a href="mailto:{{ get_option('email_1') }}">{{ get_option('email_1') }}</a>
-                            <a href="mailto:{{ get_option('email_2') }}">{{ get_option('email_2') }}</a>
+                            <a href="mailto:{{ $options->where('name','email_1')->first()->value ?? '' }}">{{ $options->where('name','email_1')->first()->value ?? '' }}</a>
+                            <a href="mailto:{{ $options->where('name','email_2')->first()->value ?? '' }}">{{ $options->where('name','email_2')->first()->value ?? '' }}</a>
                         </li>
 
                         <li>
                             <i class="bx bxs-phone-call"></i>
-                            <a href="tel:{{ get_option('phone_1') }}">{{ get_option('phone_1') }}</a>
-                            <a href="tel:{{ get_option('phone_2') }}">{{ get_option('phone_2') }}</a>
+                            <a href="tel:{{ $options->where('name','phone_1')->first()->value ?? '' }}">{{ $options->where('name','phone_1')->first()->value ?? '' }}</a>
+                            <a href="tel:{{ $options->where('name','phone_2')->first()->value ?? '' }}">{{ $options->where('name','phone_2')->first()->value ?? '' }}</a>
                         </li>
                     </ul>
                 </div>
@@ -500,16 +511,39 @@
             </tr>
             <tr>
                 <td>
-                    <a href="{{ route('checkout_page') }}" class="default-btn two btn-block px-0">কিনে ফেলুন</a>
+                    <a href="{{ route('checkout_page') }}" class="btn btn-warning two btn-block px-0">কিনে ফেলুন</a>
                 </td>
                 <td>
-                    <a href="{{ route('show_cart') }}" class="btn btn-secondary two btn-lg btn-block px-0">কার্ট দেখুন</a>
+                    <a href="{{ route('show_cart') }}" class="btn btn-secondary two btn-block px-0">কার্ট দেখুন</a>
                 </td>
             </tr>
         </table>
     </div>
 </div>
 
+<style>
+    .fixed-cart {
+        padding: 12px 14px 10px 12px;
+        background: #f1f1f1;
+        z-index: 99999;
+        border-radius: 20px 0px 20px 0px;
+    }
+    .fixed-cart i {
+        cursor: pointer;
+    }
+    .fixed-cart span {
+        position: absolute;
+        right: 5px;
+        top: 10px;
+    }
+    h2 {
+        font-family: 'Hind Siliguri' !important;
+    }
+</style>
+<span class="uk-position-fixed uk-position-center-right fixed-cart bg-danger">
+    <i class="text-light flaticon-shopping-cart h4 fixed-cart-quantity"></i>
+    <span style="color: black; font-weight: bold;" class="cart_quantity badge badge-info text-light">{{ count($cart) }}</span>
+</span>
 
 <script>
     window.addEventListener('showCartOffcanvas', event => {
@@ -615,6 +649,7 @@
 
 @yield('javascript')
 @stack('footer_javascript')
+
 <script>
         $(document).on('click','.add_to_cart',function(e){
             var element  = $(this);
@@ -633,12 +668,12 @@
                 data: {product_id: id, qty: qty},
                 success:function(result){
                     $(".cart_quantity").text(result.quantity);
+                    $(".intotal").text(result.intotal+"/-");
                     element.html('<i class="text-success fas fa-check"></i>');
-                    // UIkit.offcanvas("#cart-offcanvas").show();
-                    $("#showCartOffcanvas" ).trigger( "click" );
+                    trigger_cart_off_canvas();
                 },
                 error:function(){
-                    alert('error');
+                    // alert('error');
                 }
             });
         });
@@ -681,5 +716,26 @@
     });
 </script>
 
+
+<script>
+    function trigger_cart_off_canvas(){
+        $("#showCartOffcanvas" ).trigger( "click" );
+    }
+</script>
+<script>
+    $(document).on('click','.fixed-cart-quantity',function (e){
+        trigger_cart_off_canvas();
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('.slick-slider').slick({
+            infinite: true,
+            slidesToShow: 3,
+            slidesToScroll: 3
+        });
+    });
+</script>
 </body>
 </html>

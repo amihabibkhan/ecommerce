@@ -33,7 +33,7 @@
                     <span>
                         <b>{{ $product->title }}</b>
                         <br>
-                        {{ @$product->writer->name }}
+                        {{ $product['writer']['name'] }}
                     </span>
                 </div>
             @endif
@@ -64,7 +64,7 @@
             </h3>
         </div>
         <div style="width: 100%; height: 25px; overflow: hidden">
-            <h4 style="font-size: 12px; margin: 5px 0;">{{ @$product->writer->name }}</h4>
+            <h4 style="font-size: 12px; margin: 5px 0;">{{ $product['writer']['name'] }}</h4>
         </div>
         <div style="display:flex; background-color: black; justify-content: space-between;">
             <div style="background-color: #b5f2f7; flex: 1; font-weight: bold; font-family: 'Rubik', sans-serif; color: #3c3a00; padding: 2px 0">
@@ -108,13 +108,13 @@
                         <div class="product-view-one-image">
                             <div class="item text-center">
                                 @if($product->main_image)
-                                    <img src="{{ asset('storage') }}/{{ $product->main_image }}" style="width: 100%" alt="Image">
+                                    <img src="{{ img($product->main_image) }}" style="width: 100%" alt="Image">
                                 @else
                                     <div class="not_image">
                                         <span>
                                             <b>{{ $product->title }}</b>
                                             <br>
-                                            {{ @$product->writer->name }}
+                                            {{ $product['writer']['name'] }}
 
                                         </span>
                                     </div>
@@ -151,28 +151,16 @@
                                 </li>
                             </ul>
 
-                            <form action="{{ route('add_to_cart') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <div class="product-add-to-cart">
-                                    <div class="input-counter">
-                                            <span class="minus-btn">
-                                                <i class="bx bx-minus"></i>
-                                            </span>
 
-                                        <input name="qty" type="text" value="1">
-
-                                        <span class="plus-btn">
-                                                <i class="bx bx-plus"></i>
-                                        </span>
-                                    </div>
-
-                                    <button type="submit" class="default-btn">
-                                        অর্ডার করুন
-                                        <i class="flaticon-right"></i>
-                                    </button>
-                                </div>
-                            </form>
+                            @if(!exists_in_cart($product->id))
+                                <button class="add_to_cart default-btn" data-operate="addition" data-id="{{ $product->id }}" data-qty="1" href="#">
+                                    কার্টে যুক্ত করুন<i class="bx bx-cart"></i>
+                                </button>
+                            @else
+                                <button class="btn btn-success" href="#" disabled>
+                                    অলরেডি ‍যুক্ত আছে<i class="bg-success text-light bx bx-cart"></i>
+                                </button>
+                            @endif
 
                             <div class="share-this-product">
                                 <h3>বইটি শেয়ার করুন</h3>

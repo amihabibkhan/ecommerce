@@ -57,7 +57,7 @@
         }
 
         .invoice main .thanks {
-            margin-top: -100px;
+            margin-top: 0px;
             font-size: 2em;
             margin-bottom: 50px
         }
@@ -153,6 +153,21 @@
             padding: 8px 0
         }
 
+
+        input {
+            border: 1px solid #242323;
+            background: #ffffff;
+            text-align: right;
+            width: 100px;
+        }
+
+        .show_in_general{
+            display: inline;
+        }
+        .hide_in_general{
+            display: none;
+        }
+
         @media print {
             .invoice {
                 font-size: 11px!important;
@@ -170,6 +185,13 @@
             }
         }
         @media print{
+
+            .hide_in_invoice{
+                display: none;
+            }
+            .show_in_invoice{
+                display: inline;
+            }
             header .container,
             footer.footer-top-area,
             footer.footer-bottom-area,
@@ -220,19 +242,19 @@
                         <header>
                             <div class="row">
                                 <div class="col">
-                                    <a target="_blank" href="https://lobianijs.com">
-                                        <img src="{{ asset('frontend/img/logo.png') }}" data-holder-rendered="true" />
+                                    <a target="_blank" href="{{ route('index') }}">
+                                        <img src="{{ img($options->where('name','logo')->first()->value ?? '') }}" data-holder-rendered="true" />
                                     </a>
                                 </div>
                                 <div class="col company-details">
                                     <h2 class="name">
-                                        <a target="_blank" href="{{ route('index') }}">
-                                            BIKIRONSHOP
+                                        <a target="_blank" href="{{ route('index') }}" class="text-uppercase" style="text-decoration: none;">
+                                            {{ config('app.name') }}
                                         </a>
                                     </h2>
-                                    <div>Banglabazar, Dhaka - 1000</div>
-                                    <div>01770496249</div>
-                                    <div>bikironshop@gmail.com</div>
+                                    <div>{{ $options->where('name','address')->first()->value ?? '' }}</div>
+                                    <div>{{ $options->where('name','phone_1')->first()->value ?? '' }}</div>
+                                    <div>{{ $options->where('name','email_1')->first()->value ?? '' }}</div>
                                 </div>
                             </div>
                         </header>
@@ -249,56 +271,82 @@
                                     <div class="date">Date of Invoice: {{ date_maker($order_details->created_at, 'd M, Y') }}</div>
                                 </div>
                             </div>
-                            <table border="0" cellspacing="0" cellpadding="0">
-                                <thead>
-                                <tr>
-                                    <th class="text-center">SL</th>
-                                    <th class="text-left">DESCRIPTION</th>
-                                    <th class="text-right">PRICE</th>
-                                    <th class="text-right">QTY</th>
-                                    <th class="text-right">TOTAL</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($order_details->order_details as $single_product)
-                                        <tr>
-                                            <td class="no text-center">{{ $loop->index + 1  }}</td>
-                                            <td class="text-left">
-                                                {{ $single_product->product->title }}
-                                            </td>
-                                            <td class="unit">{{ $single_product->price }}</td>
-                                            <td class="qty">{{ $single_product->qty }}</td>
-                                            <td class="total">{{ $single_product->total }}/-</td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5">No Product Found</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td colspan="2">SUBTOTAL</td>
-                                    <td>{{ $order_details->sub_total }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td colspan="2">SHIPPING CHARGE</td>
-                                    <td>{{ $order_details->shipping_charge }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td colspan="2">DISCOUNT</td>
-                                    <td>{{ $order_details->discount }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td colspan="2">GRAND TOTAL</td>
-                                    <td>{{ $order_details->total }}</td>
-                                </tr>
-                                </tfoot>
-                            </table>
+                            <form action="{{ route('order_customize') }}" method="post">
+                                @csrf
+                                <input type="hidden" value="{{ $order_details->id }}" name="order_id">
+                                <table border="0" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">SL</th>
+                                        <th class="text-left">DESCRIPTION</th>
+                                        <th class="text-right">PRICE</th>
+                                        <th class="text-right">QTY</th>
+                                        <th class="text-right">TOTAL</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($order_details->order_details as $single_product)
+                                            <input type="hidden" name="order_details_ids[]" value="{{ $single_product->id }}">
+                                            <tr>
+                                                <td class="no text-center">{{ $loop->index + 1  }}</td>
+                                                <td class="text-left">
+                                                    {{ $single_product->product->title }}
+                                                </td>
+                                                <td class="unit">
+                                                    <span>{{ $single_product->price }}</span>
+                                                </td>
+                                                <td class="qty">
+                                                    <span class="hide_in_general show_in_invoice">{{ $single_product->qty }}</span>
+                                                    <input name="qty_{{ $single_product->id }}" type="number" value="{{ $single_product->qty }}" class="hide_in_invoice show_in_general">
+                                                </td>
+                                                <td class="total">
+                                                    <span class="hide_in_general show_in_invoice">{{ $single_product->total }}</span>
+                                                    <input name="total_{{ $single_product->id }}" type="number" value="{{ $single_product->total }}" class="hide_in_invoice show_in_general">/-
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5">No Product Found</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">SUBTOTAL</td>
+                                        <td>
+                                            <span>{{ $order_details->sub_total }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">SHIPPING CHARGE</td>
+                                        <td>
+                                            <span class="hide_in_general show_in_invoice">{{ $order_details->shipping_charge }}</span>
+                                            <input type="number" name="shipping_charge" value="{{ $order_details->shipping_charge }}" class="hide_in_invoice show_in_general">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">DISCOUNT</td>
+                                        <td>
+                                            <span class="hide_in_general show_in_invoice">{{ $order_details->discount }}</span>
+                                            <input type="number" name="discount" value="{{ $order_details->discount }}" class="hide_in_invoice show_in_general">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">GRAND TOTAL</td>
+                                        <td>
+                                            <span>{{ $order_details->total }}</span>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                                <div class="form-group text-right">
+                                    <input type="submit" value="Save" class="btn btn-info btn-lg">
+                                </div>
+                            </form>
                             <div class="thanks">Thank you!</div>
 {{--                            <div class="notices">--}}
 {{--                                <div>NOTICE:</div>--}}

@@ -144,6 +144,12 @@
         </div>
     </section>
     <!-- End Cart Area -->
+    <div class="container">
+        <div class="section-title" style="max-width: 100%; text-align: left; margin-bottom: 30px; border-bottom: 1px solid white; padding-bottom: 10px;">
+            <h2 style="font-size: 26px;">যে পণ্যগুলি দেখেছেন</h2>
+        </div>
+        @livewire('visited-product')
+    </div>
 @endsection
 @push('footer_javascript')
 

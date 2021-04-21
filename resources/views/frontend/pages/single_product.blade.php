@@ -5,9 +5,8 @@
 @section('brand'){{ $product->publication_id ? @$product->publication->name : @$product->brand->name }}@endsection
 @section('availability'){{ $product->stock ? 'in stock' : 'out of stock' }}@endsection
 @section('price'){{ $product->sale_price ? $product->sale_price : $product->regular_price }}@endsection
-
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
         .not_image{
             border: 1px solid #dddddd;
@@ -73,10 +72,25 @@
     <script src="{{ asset('frontend') }}/js/jquery-3.5.1.slim.min.js"></script>
 @endsection
 
-
 @section('main_content')
+    <script>
+        var get_all_data_from_localStorage = JSON.parse(localStorage.getItem('visited_products'))
+        if(get_all_data_from_localStorage == null){
+            var visited_products_values = []
+            localStorage.setItem('visited_products', JSON.stringify(visited_products_values))
+        }else{
+            var visited_products_values = JSON.parse(localStorage.getItem('visited_products'))
+        }
 
-    <x-inner-page-banner :title="$product->title" />
+
+        if(!visited_products_values.includes("{{ $product->id }}")){
+            visited_products_values.push("{{ $product->id }}")
+        }
+
+        localStorage.setItem('visited_products', JSON.stringify(visited_products_values))
+    </script>
+
+{{--    <x-inner-page-banner :title="$product->title" />--}}
 
     <!-- Start Product Details Area -->
     <section class="product-details-area" style="padding: 50px 0">
@@ -129,38 +143,32 @@
                         <div class="mb-1">কভার: {{ $product->cover }}</div>
 
 
-                        <div class="price mb-0">
+                        <div class="price mb-2">
                             <span class="new-price">
                                 @if($product->sale_price != null)
-                                    <del style="margin-right: 10px; color: red">TK{{ $product->regular_price }}</del> TK. {{ $product->sale_price }}
+                                    <small>
+                                        <del style="margin-right: 10px; color: #888888">TK{{ $product->regular_price }}</del></small> TK. {{ $product->sale_price }}
                                 @else
                                     TK. {{ $product->regular_price }}
                                 @endif
                             </span>
                         </div>
-                        <form action="{{ route('add_to_cart') }}" method="POST">
-                            <div class="product-add-to-cart m-0">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <h3>সংখ্যা:</h3>
-                                <div class="input-counter">
-                                        <span class="minus-btn">
-                                            <i class='bx bx-minus' ></i>
-                                        </span>
-                                    <input name="qty" type="text" value="1">
-                                    <span class="plus-btn">
-                                            <i class='bx bx-plus' ></i>
-                                        </span>
-                                </div>
-                            </div>
 
-                            <button type="submit" class="default-btn mr-md-3" >
-                                অর্ডার করুন
+                        @if(!exists_in_cart($product->id))
+                            <button class="default-btn mr-md-3 add_to_cart" data-operate="addition" data-id="{{ $product->id }}" data-qty="1">
+                                কার্টে যুক্ত করুন <i class="fas fa-shopping-cart"></i>
                             </button>
+                        @else
+                            <button disabled class="btn btn-success" style="cursor: not-allowed">
+                               কার্টে যুক্ত আছে <i class="text-light bx bx-check"></i>
+                            </button>
+                        @endif
+
+                        @if(count($product->page_images) > 0)
                             <button type="button" class="default-btn default-outline" data-toggle="modal" data-target="#readSomething">
                                 একটু পড়ে দেখুন
                             </button>
-                        </form>
+                        @endif
 
                         <ul class="social-wrap">
                             <li>

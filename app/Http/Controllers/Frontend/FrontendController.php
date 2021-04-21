@@ -14,11 +14,13 @@ use App\Slider;
 use App\SubCategory;
 use App\Translator;
 use App\User;
+use App\VisitedProduct;
 use App\Writer;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class FrontendController extends Controller
 {
@@ -63,22 +65,25 @@ class FrontendController extends Controller
     }
 
     // single product
-    public function singleProduct($slug)
+    public function singleProduct(Request $request,$slug)
     {
-        $product = Product::where('slug', $slug)->firstOrFail();
+        $product = Product::with(['main_categories','page_images'])->where('slug', $slug)->firstOrFail();
 
         $total_review = Review::where([
             ['product_id', $product->id],
             ['status',  2]
         ])->count();
 
-        $average_rating = rating_calculator($product->reviews->sum('ratings'), $total_review);
+        $page_type = true;
 
+        $average_rating = rating_calculator($product->reviews->sum('ratings'), $total_review);
 
         $related_product = Product::where('writer_id', $product->writer_id)
                             ->orWhere('publication_id', $product->publication_id)
                             ->paginate(4);
-        return view('frontend.pages.single_product', compact( 'product', 'total_review', 'average_rating', 'related_product'));
+        $single_product = $product;
+
+        return view('frontend.pages.single_product', compact( 'product', 'single_product','total_review', 'average_rating', 'related_product','page_type'));
     }
 
     // single category page view
@@ -155,93 +160,14 @@ class FrontendController extends Controller
     public function bookShop(Request $request)
     {
         $data['pubs'] = $data['selected_writers'] = $data['topics'] = [];
-        if ($request->pubs){
-            $data['pubs'] = $request->pubs;
-        }
-        if ($request->selected_writers){
-            $data['selected_writers'] = $request->selected_writers;
-        }
-        if ($request->topics){
-            $data['topics'] = $request->topics;
-        }
-
-        if($request->sort_by == 'name_a_to_z'){
-            $order_by = 'title';
-            $order_to = 'asc';
-        }elseif($request->sort_by == 'name_z_to_a'){
-            $order_by = 'title';
-            $order_to = 'desc';
-        }elseif($request->sort_by == 'price_high_to_low'){
-            $order_by = 'regular_price';
-            $order_to = 'desc';
-        }elseif($request->sort_by == 'price_low_to_high'){
-            $order_by = 'regular_price';
-            $order_to = 'asc';
-        }elseif($request->sort_by == 'new_first'){
-            $order_by = 'created_at';
-            $order_to = 'asc';
-        }elseif($request->sort_by == 'old_first'){
-            $order_by = 'created_at';
-            $order_to = 'desc';
-        }else{
-            $order_by = 'id';
-            $order_to = 'desc';
-        }
-
-
         $data['request'] = $request;
-
-
-        if (count($data['pubs']) > 0 && count($data['selected_writers']) > 0){
-            $data['products'] = Product::whereHas('sub_categories', function ($query) use(&$data){
-                    if (count($data['topics']) > 0){
-                        $query->whereIn('sub_categories.id', $data['topics']);
-                    }
-                })
-                ->whereIn('publication_id', $data['pubs'])
-                ->whereIn('writer_id', $data['selected_writers'])
-                ->orderBy($order_by, $order_to)
-                ->paginate(12);
-        } elseif (count($data['pubs']) > 0){
-            $data['products'] = Product::whereHas('sub_categories', function ($query) use(&$data){
-                    if (count($data['topics']) > 0){
-                        $query->whereIn('sub_categories.id', $data['topics']);
-                    }
-                })
-                ->whereIn('publication_id', $data['pubs'])
-                ->orderBy($order_by, $order_to)
-                ->paginate(12);
-        }elseif (count($data['selected_writers']) > 0){
-            $data['products'] = Product::whereHas('sub_categories', function ($query) use(&$data){
-                    if (count($data['topics']) > 0){
-                        $query->whereIn('sub_categories.id', $data['topics']);
-                    }
-                })
-                ->whereIn('writer_id', $data['selected_writers'])
-                ->orderBy($order_by, $order_to)
-                ->paginate(12);
-        }else{
-            $data['products'] = Product::whereHas('sub_categories', function ($query) use(&$data){
-                    if (count($data['topics']) > 0){
-                        $query->whereIn('sub_categories.id', $data['topics']);
-                    }
-                })
-                ->orderBy($order_by, $order_to)
-                ->paginate(12);
-        }
-
-        if ($request->search){
-            $data['products'] = Product::where('title', 'like', '%' . $request->search . '%')
-                ->orWhere('banglish_title', 'like', '%' . $request->search . '%')
-                ->orWhere('product_code', 'like', $request->search)
-                ->paginate(12);
-        }
-
         $data['writers'] = Writer::all();
         $data['publications'] = Publication::all();
         $data['sub_categories'] = SubCategory::all();
 
         $data['title'] = 'সকল বই';
+        $data['query_url'] = parse_url(url()->full(),PHP_URL_QUERY);
+
         return view('frontend.pages.book_shop', $data);
     }
 

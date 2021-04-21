@@ -85,17 +85,17 @@ function shortText($string,$length = 50){
 
 if (! function_exists('img')) {
 
-    function img($image_name = '') {
+    function img($image_name = '',$empty_img_type = 'product') {
 
         if ($image_name == '') {
-            return empty_img();
+            return empty_img($empty_img_type);
         }
 
         if (file_exists(public_path().'/storage/'.$image_name)) {
             return asset('/storage/'.$image_name);
         }
 
-        return empty_img();
+        return empty_img($empty_img_type);
 
     }
 }
@@ -103,10 +103,19 @@ if (! function_exists('img')) {
 
 if (! function_exists('empty_img')) {
 
-    function empty_img() {
+    function empty_img($empty_img_type) {
 
-        return asset('./images/thumbnail.png');
+        if ($empty_img_type == 'product'){
+            return asset('./images/thumbnail.png');
+        }elseif($empty_img_type == 'slider'){
+            return asset('./images/thumbnail.png');
+        }
 
     }
 }
 
+if(! function_exists('notification_url')){
+    function notification_url($url){
+        return url($url);
+    }
+}

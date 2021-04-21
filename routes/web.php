@@ -122,12 +122,17 @@ Route::group(['middleware'=> 'editor'], function (){
     Route::post('manage_product_bulk_cation', 'Ecommerce\ProductController@bulk_action')->name('manage_product.bulk_action');
     Route::resource('manage_product_image', 'Image\ProductimageController'); // edit method for delete one and show for delete all
     Route::resource('manage_product_page', 'Image\ProductpageController'); // edit method for delete one and show for delete all
+
+    Route::get('settings','Admin\SettingController@index')->name('settings');
+    Route::post('settings.password','Admin\SettingController@password')->name('settings.password');
+    Route::post('settings.user_info','Admin\SettingController@user_info')->name('settings.user_info');
 });
 
 Route::group(['middleware'=> 'manager'], function (){
     Route::resource('manage_offer', 'Admin\OfferController');
     Route::resource('manage_coupon', 'Admin\CouponController');
     Route::resource('order_processing', 'Admin\OrderController');
+    Route::post('order_customize', 'Admin\OrderController@order_customize')->name('order_customize');
 });
 
 

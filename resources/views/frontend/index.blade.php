@@ -1,8 +1,8 @@
 @extends('frontend.layout.frontend_layout')
 
-@section('css')
+@push('header_css')
     <link rel="stylesheet" href="{{ asset('frontend/plugins/slider/css/jquery.animateSlider.css') }}">
-@endsection
+@endpush
 
 @section('main_content')
     <style>
@@ -71,63 +71,29 @@
         }
     </style>
 
-    <ul class="anim-slider">
-
-        <!-- Slide No1 -->
-        <li class="anim-slide">
-            <p class="slider_text_1">সবচেয়ে বেশি চলছে</p>
-            <h1 class="slider_sub_title_1">প্রিয়জনদেরকে গিফট করুন</h1>
-            <h2 class="slider_main_title_1">প্রোডাক্টিভ মুসলিম</h2>
-            <a href="#" class="slider_button_1">বিস্তারিত দেখুন</a>
-            <img src="assets/img/book.png" class="slider_book_1" alt="">
-        </li>
-
-        <!-- Slide No1 -->
-        <li class="anim-slide">
-            <p class="slider_text_2">সবচেয়ে বেশি চলছে</p>
-            <h1 class="slider_sub_title_2">প্রিয়জনদেরকে গিফট করুন কারণ সকাল থেকে </h1>
-            <h2 class="slider_main_title_2">প্রোডাক্টিভ মুসলিম</h2>
-            <a href="#" class="slider_button_2">বিস্তারিত দেখুন</a>
-            <img src="assets/img/book2.png" class="slider_book_2" alt="">
-        </li>
-
-        <!-- Slide No1 -->
-        <li class="anim-slide">
-            <p class="slider_text_1">সবচেয়ে বেশি চলছে</p>
-            <h1 class="slider_sub_title_1">প্রিয়জনদেরকে গিফট করুন</h1>
-            <h2 class="slider_main_title_1">প্রোডাক্টিভ মুসলিম</h2>
-            <a href="#" class="slider_button_1">বিস্তারিত দেখুন</a>
-            <img src="assets/img/book3.png" class="slider_book_1" alt="">
-        </li>
 
 
-        <!-- Arrows -->
-        <nav class="anim-arrows">
-            <span class="anim-arrows-prev"></span>
-            <span class="anim-arrows-next"></span>
-        </nav>
-        <!-- Dynamically created dots -->
+    <div uk-slideshow="animation: fade; autoplay: true; finite: false; ratio: 8:2; pause-on-hover: true; autoplay-interval: 4000" class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
 
-    </ul>
+        <ul class="uk-slideshow-items">
+            @foreach($sliders as $single_slider)
+                <li>
+                    <img src="{{ img($single_slider->image) }}" alt="Slider" uk-cover>
 
+                    <div class="{{ $single_slider->title_position ?? 'uk-position-center-left' }} uk-position-large">
+                        <div class="uk-transition-slide-right">
+                            <h2 class="h2">{{ $single_slider->title }}</h2>
+                            <h3 class="h3">{{ $single_slider->sub_title }}</h3>
+                        </div>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
 
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
 
-
-
-
-{{--    --}}{{-- normal slider start --}}
-{{--    <div class="slider_parent">--}}
-{{--        <i class="fas fa-arrow-left prev_arrow"></i>--}}
-{{--        <i class="fas fa-arrow-right next_arrow"></i>--}}
-{{--        <div class="home_slider">--}}
-{{--            @foreach($sliders as $single_slider)--}}
-{{--            <div class="single_slider">--}}
-{{--                <img src="{{ asset('storage') }}/{{ $single_slider->image }}" alt="{{ $single_slider->title }}">--}}
-{{--            </div>--}}
-{{--            @endforeach--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    --}}{{-- normal slider end --}}
+    </div>
 
 
 
@@ -138,27 +104,43 @@
         @if($section->type == 1 || $section->type == 2)
             {{-- its a category or sub category section--}}
 
-            <section class="teachers-area d-flex {{ ($loop->index + 1) % 2 == 0 ? 'ebeef5-bg-color' : '' }} justify-content-center pt-70 pb-70">
+            <section class="teachers-area d-flex {{ ($loop->index + 1) % 2 == 0 ? 'ebeef5-bg-color' : '' }} justify-content-center pt-50 pb-70">
                 <div class="custom_container">
-                    <div class="section-title" style="max-width: 100%; text-align: left; margin-bottom: 30px; border-bottom: 1px solid beige; padding-bottom: 10px;">
+                    <div class="section-title mb-0 mb-md-3" style="max-width: 100%; text-align: left; border-bottom: 1px solid beige; padding-bottom: 10px;">
                         <h2 style="font-size: 26px;">{{ $section->section_title }}</h2>
                     </div>
                     <div class="row justify-content-center">
 
                         @if($section->type == 1)
                             {{-- its a category not a sub category --}}
-                            @foreach($section->category->get_products as $product)
-                                <div class="col-lg-3 col-xl-2 col-md-4 col-6">
-                                    <x-product :product="$product"/>
-                                </div>
-                            @endforeach
+                            <div uk-slider="pause-on-hover: true; sets: true; autoplay: true; finite: false; autoplay-interval: 7000" class="position-relative">
+                                <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-4@s uk-child-width-1-6@m uk-grid">
+
+                                @foreach($section->category->get_products as $product)
+                                    <li>
+                                        <x-product :product="$product"/>
+                                    </li>
+                                @endforeach
+                                </ul>
+
+                                <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                                <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>                            </div>
                         @else
                             {{-- its a sub category not a category--}}
-                            @foreach($section->sub_category->get_products as $product)
-                                <div class="col-lg-3 col-xl-2 col-md-4 col-6">
-                                    <x-product :product="$product"/>
-                                </div>
-                            @endforeach
+
+                            <div uk-slider="pause-on-hover: true; sets: true;autoplay: false; finite: false; autoplay-interval: 7000" class="position-relative">
+                                <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-4@s uk-child-width-1-6@m uk-grid">
+
+                                @foreach($section->sub_category->get_products as $product)
+                                    <li>
+                                        <x-product :product="$product"/>
+                                    </li>
+                                @endforeach
+
+                                </ul>
+                                <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                                <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                            </div>
                         @endif
                     </div>
                     <div class="text-center">
@@ -176,7 +158,7 @@
             {{-- its a writer section --}}
             <section class="teachers-area ebeef5-bg-color d-flex justify-content-center py-5">
                 <div class="custom_container">
-                    <div class="section-title" style="max-width: 100%; text-align: left; margin-bottom: 30px; border-bottom: 1px solid white; padding-bottom: 10px;">
+                    <div class="section-title mb-0 mb-md-3" style="max-width: 100%; text-align: left; border-bottom: 1px solid beige; padding-bottom: 10px;">
                         <h2 style="font-size: 26px;">{{ $section->section_title }}</h2>
                     </div>
 
@@ -254,9 +236,8 @@
 
 @endsection
 
-@section('javascript')
+@push('footer_javascript')
 
-{{--    <script src="{{ asset('frontend/plugins/slick_slider/slick.min.js') }}"></script>--}}
     <script src="{{ asset('frontend/plugins/slider/js/jquery.animateSlider.js') }}"></script>
 
     <script>
@@ -384,4 +365,4 @@
 
 
     </script>
-@endsection
+@endpush

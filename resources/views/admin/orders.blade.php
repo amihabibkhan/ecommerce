@@ -36,10 +36,9 @@
                                 <td>
                                     <select name="status" class="form-control">
                                         <option disabled selected>Select an status</option>
-                                        <option value="1">Pending</option>
-                                        <option value="2">Processing</option>
-                                        <option value="3">Cancel</option>
-                                        <option value="4">Delivered</option>
+                                        @foreach($order_statuses as $order_status)
+                                            <option value="{{ $order_status->id }}">{{ $order_status->title }}</option>
+                                        @endforeach
                                     </select>
                                 </td>
                                 <td><input type="submit" class="form-control btn btn-success" value="Search" ></td>

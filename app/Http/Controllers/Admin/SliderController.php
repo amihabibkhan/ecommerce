@@ -21,15 +21,6 @@ class SliderController extends Controller
         return view('admin.pages.slider', compact('sliders'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -46,6 +37,7 @@ class SliderController extends Controller
         $slider_image = $request->file('image')->store('slider');
         Slider::create([
            'title' => $request->title,
+           'title_position' => $request->title_position,
            'image' => $slider_image,
         ]);
 
@@ -53,27 +45,6 @@ class SliderController extends Controller
         return back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -98,6 +69,7 @@ class SliderController extends Controller
         // update database
         $slider->update([
             'title' => $request->title,
+            'title_position' => $request->title_position,
             'image' => $slider_image,
         ]);
 

@@ -2,7 +2,7 @@
 
 @section('main_content')
 
-    <x-inner-page-banner :title="$title" />
+{{--    <x-inner-page-banner :title="$title" />--}}
 
     <!-- Start Shop Area -->
     <div class="shop-area ptb-70">
@@ -33,7 +33,7 @@
 
                                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                         <div class="card-body" style="max-height: 300px; overflow-x: hidden; overflow-y: scroll">
-                                            @foreach($publications as $single_publication)
+                                            @foreach($publications as $key => $single_publication)
                                                 <div class="custom-control custom-checkbox mr-sm-2 mb-2">
                                                     <input type="checkbox" {{ in_array($single_publication->id, $pubs) ? 'checked' : '' }} name="pubs[]" onchange="filterBook()" value="{{ $single_publication->id }}" class="custom-control-input" id="field{{ $single_publication->id }}">
                                                     <label class="custom-control-label" for="field{{ $single_publication->id }}">{{ $single_publication->name }}</label>
@@ -78,39 +78,10 @@
                         </div>
                     </form>
 
-
-
-                    <script>
-                        function filterBook() {
-                            document.getElementById('filter_form').submit();
-                            // window.history.pushState("", "", '/newpage');
-                        }
-                    </script>
-
-
-
-
                 </div>
                 <div class="col-lg-8">
                     <div class="shop-card-wrap">
-
-                        <div class="row">
-                            @forelse($products as $product)
-                                <div class="col-lg-4 col-md-4 col-6">
-                                    <x-product :product="$product"/>
-                                </div>
-                            @empty
-                                <div class="col-12 text-center">
-                                    <h2>কোন বই পাওয়া যায়নি!</h2>
-                                </div>
-                            @endforelse
-
-                            <div class="col-lg-12 col-md-12">
-                                <div class="pagination-area">
-                                     {{ $products->links() }}
-                                </div>
-                            </div>
-                        </div>
+                        @livewire('book-shop',['query_url'=>$query_url])
                     </div>
                 </div>
             </div>

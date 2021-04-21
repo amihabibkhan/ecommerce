@@ -36,7 +36,12 @@
         table tr th{
             vertical-align: middle !important;
         }
+        .cursor-pointer{
+            cursor: pointer !important;
+        }
     </style>
+    @livewireStyles
+
 
 </head>
 
@@ -51,7 +56,8 @@
 
         <!-- LOGO -->
         <div class="topbar-left">
-            <a href="{{ route('home') }}" class="logo"><span>Adm<span>in</span></span><i class="mdi mdi-layers"></i></a>
+            @php $userName = auth()->user()->name @endphp
+            <a href="{{ route('home') }}" class="logo"><span>{{ substr($userName,0,strlen($userName) / 2) }}<span>{{ substr($userName,strlen($userName) / 2) }}</span></span><i class="mdi mdi-layers"></i></a>
         </div>
 
         <!-- Button mobile view to collapse sidebar menu -->
@@ -79,52 +85,7 @@
                     <!-- Right(Notification) -->
                     <ul class="nav navbar-right">
                         <li>
-                            <a href="#" class="right-menu-item dropdown-toggle" data-toggle="dropdown">
-                                <i class="mdi mdi-bell"></i>
-                                <span class="badge up badge-success badge-pill">4</span>
-                            </a>
-
-                            <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right dropdown-lg user-list notify-list">
-                                <li>
-                                    <h5>Notifications</h5>
-                                </li>
-                                <li>
-                                    <a href="#" class="user-list-item">
-                                        <div class="icon bg-info">
-                                            <i class="mdi mdi-account"></i>
-                                        </div>
-                                        <div class="user-desc">
-                                            <span class="name">New Signup</span>
-                                            <span class="time">5 hours ago</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="user-list-item">
-                                        <div class="icon bg-danger">
-                                            <i class="mdi mdi-comment"></i>
-                                        </div>
-                                        <div class="user-desc">
-                                            <span class="name">New Message received</span>
-                                            <span class="time">1 day ago</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="user-list-item">
-                                        <div class="icon bg-warning">
-                                            <i class="mdi mdi-settings"></i>
-                                        </div>
-                                        <div class="user-desc">
-                                            <span class="name">Settings</span>
-                                            <span class="time">1 day ago</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="all-msgs text-center">
-                                    <p class="m-0"><a href="#">See all Notification</a></p>
-                                </li>
-                            </ul>
+                            @livewire('admin.notification')
                         </li>
 
 
@@ -137,8 +98,8 @@
                                 <li>
                                     <h5>Hi, {{ auth::user()->name }}</h5>
                                 </li>
-                                <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-user m-r-5"></i> Profile</a></li>
-                                <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-settings m-r-5"></i> Settings</a></li>
+                                <li><a href="{{ route('settings') }}" class="dropdown-item"><i class="ti-user m-r-5"></i> Profile</a></li>
+                                <li><a href="{{ route('settings') }}" class="dropdown-item"><i class="ti-settings m-r-5"></i> Settings</a></li>
                                 <li>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item"><i class="ti-power-off m-r-5"></i> Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -148,7 +109,9 @@
                             </ul>
                         </li>
 
-                    </ul> <!-- end navbar-right -->
+                    </ul>
+                    <!-- end navbar-right -->
+
                 </div>
 
             </div><!-- end container -->
@@ -298,10 +261,9 @@
         <div class="content">
             <div class="container-fluid">
 
-
                 <div class="row">
                     <div class="col-12">
-                        <div class="page-title-box">
+                        <div class="page-title-box py-2">
                             <h4 class="page-title">
                                 @yield('page_title')
                             </h4>
@@ -331,6 +293,7 @@
 <script>
     var resizefunc = [];
 </script>
+
 
 <!-- jQuery  -->
 <script src="{{ asset('admin') }}/js/jquery.min.js"></script>
@@ -362,9 +325,11 @@
     @endforeach
     @endif
 </script>
+@livewireScripts
 
 
 @yield('javascript')
+@stack('footer_javascript')
 
 </body>
 </html>

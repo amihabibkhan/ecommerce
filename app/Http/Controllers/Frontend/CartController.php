@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Frontend;
 use App\Coupon;
 use App\Http\Controllers\Controller;
 use App\Product;
+use App\VisitedProduct;
 use Brian2694\Toastr\Facades\Toastr;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -38,6 +40,7 @@ class CartController extends Controller
 
             return response()->json([
                 'quantity' => count(Cart::content()),
+                'intotal' => Cart::subtotal(0, '', ''),
             ]);
         }
 
@@ -119,6 +122,7 @@ class CartController extends Controller
     // show cart page
     public function showCart(Request $request)
     {
+
         $coupon = false;
         $coupon_code = $request->coupon_code;
         if ($request->coupon_code){
@@ -130,6 +134,7 @@ class CartController extends Controller
                 Toastr::error('Sorry! invalid coupon code');
             }
         }
+//        $cart = Cart::content();
 
         return view('frontend.pages.cart_n_checkout.cart', compact(['coupon','coupon_code']));
     }

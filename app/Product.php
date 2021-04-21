@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\ProductWithWriter;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
@@ -88,4 +89,17 @@ class Product extends Model
     {
         return $this->hasMany('App\Review')->where('status', 2);
     }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ProductWithWriter());
+    }
+
 }
