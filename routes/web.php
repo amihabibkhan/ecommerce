@@ -133,6 +133,7 @@ Route::group(['middleware'=> 'manager'], function (){
     Route::resource('manage_coupon', 'Admin\CouponController');
     Route::resource('order_processing', 'Admin\OrderController');
     Route::post('order_customize', 'Admin\OrderController@order_customize')->name('order_customize');
+    Route::get('profit', 'Admin\ProfitController@profit')->name('profit');
 });
 
 

@@ -3,7 +3,10 @@
 @section('main_content')
 
     <style>
-
+        .table-sm td, .table-sm th {
+            padding: .3rem !important;
+            background: #fff !important;
+        }
         #invoice{
             padding: 30px;
         }
@@ -209,11 +212,161 @@
 
         }
     </style>
+    <style>
 
+        .label {
+            position: relative;
+            background-color: #FFF;
+            min-height: 680px;
+            padding: 15px
+        }
+
+        .label header {
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #3989c6
+        }
+
+        .label .company-details {
+            text-align: right
+        }
+
+        .label .company-details .name {
+            margin-top: 0;
+            margin-bottom: 0
+        }
+
+        .label .contacts {
+            margin-bottom: 20px
+        }
+
+        .label .label-to {
+            text-align: left
+        }
+
+        .label .label-to .to {
+            margin-top: 0;
+            margin-bottom: 0
+        }
+
+        .label .label-details {
+            text-align: right
+        }
+
+        .label .label-details .label-id {
+            margin-top: 0;
+            color: #3989c6
+        }
+
+        .label main {
+            padding-bottom: 50px
+        }
+
+        .label main .thanks {
+            margin-top: 0px;
+            font-size: 2em;
+            margin-bottom: 50px
+        }
+
+        .label main .notices {
+            padding-left: 6px;
+            border-left: 6px solid #3989c6
+        }
+
+        .label main .notices .notice {
+            font-size: 1.2em
+        }
+
+        .label table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-bottom: 20px
+        }
+
+        .label table td,.label table th {
+            padding: 15px;
+            background: #eee;
+            border-bottom: 1px solid #fff
+        }
+
+        .label table th {
+            white-space: nowrap;
+            font-weight: 400;
+            font-size: 16px
+        }
+
+        .label table td h3 {
+            margin: 0;
+            font-weight: 400;
+            color: #3989c6;
+            font-size: 1.2em
+        }
+
+        .label table .qty,.label table .total,.label table .unit {
+            text-align: right;
+            font-size: 1.2em
+        }
+
+        .label table .no {
+            color: #fff;
+            font-size: 1.6em;
+            background: #3989c6
+        }
+
+        .label table .unit {
+            background: #ddd
+        }
+
+        .label table .total {
+            background: #3989c6;
+            color: #fff
+        }
+
+        .label table tbody tr:last-child td {
+            border: none
+        }
+
+        .label table tfoot td {
+            background: 0 0;
+            border-bottom: none;
+            white-space: nowrap;
+            text-align: right;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-top: 1px solid #aaa
+        }
+
+        .label table tfoot tr:first-child td {
+            border-top: none
+        }
+
+        .label table tfoot tr:last-child td {
+            color: #3989c6;
+            font-size: 1.4em;
+            border-top: 1px solid #3989c6
+        }
+
+        .label table tfoot tr td:first-child {
+            border: none
+        }
+
+        .label footer {
+            width: 100%;
+            text-align: center;
+            color: #777;
+            border-top: 1px solid #aaa;
+            padding: 8px 0
+        }
+
+    </style>
 
     <div class="ptb-70">
         <div class="container">
             <div id="invoice">
+                @if($order_details->updator)
+                    <p class="hide_in_invoice">Last Updated By: {{ $order_details->updator['name'] }}</p>
+                @endif
                 <div class="toolbar hidden-print">
                     <form action="{{ route('order_processing.update', $order_details->id) }}" method="POST">
                         @csrf
@@ -237,6 +390,7 @@
                     </form>
                     <hr>
                 </div>
+
                 <div class="invoice overflow-auto">
                     <div style="min-width: 600px">
                         <header>
@@ -355,6 +509,90 @@
                         </main>
                         <footer>
                             Invoice was generated automatically at {{ date('d M, Y') }}
+                        </footer>
+                    </div>
+                    <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+                    <div></div>
+                </div>
+
+                <div class="label overflow-auto">
+                    <div style="max-width: 350px">
+                        <header class="pb-2 mb-1">
+                            <div class="row">
+                                <div class="col-4" style="border-right: 1px solid #333">
+                                    <a target="_blank" href="{{ route('index') }}">
+                                        <img class="w-100" src="{{ img($options->where('name','logo')->first()->value ?? '') }}" data-holder-rendered="true" />
+                                    </a>
+                                </div>
+                                <div class="col-2">
+                                    <span style="vertical-align: top">From: </span>
+                                </div>
+                                <div class="col-6 pl-0 company-details">
+                                    <h5 class="name">
+                                        <a target="_blank" href="{{ route('index') }}" class="text-uppercase" style="text-decoration: none;">
+                                            {{ config('app.name') }}
+                                        </a>
+                                    </h5>
+                                    <p style="font-size: 8px;" class="m-0">{{ $options->where('name','address')->first()->value ?? '' }}</p>
+                                    <p style="font-size: 8px;" class="m-0">{{ $options->where('name','phone_1')->first()->value ?? '' }}</p>
+                                    <p style="font-size: 8px;" class="m-0">{{ $options->where('name','email_1')->first()->value ?? '' }}</p>
+                                </div>
+                            </div>
+                        </header>
+                        <main>
+                            <div class="row contacts mb-0">
+                               <div class="col-4 d-flex align-content-center flex-wrap">
+                                   <img src="{{ asset('admin/images/book.png') }}" alt="BOOK" class="img-fluid">
+                               </div>
+                                <div class="col-8 invoice-to">
+                                    <div class="text-gray-light">TO:</div>
+
+                                    <table class="table table-sm mb-0">
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>{{ $order_details->shipping_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address</td>
+                                            <td>{{ $order_details->shipping_full_address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>District</td>
+                                            <td>{{ $order_details->shipping_district['name'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone</td>
+                                            <td>{{ $order_details->phone }}</td>
+                                        </tr>
+                                        @if($order_details->shipping_emergency_phone)
+                                        <tr>
+                                            <td>Emergency Phone</td>
+                                            <td>{{ $order_details->shipping_emergency_phone }}</td>
+                                        </tr>
+                                        @endif
+                                        @if($order_details->shipping_email)
+                                        <tr>
+                                            <td>E-mail</td>
+                                            <td>{{ $order_details->shipping_email }}</td>
+                                        </tr>
+                                        @endif
+                                    </table>
+                                </div>
+                            </div>
+                            <h5 class="m-0 border-top border-bottom py-2"><b>Order Nr: #{{ $order_details->id }}</b></h5>
+                            <h5 class="m-0 border-bottom py-2"><b>Reference: {{ $order_details->name }}</b></h5>
+                            <div class="row mb-0">
+                                <div class="col-12">
+                                    <p class="h4 m-0 pb-2"><b>Item Nr.: {{ $order_details->id }}</b></p>
+                                    <p class="text-muted m-0">Delivery Instructions</p>
+                                    @if($order_details->shipping_note)
+                                        <p class="text-muted m-0">{{ $order_details->shipping_note }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </main>
+                        <footer>
+                            Label was generated automatically at {{ date('d M, Y') }}
                         </footer>
                     </div>
                     <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->

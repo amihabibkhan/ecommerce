@@ -2,9 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
+use App\Category;
+use App\MainCategory;
 use App\Order;
 use App\OrderStatus;
+use App\Product;
+use App\Publication;
 use App\Role;
+use App\SubCategory;
+use App\Tag;
+use App\Translator;
+use App\Writer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -42,7 +51,18 @@ class HomeController extends Controller
     {
         $orderStatus = OrderStatus::with(['pendings', 'processings', 'cancels', 'deliverts'])->get();
         $roles = Role::with(['super_admins', 'managers', 'general_users', 'editors'])->get();
-        return view('admin.dashboard',compact(['orderStatus','roles']));
+
+        $data['publications'] = Publication::count();
+        $data['writers'] = Writer::count();
+        $data['translators'] = Translator::count();
+        $data['products'] = Product::count();
+        $data['brands'] = Brand::count();
+        $data['main_categories'] = MainCategory::count();
+        $data['categories'] = Category::count();
+        $data['sub_categories'] = SubCategory::count();
+        $data['tags'] = Tag::count();
+
+        return view('admin.dashboard',compact(['orderStatus','roles','data']));
     }
 
     public function account_settings()

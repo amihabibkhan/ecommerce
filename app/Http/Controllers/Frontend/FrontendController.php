@@ -74,7 +74,7 @@ class FrontendController extends Controller
             ['status',  2]
         ])->count();
 
-        $page_type = true;
+        $page_type = 'single_product';
 
         $average_rating = rating_calculator($product->reviews->sum('ratings'), $total_review);
 
@@ -82,6 +82,7 @@ class FrontendController extends Controller
                             ->orWhere('publication_id', $product->publication_id)
                             ->paginate(4);
         $single_product = $product;
+
 
         return view('frontend.pages.single_product', compact( 'product', 'single_product','total_review', 'average_rating', 'related_product','page_type'));
     }

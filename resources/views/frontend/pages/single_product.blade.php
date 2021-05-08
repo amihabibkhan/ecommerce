@@ -438,6 +438,19 @@
     </section>
 
 
+    <div class="d-md-none d-block uk-position-fixed uk-position-bottom">
+        @if(!exists_in_cart($product->id))
+            <button class="default-btn mr-md-3 add_to_cart w-100" style="opacity: 1" data-operate="addition" data-id="{{ $product->id }}" data-qty="1">
+                কার্টে যুক্ত করুন <i class="fas fa-shopping-cart"></i>
+            </button>
+        @else
+            <button disabled class="btn btn-success w-100" style="cursor: not-allowed; opacity: 1">
+                কার্টে যুক্ত আছে <i class="text-light bx bx-check"></i>
+            </button>
+        @endif
+    </div>
+
+
 
 
 

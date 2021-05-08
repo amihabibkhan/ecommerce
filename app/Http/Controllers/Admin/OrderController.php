@@ -82,7 +82,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $options = Option::get();
-        $order_details = Order::findOrFail($id);
+        $order_details = Order::with(['updator','shipping_district'])->findOrFail($id);
         return view('admin.invoice', compact(['order_details','options']));
     }
 
@@ -98,6 +98,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->status = $request->status;
+        $order->updated_by = auth()->id();
         $order->save();
 
         Toastr::success('Action applied');

@@ -42,7 +42,7 @@
     </style>
     @livewireStyles
 
-
+@stack('header_css')
 </head>
 
 
@@ -131,6 +131,12 @@
                         <a href="{{ route('home') }}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span> Dashboard </span> </a>
                     </li>
 
+
+                    @if(auth::user()->role_id == 1)
+                        <li>
+                            <a href="{{ route('profit') }}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span> Account and Profit </span> </a>
+                        </li>
+                    @endif
 
                     @if(auth::user()->role_id == 1 || auth::user()->role_id == 2 || auth::user()->role_id == 4)
                         {{-- products --}}

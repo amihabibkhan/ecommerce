@@ -281,12 +281,18 @@
                             @if(Request::segment(2) == $single_menu->slug)
                             active
                             @endif
+
                             @isset($page_type)
                                 @if($page_type ==  'single_product' && $single_product['main_categories'][0]['id'] == $single_menu->id)
                                     active
                                 @endif
+
+                                @if($single_product['main_categories'][0]['id'] == 1)
+                                    @if ($loop->index == 1) active @endif
+                                @endif
                             @endisset
                             ">
+
                             <a class="nav-link" href="{{ $single_menu->id == 2 ? route('frontend.bookShop'): route('frontend.singleMainCategory', $single_menu->slug) }}">{{ $single_menu->title }}</a>
                         </li>
                     @endforeach
