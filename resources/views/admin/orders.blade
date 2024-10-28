@@ -26,7 +26,7 @@
                                 <td>{{ $single_user->phone }}</td>
                                 <td><x-user-role :role="$single_user->role_id" /></td>
                                 <td>
-                                    @if($single_user->id != auth::id())
+                                    @if($single_user->id != auth()->id())
                                         <a href="{{ route('manage_user.show', $single_user->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure to delete this user?')">Delete User</a>
                                     @endif
                                 </td>

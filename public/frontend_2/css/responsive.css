@@ -1,0 +1,37 @@
+/* large device */
+@media(min-width: 992px) and (max-width: 1199px) {}
+
+/* medium device */
+@media(min-width: 768px) and (max-width: 991px) {
+    footer .footer__section-subtitle {
+        margin-top: 20px;
+    }
+}
+
+/* small device */
+@media(min-width: 576px) and (max-width: 767px) {}
+
+/* extra small and small device */
+@media(max-width: 767px) {
+    .header-top {
+        padding: 15px 0;
+    }
+    .header-top__search-form {
+        margin-top: 15px;
+    }
+
+    footer .footer__section-subtitle {
+        margin-top: 20px;
+    }
+
+    /* all books page css */
+    .all-books .all-books__filter{
+        margin-bottom: 10px;
+    }
+    .all-books .all-books__filter .card-header{
+        border-radius: 3px;
+    }
+}
+
+/* extra small device */
+@media(max-width: 575px) {}

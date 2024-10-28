@@ -1,0 +1,629 @@
+/*
+* Theme: BikironShop
+* Author: Ruhul Amin
+* Version: 1.0.0
+*
+*
+*********** Table of Content **************
+* header top
+* main navbar
+* banner
+* book shelf
+* book row
+* subjects and others
+* footer
+* copyright
+*/
+
+
+/* fonts start */
+@font-face {
+    font-family: 'SolaimanLipi';
+    src: url('../fonts/SolaimanLipi.eot');
+    src: url('../fonts/SolaimanLipi.woff') format('woff'),
+    url('../fonts/SolaimanLipi.ttf') format('truetype'),
+    url('../fonts/SolaimanLipi.svg#SolaimanLipiNormal') format('svg'),
+    url('../fonts/SolaimanLipi.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Kongka';
+    src: url('../fonts/Kongka.eot');
+    src: url('../fonts/Kongka.woff') format('woff'),
+    url('../fonts/Kongka.ttf') format('truetype'),
+    url('../fonts/Kongka.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Kongka.svg#CharuChandanHardStrokeUnicode') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* fonts end */
+
+/* common css start */
+body{
+    font-family: 'SolaimanLipi';
+    background-color: #eaeaea;
+}
+a, a:hover{
+    text-decoration: none;
+}
+ul{
+    list-style-type: none;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+.form-control:focus{
+    box-shadow: unset!important;
+    border-color: black!important;
+}
+/* common css end */
+
+/******************* header top start *******************/
+.header-top{
+    padding: 28px 0;
+    background-color: #fff;
+}
+.header-top__logo{
+    height: 45px;
+    max-width: 100%;
+}
+.header-top__search-form{
+    position: relative;
+}
+.header-top__search-form input{
+    height: 45px;
+    background-color: #eaeaea;
+    border: 0;
+    padding-left: 20px;
+    padding-top: 10px;
+    color: #0f1626;
+    border-radius: 5px;
+}
+.header-top__search-form input:focus{
+    box-shadow: none;
+    background-color: #eaeaea;
+}
+.header-top__search-form__button{
+    border: unset;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    padding: 0 22px;
+    line-height: 45px;
+    background-color: #eaeaea;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.header-top__cart{
+    position: relative;
+    display: inline-block;
+}
+.header-top__cart i{
+    line-height: 45px;
+    font-size: 24px;
+    color: #4d4d4d;
+}
+.header-top__cart span{
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background-color: #0f1626;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    top: 45%;
+    left: 55%;
+}
+.header-top__login-button{
+    height: 40px;
+    margin-top: 5px;
+    background-color: #0f1626;
+    color: #feae01;
+    line-height: 40px;
+    padding: 0 20px;
+    border-radius: 5px;
+    display: inline-block;
+    transition: all .3s;
+}
+.header-top__login-button:hover{
+    color: #fff;
+}
+/******************* header top end *******************/
+
+
+/******************* main navbar start *******************/
+.main-menu {
+    background-color: #0f1626;
+}
+.main-menu .container{
+    position: relative;
+}
+.main-menu .container .main-menu__arrows{
+    position: absolute;
+    right: 0;
+    z-index: 999;
+    background-color: #0f1626;
+    height: 100%;
+}
+.main-menu .container .main-menu__arrows i{
+    padding: 7px 12px;
+    background-color: #feae01;
+    color: #0f1626;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.main-menu .container .main-menu__arrows i.fa-angle-left{
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+.main-menu .container .main-menu__arrows i.fa-angle-right{
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+.main-menu .container .main-menu__arrows i.slick-disabled{
+    color: #ffd477;
+}
+.main-menu .container .main-menu__arrows i.slick-hidden{
+    visibility: hidden;
+}
+.main-menu ul.main-menu__slider {
+    padding: 0;
+    z-index: 99;
+}
+.main-menu ul li {
+    display: inline-block;
+}
+.main-menu ul li a{
+    color: #feae01;
+    display: block;
+    position: relative;
+    padding: 25px;
+}
+.main-menu ul li a::after{
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 0;
+    transition: all .3s;
+    background-color: #feae01;
+    left: 50%;
+    bottom: 15px;
+    transform: translateX(-50%);
+}
+.main-menu ul li.main-menu--active a::after,
+.main-menu ul li a:hover::after{
+    width: calc(100% - 30px);
+}
+/******************* main navbar end *******************/
+
+
+
+/******************* banner start *******************/
+.banner{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.banner .banner__slider{
+    height: 265px;
+    background-color: #0f1626;
+    position: relative;
+    overflow: hidden;
+}
+.banner__slider .row{
+    height: 100%;
+}
+.banner__slider .row .col-7{
+    position: relative;
+}
+.banner__slider .row .col-7::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    right: 14px;
+    z-index: 999;
+    width: 130px;
+    background-color: #0f1626;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 100% 50%);
+}
+
+.banner__slider .row .col-7::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    right: 14px;
+    width: 260px;
+    opacity: .5;
+    z-index: 999;
+    background-color: #feae01;
+    clip-path: polygon(0 0, 50% 0, 100% 50%, 50% 100%, 0 100%, 50% 50%);
+}
+
+.banner__slider .row .col-7 span{
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 70px;
+    width: 260px;
+    z-index: 999;
+    background-color: #feae01;
+    clip-path: polygon(20% 0, 50% 0, 100% 50%, 50% 100%, 20% 100%, 70% 50%)
+}
+
+.banner__slider__text{
+    padding: 30px;
+}
+.banner__slider__text h2{
+    font-family: 'Kongka';
+    color: #fff;
+    font-size: 20px;
+    line-height: 35px;
+    padding: 0 40px;
+    margin-bottom: 20px;
+}
+.banner__slider__text h3{
+    color: #fff;
+    font-size: 16px;
+    padding: 0 40px;
+    margin-bottom: 30px;
+}
+
+.banner__slider__text a{
+    padding: 7px 15px;
+    display: inline-block;
+    background-color: #feae01;
+    color: #000;
+    border-radius: 5px;
+}
+.banner__slider .banner__slider-image img{
+    width: 100%;
+    height: 265px;
+}
+
+.banner__slider .banner__slider-image .slick-dots{
+    position: absolute;
+    padding-left: 0;
+    bottom: 0;
+    left: 100%;
+    width: 100%;
+    z-index: 9999;
+}
+.banner__slider .banner__slider-image .slick-dots li{
+    display: inline-block;
+}
+.banner__slider .banner__slider-image .slick-dots button{
+    color: transparent;
+    height: 20px;
+    background-color: #feae01;
+    width: 20px;
+    border-radius: 50%;
+    margin: 0 5px;
+    border: 2px solid transparent;
+}
+
+.banner__slider .banner__slider-image .slick-dots li.slick-active button{
+    border: 2px solid #feae01;
+    background-color: #0f1626;
+}
+
+.banner__slider__text div.slick-slide{
+    height: 196px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/******************* banner end *******************/
+
+
+/******************* book shelf start *******************/
+.shelf{
+    background-color: #fff;
+    box-shadow: 3px 3px 5px rgba(0,0,0,.2);
+    padding: 10px 20px 20px;
+    margin-bottom: 40px;
+}
+.shelf h2.shelf__title{
+    background-color: #feae01;
+    font-size: 22px;
+    color: #000;
+    padding: 10px 20px;
+    margin: 0 -20px 20px;
+}
+.shelf__books{
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding: 0 50px;
+    white-space: nowrap;
+}
+
+.self__books__single{
+    width: 70px;
+    height: 280px;
+    display: inline-block;
+    background-color: #18023e;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: inset 3px 3px 10px 0px #ffffff69;
+    position: relative;
+    transform: rotate(-25deg);
+    transition: all .5s;
+    margin-right: 4px;
+}
+.self__books__single:hover{
+    transform: rotate(-25deg) scale(1.05);
+}
+.self__books__single .self__books__single__info{
+    height: 70px;
+    width: 280px;
+    box-sizing: border-box;
+    transform: rotate(90deg);
+    position: absolute;
+    left: -105px;
+    top: 106px;
+}
+.self__books__single .self__books__single__info h2,
+.self__books__single .self__books__single__info h3{
+    color: white;
+    margin-bottom: 0;
+    text-align: center;
+}
+.self__books__single .self__books__single__info h2{
+    font-size: 18px;
+    padding-top: 12px;
+}
+.self__books__single .self__books__single__info h3{
+    font-size: 16px;
+    font-weight: normal;
+}
+
+
+.container .single_book:not(:last-child){
+    margin-right: 10px;
+}
+.container .single_book:not(:last-child)::after{
+    height: calc(100% - 55px);
+    width: 5px;
+    background-color: black;
+    position: absolute;
+    right: -5px;
+    content: '';
+    bottom: 3px;
+}
+
+/******************* book shelf end *******************/
+
+
+/******************* book row start *******************/
+.book-row{
+    margin-bottom: 40px;
+}
+.book-row__title{
+    font-size: 16px;
+    background-color: #0f1626;
+    color: #feae01;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+.book-row__single-book {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px rgba(0,0,0,.2);
+    transition: all .2s;
+    margin-bottom: 30px;
+}
+.book-row__single-book:hover {
+    box-shadow: 0 10px 20px -9px black;
+    transform: translateY(-3px);
+}
+.book-row__single-book__image{
+    padding:  20px 20px 10px;
+    display: block;
+}
+.book-row__single-book__image img{
+    width: 100%;
+    height: 100%;
+}
+.book-row__single-boo__title {
+    text-align: center;
+    font-size: 16px;
+    color: #000;
+    height: 38px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.book-row__single-boo__title a{
+    color: #000;
+}
+.book-row__single-boo__author {
+    text-align: center;
+    font-size: 14px;
+    color: #0f1626;
+    white-space: nowrap;
+    width: calc(100% - 20px);
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+.book-row__single-boo__price {
+    text-align: center;
+    font-size: 16px;
+    color: #0f1626;
+    border-top: 1px solid #cfd0d4;
+    padding: 7px 0;
+    margin-bottom: 0;
+}
+.book-row__single-boo__price del{
+    font-size: 14px;
+    opacity: .8;
+}
+.book-row__single-boo__buy-icon {
+    text-align: center;
+    font-size: 16px;
+    color: #feae01;
+    padding: 7px 0;
+    background-color: #0f1626;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    display: block;
+    transition: all .3s;
+    border: unset;
+    width: 100%;
+}
+.book-row__single-boo__buy-icon i{
+    margin-right: 5px;
+}
+.book-row__single-boo__buy-icon:hover{
+    color: #fff;
+    cursor: pointer;
+}
+.all-button{
+    width: 120px;
+    padding: 8px 0;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #0f1626;
+    color: #feae01;
+    transition: all .3s;
+}
+.all-button:hover{
+    color: #fff;
+}
+/******************* book row end *******************/
+
+
+/******************* subjects and others start *******************/
+.subjects{
+    margin-bottom: 40px;
+}
+.subjects ul.nav{
+    font-size: 16px;
+    background-color: #0f1626;
+    color: #feae01;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.subjects .nav-pills .nav-link{
+    padding: 6px 15px;
+    color: #feae01;
+}
+.subjects .nav-pills .nav-link.active,
+.subjects .nav-pills .show>.nav-link{
+    background-color: #feae01;
+    color: #000;
+    border-radius: 0;
+}
+.subjects__item{
+    display: block;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 3px 3px 5px rgba(0,0,0, .2);
+    color: #0f1626;
+    transition: all .3s;
+    margin-bottom: 10px;
+}
+.subjects__item:hover{
+    background-color: #feae01;
+    color: #0f1626;
+    font-weight: bold;
+}
+.all-button--subject{
+    margin-top: 20px;
+}
+
+/******************* subjects and others end *******************/
+
+/******************* footer start *******************/
+footer{
+    background-color: #feae01;
+    padding: 60px 0 40px;
+    color: #000
+}
+footer .footer__about-title{
+    text-align: center;
+    font-weight: bold;
+    font-size: 44px;
+    margin-bottom: 20px;
+}
+footer .footer__social-media{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    border: 1px solid #000;
+    color: #000;
+    display: inline-block;
+    margin-right: 10px;
+    transition: all .3s;
+}
+footer .footer__social-media:hover{
+    background-color: #000;
+    color: #feae01;
+}
+footer .footer__section-subtitle{
+    font-size: 24px;
+    color: #000;
+    margin-bottom: 20px;
+    padding-left: 12px;
+}
+footer .footer__link-item{
+    display: block;
+    color: #000;
+    border-bottom: 1px solid #d49100;
+    transition: all .3s;
+    padding: 7px 12px;
+}
+footer .footer__link-item:hover{
+    background-color: #0f1626;
+    color: #feae01;
+}
+/******************* footer end *******************/
+
+
+/******************* copyright start *******************/
+.copyright{
+    background-color: #000;
+    text-align: center;
+}
+.copyright p{
+    margin-bottom: 0;
+    padding: 15px;
+    color: #feae01;
+}
+.copyright p a{
+    color: #fff;
+}
+/******************* copyright end *******************/
+
+.not_image{
+    border: 1px solid #dddddd;
+    position: relative;
+    background-image: linear-gradient( 45deg, #ffd280, #b5f2f7, #ffffbc, #c5fdf8);
+}
+.not_image span{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+    left: 0;
+}

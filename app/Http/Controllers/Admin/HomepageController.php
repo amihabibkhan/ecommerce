@@ -130,12 +130,16 @@ class HomepageController extends Controller
         // if type is writer
         if ($request->type == 3){
             $new_item->section_title = 'জনপ্রিয় লেখকগণ';
+        }elseif ($request->type == 4){
+            $new_item->section_title = 'এই সপ্তাহের অফার';
+        }elseif ($request->type == 5){
+            $new_item->section_title = 'একেবারে নতুন বইয়ের তালিকা';
+        }elseif ($request->type == 6){
+            $new_item->section_title = 'At a Glance';
+        }else{
+            $new_item->section_title = 'Blank';
         }
 
-        // if type is offer
-        if ($request->type == 4){
-            $new_item->section_title = 'এই সপ্তাহের অফার';
-        }
         if ($request->section_title){
             $new_item->section_title = $request->section_title;
         }

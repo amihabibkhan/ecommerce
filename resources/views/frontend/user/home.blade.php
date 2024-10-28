@@ -2,12 +2,12 @@
 
 @section('main_content')
 
-    <x-inner-page-banner :title="auth::user()->name" />
+    <x-inner-page-banner :title="auth()->user()->name" />
 
     <div class="dashboard my-5">
         <div class="container">
             <div class="card">
-                <h5 class="card-header mt-0">স্বাগতম {{ auth::user()->name }}</h5>
+                <h5 class="card-header mt-0">স্বাগতম {{ auth()->user()->name }}</h5>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">

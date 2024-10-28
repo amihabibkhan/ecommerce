@@ -54,7 +54,7 @@ Default Style
 ============================*/
 @font-face {
   font-family: "kalpurush";
-  src: url("../fonts/kalpurush.ttf");
+  src: url("../../assets/fonts/kalpurush.ttf");
 }
 
 body{
@@ -424,7 +424,7 @@ Modal Newsletter Area Style
 }
 
 .modal-newsletter-area .newsletter-img {
-  background-image: url(../img/newsletter-img.jpg);
+  background-image: url(../../assets/img/newsletter-img.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -909,7 +909,7 @@ Nav Area Style
 Banner Area Style
 ======================================================*/
 .banner-area {
-  background-image: url(../img/banner-img/banner-bg-1.png);
+  background-image: url(../../assets/img/banner-img/banner-bg-1.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1087,7 +1087,7 @@ Banner Area Style
 }
 
 .banner-area-three {
-  background-image: url(../img/banner-img/banner-bg-3.jpg);
+  background-image: url(../../assets/img/banner-img/banner-bg-3.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1347,15 +1347,10 @@ Education Area Style
 }
 
 .education-img {
-  background-image: url(../img/education-img.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
-}
-
-.education-img img {
-  display: none;
 }
 
 .education-content {
@@ -1617,7 +1612,7 @@ Course Area Style
 }
 
 .courses-area-three {
-  background-image: url(../img/course-bg-img.jpg);
+  background-image: url(../../assets/img/course-bg-img.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1780,7 +1775,7 @@ Counter Area Style
 Enroll Area Style
 ======================================================*/
 .enroll-area {
-  background-image: url(../img/enroll-bg.jpg);
+  background-image: url(../../assets/img/enroll-bg.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -2000,7 +1995,7 @@ Event Area Style
 }
 
 .event-area-two {
-  background-image: url(../img/event-img/event-bg-shape.png);
+  background-image: url(../../assets/img/event-img/event-bg-shape.png);
   background-position: top;
   background-repeat: no-repeat;
   overflow: hidden;
@@ -2167,7 +2162,7 @@ Event Area Style
 }
 
 .event-img-three {
-  background-image: url(../img/event-img-2.jpg);
+  background-image: url(../../assets/img/event-img-2.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -2314,7 +2309,7 @@ Feedback Area Style
 }
 
 .feedback-area.feedback-area-three {
-  background-image: url(../img/feedback-img/feedback-bg.jpg);
+  background-image: url(../../assets/img/feedback-img/feedback-bg.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -2370,7 +2365,7 @@ Feedback Area Style
 }
 
 .feedback-area.feedback-area-three.feedback-area-style {
-  background-image: url(../img/feedback-img/feedback-bg-2.jpg);
+  background-image: url(../../assets/img/feedback-img/feedback-bg-2.jpg);
 }
 
 .feedback-area.feedback-area-three.feedback-area-style::before {
@@ -2691,7 +2686,7 @@ News Area Style
 }
 
 .news-img {
-  background-image: url(../img/news-img/news-img-2.jpg);
+  background-image: url(../../assets/img/news-img/news-img-2.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -2700,11 +2695,11 @@ News Area Style
 }
 
 .news-img.bg-3 {
-  background-image: url(../img/news-img/news-img-3.jpg);
+  background-image: url(../../assets/img/news-img/news-img-3.jpg);
 }
 
 .news-img.bg-4 {
-  background-image: url(../img/news-img/news-img-4.jpg);
+  background-image: url(../../assets/img/news-img/news-img-4.jpg);
 }
 
 .blog-column-one-area .single-news .news-content .lessons {
@@ -2995,7 +2990,7 @@ Feature Area Style
 .feature-wrap-two {
   padding: 50px 20px;
   padding-bottom: 20px;
-  background-image: url(../img/feature-bg.jpg);
+  background-image: url(../../assets/img/feature-bg.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3060,7 +3055,7 @@ Feature Area Style
 Tutor Area Style
 ======================================================*/
 .tutor-area {
-  background-image: url(../img/tutor-bg.jpg);
+  background-image: url(../../assets/img/tutor-bg.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3141,107 +3136,107 @@ Page Title Area Style
 }
 
 .page-title-area.bg-1 {
-  background-image: url(../img/page-bg/page-bg-1.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-1.jpg);
 }
 
 .page-title-area.bg-2 {
-  background-image: url(../img/page-bg/page-bg-2.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-2.jpg);
 }
 
 .page-title-area.bg-3 {
-  background-image: url(../img/page-bg/page-bg-3.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-3.jpg);
 }
 
 .page-title-area.bg-4 {
-  background-image: url(../img/page-bg/page-bg-4.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-4.jpg);
 }
 
 .page-title-area.bg-5 {
-  background-image: url(../img/page-bg/page-bg-5.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-5.jpg);
 }
 
 .page-title-area.bg-6 {
-  background-image: url(../img/page-bg/page-bg-6.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-6.jpg);
 }
 
 .page-title-area.bg-7 {
-  background-image: url(../img/page-bg/page-bg-7.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-7.jpg);
 }
 
 .page-title-area.bg-8 {
-  background-image: url(../img/page-bg/page-bg-8.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-8.jpg);
 }
 
 .page-title-area.bg-9 {
-  background-image: url(../img/page-bg/page-bg-9.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-9.jpg);
 }
 
 .page-title-area.bg-10 {
-  background-image: url(../img/page-bg/page-bg-10.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-10.jpg);
 }
 
 .page-title-area.bg-11 {
-  background-image: url(../img/page-bg/page-bg-11.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-11.jpg);
 }
 
 .page-title-area.bg-12 {
-  background-image: url(../img/page-bg/page-bg-12.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-12.jpg);
 }
 
 .page-title-area.bg-13 {
-  background-image: url(../img/page-bg/page-bg-13.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-13.jpg);
 }
 
 .page-title-area.bg-14 {
-  background-image: url(../img/page-bg/page-bg-14.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-14.jpg);
 }
 
 .page-title-area.bg-15 {
-  background-image: url(../img/page-bg/page-bg-15.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-15.jpg);
 }
 
 .page-title-area.bg-16 {
-  background-image: url(../img/page-bg/page-bg-16.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-16.jpg);
 }
 
 .page-title-area.bg-17 {
-  background-image: url(../img/page-bg/page-bg-17.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-17.jpg);
 }
 
 .page-title-area.bg-18 {
-  background-image: url(../img/page-bg/page-bg-18.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-18.jpg);
 }
 
 .page-title-area.bg-19 {
-  background-image: url(../img/page-bg/page-bg-19.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-19.jpg);
 }
 
 .page-title-area.bg-20 {
-  background-image: url(../img/page-bg/page-bg-1.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-1.jpg);
 }
 
 .page-title-area.bg-21 {
-  background-image: url(../img/page-bg/page-bg-2.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-2.jpg);
 }
 
 .page-title-area.bg-22 {
-  background-image: url(../img/page-bg/page-bg-3.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-3.jpg);
 }
 
 .page-title-area.bg-23 {
-  background-image: url(../img/page-bg/page-bg-4.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-4.jpg);
 }
 
 .page-title-area.bg-24 {
-  background-image: url(../img/page-bg/page-bg-5.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-5.jpg);
 }
 
 .page-title-area.bg-25 {
-  background-image: url(../img/page-bg/page-bg-6.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-6.jpg);
 }
 
 .page-title-area.bg-26 {
-  background-image: url(../img/page-bg/page-bg-7.jpg);
+  background-image: url(../../assets/img/page-bg/page-bg-7.jpg);
 }
 
 .page-title-area .page-title-content {
@@ -4097,15 +4092,15 @@ Single Blog Area Style
 }
 
 .sidebar-widget.popular-post .item .thumb .fullimage.bg1 {
-  background-image: url(../img/single-blog/popular-img-1.jpg);
+  background-image: url(../../assets/img/single-blog/popular-img-1.jpg);
 }
 
 .sidebar-widget.popular-post .item .thumb .fullimage.bg2 {
-  background-image: url(../img/single-blog/popular-img-2.jpg);
+  background-image: url(../../assets/img/single-blog/popular-img-2.jpg);
 }
 
 .sidebar-widget.popular-post .item .thumb .fullimage.bg3 {
-  background-image: url(../img/single-blog/popular-img-3.jpg);
+  background-image: url(../../assets/img/single-blog/popular-img-3.jpg);
 }
 
 .sidebar-widget.popular-post .item .info {
@@ -4189,7 +4184,6 @@ Shop Area Two Style
   display: inline-block;
 }
 
-.single-shop .shop-img ul li button i ,
 .single-shop .shop-img ul li a i {
   font-size: 20px;
   width: 40px;
@@ -4203,7 +4197,6 @@ Shop Area Two Style
   transition: var(--transition);
 }
 
-.single-shop .shop-img ul li button:hover i,
 .single-shop .shop-img ul li a:hover i {
   background-color: var(--main-color);
   color: var(--white-color);
@@ -5709,7 +5702,7 @@ Coming Soon Area Style
   position: relative;
   height: 100vh;
   overflow: hidden;
-  background-image: url(../img/coming-soon-bg.jpg);
+  background-image: url(../../assets/img/coming-soon-bg.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

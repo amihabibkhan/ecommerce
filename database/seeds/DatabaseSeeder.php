@@ -12,6 +12,74 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('main_categories')->insert([
+            'title' => 'সাধারণ',
+            'slug' => 'general',
+        ]);
+        // category
+        DB::table('categories')->insert([
+            'main_category_id' => '1',
+            'title' => 'সাধারণ',
+            'slug' => 'general',
+        ]);
+        // sub category
+        DB::table('sub_categories')->insert([
+            'category_id' => '1',
+            'title' => 'সাধারণ',
+            'slug' => 'general',
+        ]);
+        // language seeder
+        DB::table('languages')->insert([
+            'name' => 'বাংলা',
+            'slug' => 'bangla'
+        ]);
+        // country seeder
+        DB::table('countries')->insert([
+            'name' => 'বাংলাদেশ',
+            'slug' => 'bangladesh'
+        ]);
+        // brand
+        DB::table('brands')->insert([
+            'name' => 'সাধারণ',
+            'slug' => 'general',
+        ]);
+
+        // size
+        DB::table('sizes')->insert([
+            'size' => 'সাধারণ',
+        ]);
+
+        // size
+        DB::table('colors')->insert([
+            'color' => 'সাধারণ',
+        ]);
+
+        // size
+        DB::table('tags')->insert([
+            'title' => 'সাধারণ',
+        ]);
+        // publication
+        DB::table('publications')->insert([
+            'name' => 'অজানা',
+            'slug' => 'unknown'
+        ]);
+        //writer
+        DB::table('writers')->insert([
+            'name' => 'অজানা',
+            'slug' => 'unknown'
+        ]);
+
+
+
+
+
+
+
+        DB::table('users')->insert([
+            'name' => "Admin",
+            'email' => "admin@gmail.com",
+            'password' => bcrypt("00000000"),
+        ]);
         DB::table('options')->insert([
            ['name' => 'logo'],
            ['name' => 'address'],

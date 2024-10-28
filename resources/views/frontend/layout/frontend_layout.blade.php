@@ -1,497 +1,165 @@
-<!doctype html>
-<html lang="zxx">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <meta property="og:title" content="@yield('title', 'BIKIRONSHOP')">
-    <meta property="og:description" content="@yield('description', 'BIKIRONSHOP Product')">
+    <meta property="og:title" content="@yield('title', 'FALASTIN')">
+    <meta property="og:description" content="@yield('description', 'FALASTIN Product')">
     <meta property="og:url" content="{{ Request::url() }}">
     <meta property="og:image" content="@yield('image')">
-    <meta property="product:brand" content="@yield('brand', 'BIKIRONSHOP')">
+    <meta property="product:brand" content="@yield('brand', 'FALASTIN')">
     <meta property="product:availability" content="@yield('availability', 'in stock')">
     <meta property="product:condition" content="New">
     <meta property="product:price:amount" content="@yield('price', '0')">
     <meta property="product:price:currency" content="BDT">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/bootstrap.min.css">
-    <!-- Owl Theme Default CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/owl.theme.default.min.css">
-    <!-- Owl Carousel CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/owl.carousel.min.css">
-    <!-- Owl Magnific CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/magnific-popup.css">
-    <!-- Animate CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/animate.css">
-    <!-- Boxicons CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/icons/css/boxicons.min.css">
-    <!-- <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> -->
+    <link rel="stylesheet" href="{{ asset('frontend_2') }}/css/bootstrap.min.css">
 
-    <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/jquery.animateSlider.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/font-awesome.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/normalize.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/plugins/slider/css/demo1.css">
-    <link rel="stylesheet" href="{{ asset('admin/plugins/toastr/toastr.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/offer.css') }}">
+    <!-- fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('frontend_2') }}/css/all.min.css">
+
+    <!-- slick slider css-->
+    <link rel="stylesheet" href="{{ asset('frontend_2') }}/plugins/slick-slider/slick.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('frontend_2') }}/css/style.css">
+
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{{ asset('frontend_2') }}/css/responsive.css">
 
     @yield('css')
 
-    <!-- Flaticon CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/flaticon.css">
-    <!-- Meanmenu CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/meanmenu.css">
-    <!-- Nice Select CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/nice-select.css">
-    <!-- Odometer CSS-->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/odometer.css">
-    <!-- Style CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/style.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/my.css">
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/responsive.css">
-
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('frontend') }}/img/favicon.png">
+    <link rel="icon" type="image/png" href="{{ asset('storage') }}/{{ get_option('logo') }}">
+
     <!-- Title -->
-    <title>বিকিরণ শপ :: Bikiron Shop</title>
-    <style>
-        .teachers-area::before{
-            content: unset;
-        }
-    </style>
-
-    {{-- instantjs for algolia--}}
-    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js" integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin="anonymous"></script>
-
-    <!-- Facebook Pixel Code -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '130776775568255');
-        fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=130776775568255&ev=PageView&noscript=1"
-        /></noscript>
-    <!-- End Facebook Pixel Code -->
+    <title>ফালাস্তিন :: Falastin</title>
 </head>
-
 <body>
-{{--<!-- Start Preloader Area -->--}}
-{{--<div class="loader-wrapper">--}}
-{{--    <div class="loader">--}}
-{{--        <div class="dot-wrap">--}}
-{{--            <span class="dot"></span>--}}
-{{--            <span class="dot"></span>--}}
-{{--            <span class="dot"></span>--}}
-{{--            <span class="dot"></span>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
-{{--<!-- End Preloader Area -->--}}
 
-
-
-<!-- Load Facebook SDK for JavaScript -->
-<div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            xfbml            : true,
-            version          : 'v9.0'
-        });
-    };
-
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/bn_IN/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-
-<!-- Your Chat Plugin code -->
-<div class="fb-customerchat"
-     attribution=setup_tool
-     page_id="2258326131078463"
-     theme_color="#fa3c4c"
-     logged_in_greeting="আসসালামু আলাইকুম। বিকিরণ লাইভ চ্যাটে স্বাগতম। দয়া করে আপনার প্রশ্ন করুন।"
-     logged_out_greeting="আসসালামু আলাইকুম। বিকিরণ লাইভ চ্যাটে স্বাগতম। দয়া করে আপনার প্রশ্ন করুন।">
-</div>
-
-
-
-
-<header>
+<!-- header top start -->
+<div class="header-top">
     <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-lg-2 col-6">
-                <div class="logo">
-                    <a href="{{ route('index') }}">
-                        <img src="{{ asset('storage') }}/{{ get_option('logo') }}" alt="BIKIRON SHOP">
-                    </a>
-                </div>
+        <div class="row">
+            <div class="col-4 col-md-2">
+                <img src="{{ asset('storage') }}/{{ get_option('logo') }}" class="header-top__logo" alt="Falastin logo">
             </div>
-            <div class="col-lg-7 mb-4 mb-lg-0 order-3 order-lg-2 d-flex">
-                <form action="{{ route('frontend.bookShop') }}" class="align-self-center search_form" style="flex: 1;">
-                    <div class="input-group mb-0">
-                        <input type="text" name="search" onblur="close_search()" onfocus="start_search()" id="search_input" class="search_field form-control" placeholder="">
-                        <div class="input-group-append">
-                            <button class="btn search_button" type="submit" id="button-addon2">সার্চ করুন</button>
-                        </div>
-                    </div>
-                    <div class="search_result d-none" id="hits"></div>
+            <div class="col-md-7 order-4 order-md-2">
+                <form action="" class="header-top__search-form">
+                    <input type="text" class="form-control" placeholder="বইয়ের নাম দিয়ে সার্চ করুন...">
+                    <button class="header-top__search-form__button"><i class="fas fa-search"></i></button>
                 </form>
             </div>
-
-
-            <script>
-                function close_search(){
-                    document.getElementById('hits').classList.add('d-none')
-                }
-                function start_search(){
-                    document.getElementById('hits').classList.remove('d-none')
-                }
-                const algoliaClient = algoliasearch(
-                    '{{ config("scout.algolia.id") }}',
-                    'a3306e7956f83141adc475124b8a185e'
-                );
-
-                const searchClient = {
-                    search(requests) {
-                        if (requests.every(({ params }) => !params.query)) {
-                            return Promise.resolve({
-                                results: requests.map(() => ({
-                                    hits: [],
-                                    nbHits: 0,
-                                    nbPages: 0,
-                                })),
-                            });
-                        }
-
-                        return algoliaClient.search(requests);
-                    },
-                };
-
-                const search = instantsearch({
-                    indexName: 'products',
-                    searchClient,
-                    searchFunction(helper) {
-                        const container = document.querySelector('#hits');
-                        container.style.display = helper.state.query === '' ? 'none' : '';
-
-                        helper.search();
-                    }
-                });
-
-                search.addWidgets([
-                    {
-                        init(opts) {
-                            const helper = opts.helper;
-                            const input = document.querySelector('#search_input');
-                            input.addEventListener('input', ({currentTarget}) => {
-                                helper.setQuery(currentTarget.value) // update the parameters
-                                    .search(); // launch the query
-                            });
-                        }
-                    },
-                    {
-                        render(options) {
-                            const results = options.results;
-                            // read the hits from the results and transform them into HTML.
-                            document.querySelector('#hits').innerHTML = results.hits
-                                .map(
-                                    hit => `<a href='{{ url('/product') }}/${hit.slug}'>
-                                                <div>
-                                                    <img src='{{ asset('storage') }}/${hit.main_image}'/>
-                                                </div>
-                                                <div>
-                                                <p>${hit.title}</p>
-                                                <p>প্রোডাক্ট কোড: ${hit.product_code}</p>
-                                                </div>
-                                            </a>`
-                                )
-                                .join('');
-                        },
-                    }
-                ]);
-                search.start();
-
-            </script>
-
-
-
-
-
-
-
-
-
-            <div class="col-lg-2 col-6 order-2 order-lg-3 d-flex justify-content-end">
-                <div class="cart-icon align-self-center">
-                    <a href="{{ route('show_cart') }}">
-                        <i class="flaticon-shopping-cart"></i>
-                        <span style="color: black; font-weight: bold; padding: 2px">{{ count($cart) }}</span>
-                    </a>
-                </div>
-                <div class="cart-icon account_icon  align-self-center">
-                    <a href="{{ route('login') }}" class="user_icon">
-                        <i class="bx bx-user"></i>
-                    </a>
-                </div>
-                <div class="cart-icon d-block d-lg-none menu_button align-self-center">
-                    <a href="javascript(0)" data-toggle="collapse" data-target="#my_nav">
-                        <i class="bx bx-menu"></i>
-                    </a>
-                </div>
+            <div class="col-2 col-md-1 order-2 order-md-3 text-center">
+                <a href="{{ route('show_cart') }}" class="header-top__cart">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span class="header-top__cart__badge">{{ count($cart) }}</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-2 order-3 order-md-4 text-right ">
+                <a href="{{ route('login') }}" class="header-top__login-button">লগইন/রেজিস্টার</a>
             </div>
         </div>
     </div>
-</header>
-
-{{-- menu start --}}
-<div class="nav_container">
-    <div class="container" id="get_width">
-        <nav class="navbar custom-nav navbar-expand-lg navbar-light">
-            <div class="collapse navbar-collapse" id="my_nav">
-                <ul class="navbar-nav mx-auto">
-                    @foreach($main_menu as $single_menu)
-                        @if($single_menu->id == 1)
-                            @continue
-                        @endif
-                        <li class="nav-item {{ Request::segment(1) == 'book' && $single_menu->id == 2 ? 'active' : '' }}
-                            @if(Request::segment(2) == $single_menu->slug)
-                            active
-                            @endif
-                            ">
-                            <a class="nav-link" href="{{ $single_menu->id == 2 ? route('frontend.bookShop'): route('frontend.singleMainCategory', $single_menu->slug) }}">{{ $single_menu->title }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </nav>
-    </div>
 </div>
-<div class="container d-none d-lg-block sub_nav_container">
-    <div class="sub_nav">
-        <ul>
-            @if(Request::segment(1) == 'book' || Request::routeIs('index'))
-                <li class="has_menu" id="writer_menu"><a href="{{ route('frontend.allWriters') }}">লেখক</a></li>
-                <li class="has_menu" id="subject_menu"><a href="{{ route('frontend.bookShop') }}">বিষয়</a></li>
-                <li class="has_menu" id="publication_menu"><a href="{{ route('frontend.allPublications') }}">প্রকাশনী</a></li>
-                @foreach($book_menu as $single_item)
-                    @if($loop->index == 4)
-                        @break
-                    @endif
-                    <li><a href="{{ route('frontend.singleCategory', $single_item->slug) }}">{{ $single_item->title }}</a></li>
-                @endforeach
-            @endif
+<!-- header top end -->
 
-            @foreach($main_menu as $single_menu)
-                @if($single_menu->id == 1)
-                    @continue
-                @endif
-                @if(Request::segment(2) == $single_menu->slug)
-                    @foreach($single_menu->categories as $single_item)
-                        @if($loop->index == 6)
-                            @break
-                        @endif
-                        <li><a href="{{ route('frontend.singleCategory', $single_item->slug) }}">{{ $single_item->title }}</a></li>
-                    @endforeach
-                @endif
-            @endforeach
+<!-- main navbar start -->
+<nav class="main-menu">
+    <div class="container">
+        <div class="main-menu__arrows">
+            <i class="fas fa-angle-left"></i>
+            <i class="fas fa-angle-right"></i>
+        </div>
+        <ul class="main-menu__slider">
+            <li class="main-menu--active"><a href="#">হোম</a></li>
+            <li><a href="all_books.html">সকল বই</a></li>
+            <li><a href="#">বিষয় সমূহ</a></li>
+            <li><a href="#">লেখক</a></li>
+            <li><a href="#">প্রকাশক</a></li>
+            <li><a href="#">প্রি-অর্ডার</a></li>
+            <li><a href="#">প্যাকেজ</a></li>
+            <li><a href="#">বিষয় সমূহ</a></li>
+            <li><a href="#">লেখক</a></li>
+            <li><a href="#">প্রকাশক</a></li>
+            <li><a href="#">প্রি-অর্ডার</a></li>
+            <li><a href="#">প্যাকেজ</a></li>
+            <li><a href="#">বিষয় সমূহ</a></li>
+            <li><a href="#">লেখক</a></li>
+            <li><a href="#">প্রকাশক</a></li>
+            <li><a href="#">প্রি-অর্ডার</a></li>
+            <li><a href="#">প্যাকেজ</a></li>
+            <li><a href="#">বিষয় সমূহ</a></li>
+            <li><a href="#">লেখক</a></li>
+            <li><a href="#">প্রকাশক</a></li>
+            <li><a href="#">প্রি-অর্ডার</a></li>
+            <li><a href="#">প্যাকেজ</a></li>
         </ul>
     </div>
-
-
-    <div class="sub_dropdown">
-        <div class="mega_menu" id="writer_mega_menu">
-            <div class="row">
-                @foreach($menu_writers as $single_writer)
-                    <div class="col-md-3">
-                        <ul><li><a href="{{ route('frontend.singleWriter', $single_writer->slug) }}">{{ $single_writer->name }}</a></li> </ul>
-                    </div>
-                @endforeach
-                <div class="col-md-3">
-                    <ul><li><a href="{{ route('frontend.allWriters') }}">সকল লেখক</a></li> </ul>
-                </div>
-            </div>
-        </div>
-        <div class="mega_menu" id="publication_mega_menu">
-            <div class="row">
-                @foreach($menu_pubs as $single_pubs)
-                    <div class="col-md-3">
-                        <ul><li><a href="{{ route('frontend.singlePublication', $single_pubs->slug) }}">{{ $single_pubs->name }}</a></li> </ul>
-                    </div>
-                @endforeach
-                <div class="col-md-3">
-                    <ul><li><a href="{{ route('frontend.allPublications') }}">সকল প্রকাশনী</a></li> </ul>
-                </div>
-            </div>
-        </div>
-        <div class="mega_menu" id="suject_mega_menu">
-            <div class="row">
-                @foreach($menu_topics as $single_topic)
-                    <div class="col-md-3">
-                        <ul><li><a href="{{ route('frontend.bookShop') }}?topics%5B%5D={{ $single_topic->id }}">{{ $single_topic->title }}</a></li> </ul>
-                    </div>
-                @endforeach
-                <div class="col-md-3">
-                    <ul><li><a href="{{ route('frontend.bookShop') }}">আরও বিষয়</a></li> </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</nav>
+<!-- main navbar end -->
 
 @yield('main_content')
 
-<!-- Start Footer Top Area -->
-<footer class="footer-top-area pt-100 pb-70">
+<!-- footer start -->
+<footer>
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h3>যোগাযোগ</h3>
-
-                    <ul class="address">
-                        <li class="location">
-                            <i class="bx bx-home-alt"></i>
-                            {{ get_option('address') }}
-                        </li>
-
-                        <li>
-                            <i class="bx bxs-envelope"></i>
-                            <a href="mailto:{{ get_option('email_1') }}">{{ get_option('email_1') }}</a>
-                            <a href="mailto:{{ get_option('email_2') }}">{{ get_option('email_2') }}</a>
-                        </li>
-
-                        <li>
-                            <i class="bx bxs-phone-call"></i>
-                            <a href="tel:{{ get_option('phone_1') }}">{{ get_option('phone_1') }}</a>
-                            <a href="tel:{{ get_option('phone_2') }}">{{ get_option('phone_2') }}</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-lg-4 col-md-6">
+                <h2 class="footer__about-title">বিকিরণ শপ</h2>
+                <p class="footer__about-description">আমাদের ব্যপারে সংক্ষিপ্ত কথা বলে দিচ্ছি এখানে। তাই আর কোন কথা বলবেন না কিন্তু। আমরা খুব ভালো মানুষ বঝেছেন? না বুঝলে কি আর করার আছে? আমি তো চেষ্টা কম করলাম না।</p>
+                <a href="tel:8801770496249" class="footer__social-media"><i class="fas fa-phone"></i></a>
+                <a href="" class="footer__social-media"><i class="fab fa-facebook-f"></i></a>
+                <a href="" class="footer__social-media"><i class="fab fa-youtube"></i></a>
+                <a href="" class="footer__social-media"><i class="fas fa-envelope"></i></a>
             </div>
-
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h3>গুরত্বপূর্ণ লিংক</h3>
-
-                    <ul class="link">
-                        <li>
-                            <a href="{{ route('frontend.bookShop') }}">সকল বই</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('frontend.allWriters') }}">লেখক তালিকা</a>
-                        </li>
-                        <li>
-                            <a href="#">প্রশ্নোত্তর</a>
-                        </li>
-                        <li>
-                            <a href="#">নিয়মাবলি</a>
-                        </li>
-                        <li>
-                            <a href="#">প্রাইভেসি পলেসি</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-lg-3 col-md-6">
+                <h3 class="footer__section-subtitle">জনপ্রিয় লেখক</h3>
+                @foreach($footer_writers as $single_writer)
+                    <a class="footer__link-item" href="{{ route('frontend.singleWriter', $single_writer->slug) }}">{{ $single_writer->name }}</a>
+                @endforeach
             </div>
-
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h3>নতুন বই গুলো</h3>
-
-                    <ul class="link">
-                        @foreach($footer_books as $single_book)
-                            <li>
-                                <a href="{{ route('frontend.singleProduct', $single_book->slug) }}">{{ $single_book->title }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="col-lg-3 col-md-6">
+                <h3 class="footer__section-subtitle">নতুন প্রকাশিত</h3>
+                    @foreach($footer_books as $single_book)
+                        <a href="{{ route('frontend.singleProduct', $single_book->slug) }}" class="footer__link-item">{{ $single_book->title }}</a>
+                    @endforeach
             </div>
-
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h3>জনপ্রিয় লেখক</h3>
-
-                    <ul class="link">
-                        @foreach($footer_writers as $single_writer)
-                            <li>
-                                <a href="{{ route('frontend.singleWriter', $single_writer->slug) }}">{{ $single_writer->name }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="col-lg-2 col-md-6">
+                <h3 class="footer__section-subtitle">গুরুত্বপূর্ণ লিংক</h3>
+                <a class="footer__link-item" href="{{ route('frontend.bookShop') }}">সকল বই</a>
+                <a class="footer__link-item" href="{{ route('frontend.allWriters') }}">লেখক তালিকা</a>
+                <a class="footer__link-item" href="#">প্রশ্নোত্তর</a>
+                <a class="footer__link-item" href="#">নিয়মাবলি</a>
+                <a class="footer__link-item" href="#">প্রাইভেসি পলেসি</a>
             </div>
         </div>
     </div>
 </footer>
-<!-- End Footer Top Area -->
+<!-- footer end -->
 
-<!-- Start Footer Bottom Area -->
-<footer class="footer-bottom-area">
-    <div class="container">
-        <div class="copyright-wrap">
-            <p>বিকিরণশপ &copy; ২০২০ | ডেভেলপড বাই <a href="http://legenditinstitute.com/" target="_blank">লিজেন্ড আইটি</a></p>
-        </div>
-    </div>
-</footer>
-<!-- End Footer Bottom Area -->
-
-<!-- Start Go Top Area -->
-<div class="go-top">
-    <i class='bx bx-chevrons-up'></i>
-    <i class='bx bx-chevrons-up'></i>
+<!-- copyright start -->
+<div class="copyright">
+    <p>Copyright &copy; 2024 | All right reserved | Developed by <a href="https://innovait.com.bd/">INNOVA IT</a></p>
 </div>
-<!-- End Go Top Area -->
+<!-- copyright end -->
 
 
-<!-- Jquery-3.5.1.Slim.Min.JS -->
-<script src="{{ asset('frontend') }}/js/jquery-3.5.1.slim.min.js"></script>
-<!-- Popper JS -->
-<script src="{{ asset('frontend') }}/js/popper.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="{{ asset('frontend') }}/js/bootstrap.min.js"></script>
-<!-- Meanmenu JS -->
-<script src="{{ asset('frontend') }}/js/jquery.meanmenu.js"></script>
-<!-- Wow JS -->
-<script src="{{ asset('frontend') }}/js/wow.min.js"></script>
-<!-- Owl Carousel JS -->
-<script src="{{ asset('frontend') }}/js/owl.carousel.js"></script>
-<!-- Owl Magnific JS -->
-<script src="{{ asset('frontend') }}/js/jquery.magnific-popup.min.js"></script>
-<!-- Nice Select JS -->
-<script src="{{ asset('frontend') }}/js/jquery.nice-select.min.js"></script>
-<!-- Parallax JS -->
-<script src="{{ asset('frontend') }}/js/parallax.min.js"></script>
-<!-- Appear JS -->
-<script src="{{ asset('frontend') }}/js/jquery.appear.js"></script>
-<!-- Odometer JS -->
-<script src="{{ asset('frontend') }}/js/odometer.min.js"></script>
-<!-- Form Validator JS -->
-<script src="{{ asset('frontend') }}/js/form-validator.min.js"></script>
-<!-- Contact JS -->
-<script src="{{ asset('frontend') }}/js/contact-form-script.js"></script>
-<!-- Ajaxchimp JS -->
-<script src="{{ asset('frontend') }}/js/jquery.ajaxchimp.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>
+
+<!--  JS  -->
+<script src="{{ asset('frontend_2') }}/js/jquery-3.5.1.slim.min.js"></script>
+<script src="{{ asset('frontend_2') }}/js/bootstrap.bundle.min.js"></script>
+
+<!-- slick slider -->
+<script src="{{ asset('frontend_2') }}/plugins/slick-slider/slick.min.js"></script>
+
+<!-- custom JS -->
+<script src="{{ asset('frontend_2') }}/js/custom.js"></script>
+
+
 <script src="{{ asset('admin/plugins/toastr/toastr.min.js') }}"></script>
-
 
 {!! Toastr::message() !!}
 <script>
@@ -505,58 +173,7 @@
     @endif
 </script>
 
-
-<script>
-    $(function () {
-        var div_width = $('.shop-img').width();
-        var div_height = div_width * 150 /100;
-        $('.not_image').css({ 'height' : div_height + 'px'});
-
-        var div_width = $('.get_writer_width').width();
-        $('.not_image_writer').css({ 'height' : div_width + 'px'});
-
-        $('#subject_menu').hover(function(){
-            $('#suject_mega_menu').addClass('mega_menu_show');
-        },function(){
-            $('#suject_mega_menu').removeClass('mega_menu_show');
-        });
-
-        $('#publication_menu').hover(function(){
-            $('#publication_mega_menu').addClass('mega_menu_show');
-        },function(){
-            $('#publication_mega_menu').removeClass('mega_menu_show');
-        });
-
-        $('#writer_menu').hover(function(){
-            $('#writer_mega_menu').addClass('mega_menu_show');
-        },function(){
-            $('#writer_mega_menu').removeClass('mega_menu_show');
-        });
-
-
-        // search bar typed
-        $("#search_input").typed({
-            strings: ["Search by books (ex: প্রোডাক্টিভ মুসলিম, প্যারাডক্সিক্যাল সাজিদ)", "Search by publisher (ex: গার্ডিয়ান, আঙ্গিনা, রাইজ পাবলিকেশন্স)", "Search by writer (ex: হামিদ সিরাজী, রুহুল আমিন, আরিফ আজাদ)"],
-            typeSpeed: 80,
-            startDelay: 1200,
-            backSpeed: -2000,
-            backDelay: 0,
-            loop: true,
-            loopCount: false,
-            showCursor: true,
-            cursorChar: "|",
-            contentType: 'html',
-            attr: 'placeholder'
-        });
-    });
-</script>
-
-<!-- Custom JS -->
-<script src="{{ asset('frontend') }}/js/custom.js"></script>
-
-
 @yield('javascript')
-
 
 </body>
 </html>

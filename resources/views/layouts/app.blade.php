@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="BIKIRON SHOP">
+    <meta name="description" content="FALASTIN">
     <meta name="author" content="RUHUL AMIN">
 
     <!-- App favicon -->
@@ -135,7 +135,7 @@
 
                             <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
                                 <li>
-                                    <h5>Hi, {{ auth::user()->name }}</h5>
+                                    <h5>Hi, {{ auth()->user()->name }}</h5>
                                 </li>
                                 <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-user m-r-5"></i> Profile</a></li>
                                 <li><a href="javascript:void(0)" class="dropdown-item"><i class="ti-settings m-r-5"></i> Settings</a></li>
@@ -169,7 +169,7 @@
                     </li>
 
 
-                    @if(auth::user()->role_id == 1 || auth::user()->role_id == 2 || auth::user()->role_id == 4)
+                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 4)
                         {{-- products --}}
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-cube"></i><span> Products </span> <span class="menu-arrow"></span></a>
@@ -211,7 +211,7 @@
                         </li>
                     @endif
 
-                    @if(auth::user()->role_id == 1 || auth::user()->role_id == 2)
+                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
                         {{-- orders --}}
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-google-analytics"></i><span>Analytics </span> <span class="menu-arrow"></span></a>
@@ -225,7 +225,7 @@
 
                     @endif
 
-                    @if(auth::user()->role_id == 1)
+                    @if(auth()->user()->role_id == 1)
                         <li class="menu-title">Others</li>
 
                         {{-- others attributes --}}
@@ -319,7 +319,7 @@
         </div> <!-- content -->
 
         <footer class="footer">
-            {{ date('Y') }} © ECOMMERCE <span class="d-none d-sm-inline-block">Developed by <a target="_blank" href="//legenditinstitute.com/">LEGEND IT</a></span>
+            {{ date('Y') }} © ECOMMERCE <span class="d-none d-sm-inline-block">Developed by <a target="_blank" href="//innovait.com.bd/">INNOVA IT</a></span>
         </footer>
     </div>
 

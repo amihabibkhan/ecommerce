@@ -31,6 +31,8 @@
                                             <option value="2" {{ $section->type == 2 ? 'selected' : '' }}>Sub Category/Subject</option>
                                             <option value="3" {{ $section->type == 3 ? 'selected' : '' }}>Writer Section</option>
                                             <option value="4" {{ $section->type == 4 ? 'selected' : '' }}>Weekly Offer</option>
+                                            <option value="4" {{ $section->type == 5 ? 'selected' : '' }}>New Books</option>
+                                            <option value="4" {{ $section->type == 6 ? 'selected' : '' }}>At a Glance</option>
                                         </select>
                                     <td>
 
@@ -55,9 +57,9 @@
                                     <td class="text-center" style="width: 100px">
                                         <input type="number" value="{{ $section->order }}" name="order" class="form-control text-center">
                                     </td>
-                                    <td>
-                                        <button type="submit" class="btn btn-success">Update</button>
-                                        <a onclick="return confirm('Are sure to delete this sectioin?')" href="{{ route('manage_home_page.show', $section->id) }}" class="btn btn-danger">DEL</a>
+                                    <td style="white-space: nowrap">
+                                        <button type="submit" class="btn btn-success">U</button>
+                                        <a onclick="return confirm('Are sure to delete this sectioin?')" href="{{ route('manage_home_page.show', $section->id) }}" class="btn btn-danger">D</a>
                                     </td>
                                 </tr>
                             </form>
@@ -103,6 +105,8 @@
                                 <option value="2">Sub Category/Subject</option>
                                 <option value="3">Writer Section</option>
                                 <option value="4">Weekly Offer</option>
+                                <option value="5">New Books</option>
+                                <option value="6">At a Glance</option>
                             </select>
                         </div>
                         <div class="form-group d-none" id="category">

@@ -2,7 +2,7 @@
 
 @section('main_content')
 
-    <x-inner-page-banner :title="auth::user()->name" />
+    <x-inner-page-banner :title="auth()->user()->name" />
 
     <div class="dashboard my-5">
         <div class="container">
@@ -26,7 +26,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">নাম</label>
-                                            <input type="text" name="name" class="form-control" value="{{ auth::user()->name }}">
+                                            <input type="text" name="name" class="form-control" value="{{ auth()->user()->name }}">
                                             @error('name')
                                             <div style="padding-top: 5px">
                                                 <i style="color: red">{{ $message }}</i>
@@ -37,7 +37,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">ফোন নাম্বার</label>
-                                            <input type="text" name="phone" class="form-control" value="{{ auth::user()->phone }}">
+                                            <input type="text" name="phone" class="form-control" value="{{ auth()->user()->phone }}">
                                             @error('phone')
                                             <div style="padding-top: 5px">
                                                 <i style="color: red">{{ $message }}</i>
@@ -59,7 +59,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">ই-মেইল</label>
-                                            <input type="email" name="email" class="form-control" value="{{ auth::user()->email }}">
+                                            <input type="email" name="email" class="form-control" value="{{ auth()->user()->email }}">
                                             @error('email')
                                             <div style="padding-top: 5px">
                                                 <i style="color: red">{{ $message }}</i>

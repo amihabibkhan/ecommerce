@@ -9,7 +9,7 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('admin') }}/images/favicon.ico">
     <!-- App title -->
-    <title>BIKIRON SHOP</title>
+    <title>FALASTIN SHOP</title>
 
     <!-- App css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin') }}/css/bootstrap.min.css" />

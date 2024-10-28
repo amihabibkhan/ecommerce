@@ -38,19 +38,19 @@
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
                                         <label>নাম <span class="required">*</span></label>
-                                        <input type="text" name="name" value="{{ auth::check() ? auth::user()->name : old('name') }}" class="form-control">
+                                        <input type="text" name="name" value="{{ auth()->check() ? auth()->user()->name : old('name') }}" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
                                         <label>ই-মেইল এড্রেস <span class="required">*</span></label>
-                                        <input type="email" name="email" value="{{ auth::check() ? auth::user()->email : old('email') }}" class="form-control">
+                                        <input type="email" name="email" value="{{ auth()->check() ? auth()->user()->email : old('email') }}" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
                                         <label>ফোন নাম্বার <span class="required">*</span></label>
-                                        <input type="text" name="phone" value="{{ auth::check() ? auth::user()->phone : old('phone') }}" class="form-control">
+                                        <input type="text" name="phone" value="{{ auth()->check() ? auth()->user()->phone : old('phone') }}" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">

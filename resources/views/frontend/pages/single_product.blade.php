@@ -1,4 +1,4 @@
-@extends('frontend.layout.frontend_layout')
+@extends('frontend.layout.frontend-layout')
 
 @section('title'){{ $product->title }}@endsection
 @section('image'){{ asset('storage') }}/{{ $product->main_image }}@endsection

@@ -7,7 +7,7 @@
             <div class="text-center account-logo-box" style="background-color: #fbcb00">
                 <div class="m-b-10">
                     <a href="{{ route('index') }}" class="text-success">
-                        <span><img src="{{ asset('images/only_logo.png') }}" alt=""></span>
+                        <span><img src="{{ asset('storage') }}/{{ get_option('logo') }}" alt=""></span>
                     </a>
                 </div>
                 <!--<h4 class="text-uppercase font-bold m-b-0">Sign In</h4>-->

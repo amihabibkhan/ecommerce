@@ -1,387 +1,258 @@
-@extends('frontend.layout.frontend_layout')
-
-@section('css')
-    <link rel="stylesheet" href="{{ asset('frontend/plugins/slider/css/jquery.animateSlider.css') }}">
-@endsection
+@extends('frontend.layout.frontend-layout')
 
 @section('main_content')
-    <style>
-        .slider_parent{
-            position: relative;
-        }
-        .slider_parent .prev_arrow,
-        .slider_parent .next_arrow{
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1;
-            height: 50px;
-            width: 50px;
-            border-radius: 50%;
-            background-color: white;
-            color: #000;
-            cursor: pointer;
-            line-height: 50px;
-            text-align: center;
-            opacity: .3;
-            transition: all .5s;
-        }
-        .slider_parent:hover .prev_arrow,
-        .slider_parent:hover .next_arrow{
-            opacity: 1;
-        }
-        .slider_parent .prev_arrow{
-            left: 30px;
-        }
-        .slider_parent .next_arrow{
-            right: 30px;
-        }
-        .home_slider{
-            position: relative;
-        }
-        .home_slider ul.slick-dots{
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .home_slider ul.slick-dots li{
-            float: left;
-        }
-        .home_slider ul.slick-dots li button{
-            color: transparent;
-            height: 10px;
-            width: 20px;
-            background-color: #fbca0c;
-            margin-right: 10px;
-            transition: all .5s;
-            border-radius: 10px;
-            border: 1px solid black;
-        }
-        .home_slider ul.slick-dots li.slick-active button{
-            width: 40px;
-        }
-        .home_slider .single_slider{
-            height: 400px;
-            overflow: hidden;
-        }
-        .home_slider .single_slider img{
-            width: 100%;
-            transform: translateY(-50%);
-        }
-    </style>
+    <!-- Start Baanner Are -->
+    <section class="my_banner">
+        <img src="{{ asset('frontend') }}/img/banner-img/banner-1.jpg" style="width: 100%;" alt="">
+    </section>
+    <!-- End Banner Area -->
 
-    <ul class="anim-slider">
-
-        <!-- Slide No1 -->
-        <li class="anim-slide">
-            <p class="slider_text_1">সবচেয়ে বেশি চলছে</p>
-            <h1 class="slider_sub_title_1">প্রিয়জনদেরকে গিফট করুন</h1>
-            <h2 class="slider_main_title_1">প্রোডাক্টিভ মুসলিম</h2>
-            <a href="#" class="slider_button_1">বিস্তারিত দেখুন</a>
-            <img src="assets/img/book.png" class="slider_book_1" alt="">
-        </li>
-
-        <!-- Slide No1 -->
-        <li class="anim-slide">
-            <p class="slider_text_2">সবচেয়ে বেশি চলছে</p>
-            <h1 class="slider_sub_title_2">প্রিয়জনদেরকে গিফট করুন কারণ সকাল থেকে </h1>
-            <h2 class="slider_main_title_2">প্রোডাক্টিভ মুসলিম</h2>
-            <a href="#" class="slider_button_2">বিস্তারিত দেখুন</a>
-            <img src="assets/img/book2.png" class="slider_book_2" alt="">
-        </li>
-
-        <!-- Slide No1 -->
-        <li class="anim-slide">
-            <p class="slider_text_1">সবচেয়ে বেশি চলছে</p>
-            <h1 class="slider_sub_title_1">প্রিয়জনদেরকে গিফট করুন</h1>
-            <h2 class="slider_main_title_1">প্রোডাক্টিভ মুসলিম</h2>
-            <a href="#" class="slider_button_1">বিস্তারিত দেখুন</a>
-            <img src="assets/img/book3.png" class="slider_book_1" alt="">
-        </li>
-
-
-        <!-- Arrows -->
-        <nav class="anim-arrows">
-            <span class="anim-arrows-prev"></span>
-            <span class="anim-arrows-next"></span>
-        </nav>
-        <!-- Dynamically created dots -->
-
-    </ul>
-
-
-
-
-
-
-{{--    --}}{{-- normal slider start --}}
-{{--    <div class="slider_parent">--}}
-{{--        <i class="fas fa-arrow-left prev_arrow"></i>--}}
-{{--        <i class="fas fa-arrow-right next_arrow"></i>--}}
-{{--        <div class="home_slider">--}}
-{{--            @foreach($sliders as $single_slider)--}}
-{{--            <div class="single_slider">--}}
-{{--                <img src="{{ asset('storage') }}/{{ $single_slider->image }}" alt="{{ $single_slider->title }}">--}}
-{{--            </div>--}}
-{{--            @endforeach--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    --}}{{-- normal slider end --}}
-
-
-
-
-
-
-    @foreach($sections as $section)
-        @if($section->type == 1 || $section->type == 2)
-            {{-- its a category or sub category section--}}
-
-            <section class="teachers-area d-flex {{ ($loop->index + 1) % 2 == 0 ? 'ebeef5-bg-color' : '' }} justify-content-center pt-70 pb-70">
-                <div class="custom_container">
-                    <div class="section-title" style="max-width: 100%; text-align: left; margin-bottom: 30px; border-bottom: 1px solid beige; padding-bottom: 10px;">
-                        <h2 style="font-size: 26px;">{{ $section->section_title }}</h2>
-                    </div>
-                    <div class="row justify-content-center">
-
-                        @if($section->type == 1)
-                            {{-- its a category not a sub category --}}
-                            @foreach($section->category->get_products as $product)
-                                <div class="col-lg-3 col-xl-2 col-md-4 col-6">
-                                    <x-product :product="$product"/>
-                                </div>
-                            @endforeach
-                        @else
-                            {{-- its a sub category not a category--}}
-                            @foreach($section->sub_category->get_products as $product)
-                                <div class="col-lg-3 col-xl-2 col-md-4 col-6">
-                                    <x-product :product="$product"/>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-                    <div class="text-center">
-                        @if($section->type == 1)
-                            <a href="{{ route('frontend.singleCategory', $section->category->slug) }}" class="default-btn">সকল বই</a>
-                        @else
-                            <a href="{{ route('frontend.bookShop') }}?topics%5B%5D={{$section->sub_category->id}}" class="default-btn">সকল বই</a>
-                        @endif
+    <!-- Start Books Area -->
+    <section class="teachers-area d-flex justify-content-center ebeef5-bg-color pt-100 pb-70">
+        <div class="custom_container">
+            <div class="section-title">
+                <span>বই</span>
+                <h2>আমাদের লেটেস্ট বই গুলো</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                    <div class="single-teachers">
+                        <a href="#" style="padding: 0 3px">
+                            <img src="{{ asset('frontend') }}/img/books/1.jpg" class="w-100" alt="Image">
+                            <h3 class="mt-3">সাকিবুর রাহাত</h3>
+                        </a>
                     </div>
                 </div>
-            </section>
-        @endif
-
-        @if($section->type == 3)
-            {{-- its a writer section --}}
-            <section class="teachers-area ebeef5-bg-color d-flex justify-content-center py-5">
-                <div class="custom_container">
-                    <div class="section-title" style="max-width: 100%; text-align: left; margin-bottom: 30px; border-bottom: 1px solid white; padding-bottom: 10px;">
-                        <h2 style="font-size: 26px;">{{ $section->section_title }}</h2>
-                    </div>
-
-                    <div class="row">
-                        @foreach($writers as $writer)
-                            <div class="col-lg-4 col-xl-3 col-sm-6">
-                                <x-writer :writer="$writer" />
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="text-center">
-                        <a href="{{ route('frontend.allWriters') }}" class="default-btn">লেখকবৃন্দদের তালিকা</a>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                    <div class="single-teachers">
+                        <a href="#" style="padding: 0 3px">
+                            <img src="{{ asset('frontend') }}/img/books/2.jpg" class="w-100" alt="Image">
+                            <h3 class="mt-3">সাকিবুর রাহাত</h3>
+                        </a>
                     </div>
                 </div>
-            </section>
-        @endif
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                    <div class="single-teachers">
+                        <a href="#" style="padding: 0 3px">
+                            <img src="{{ asset('frontend') }}/img/books/3.jpg" class="w-100" alt="Image">
+                            <h3 class="mt-3">সাকিবুর রাহাত</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                    <div class="single-teachers">
+                        <a href="#" style="padding: 0 3px">
+                            <img src="{{ asset('frontend') }}/img/books/4.jpg" class="w-100" alt="Image">
+                            <h3 class="mt-3">সাকিবুর রাহাত</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                    <div class="single-teachers">
+                        <a href="#" style="padding: 0 3px">
+                            <img src="{{ asset('frontend') }}/img/books/5.jpg" class="w-100" alt="Image">
+                            <h3 class="mt-3">সাকিবুর রাহাত</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                    <div class="single-teachers">
+                        <a href="#" style="padding: 0 3px">
+                            <img src="{{ asset('frontend') }}/img/books/1.jpg" class="w-100" alt="Image">
+                            <h3 class="mt-3">সাকিবুর রাহাত</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="#" class="default-btn">সকল বই</a>
+            </div>
+        </div>
+    </section>
+    <!-- End Books Area -->
 
-        @if($section->type == 4)
-            {{-- its an offer area --}}
-            <section class="discover-area ebeef5-bg-color ptb-70">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-4">
-                            <div class="discover-content">
-                                <h2> এই সপ্তাহের অফার </h2>
+    <!-- Start Education Area -->
+    <section class="education-area " style="background-color: #e4e4e3">
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="education-img pt-5 d-flex justify-content-center align-items-center text-center">
+                        <img src="{{ asset('frontend') }}/img/education-img.png" alt="Image">
+                    </div>
+                </div>
 
-                                <p>প্রতি সপ্তাহে আমাদের অফার ‍গুলো গ্রহণ করে অফারের বই গুলো কিনে ফেলুন দুর্দান্ত সব মূল্য ছাড়ে! </p>
+                <div class="col-lg-6">
+                    <div class="education-content ptb-100">
+                        <span class="top-title">রাবেয়া খাতুন এর</span>
+                        <h2>লেখক <span>হতে </span>চাই!</h2>
+                        <p>তরুণ অনুবাদক আলী আহমাদ মাবরুরের এটি দ্বিতীয় অনুবাদ গ্রন্থ। গ্রন্থটি ইসলামি নৈতিকতার সেই ব্যাপকতর দৃষ্টিভঙ্গি উপস্থাপন করেছে; যা ব্যক্তিগত, ধর্মীয়, সামাজিক, অর্থনৈতিক ও রাজনৈতিক সকল দিককে আচ্ছাদিত করে। ইসলামি নৈতিকতা শুধুমাত্র </p>
+                        <p> মুসলিম সমাজের জন্য সীমাবদ্ধ নয; বরং এটি মানব সমাজে ব্যাপকভাবে বিস্তৃত। ইসলাম সকল মানুষের উৎপত্তিকে একক</p>
 
-                                <ul>
-                                    <li>
-                                        <span>1</span>
-                                        পছন্দ করুন
-                                    </li>
-                                    <li>
-                                        <span>2</span>
-                                        অর্ডার করুন
-                                    </li>
-                                    <li>
-                                        <span>3</span>
-                                        বইটি গ্রহণ করুন
-                                    </li>
-                                    <li>
-                                        <span>4</span>
-                                        পেমেন্ট করুন
-                                    </li>
-                                </ul>
-                                <div class="mt-5">
-                                    <a href="{{ route('frontend.allOffer') }}" class="default-btn">সবগুলো দেখুন</a>
-                                </div>
-                            </div>
+                        <ul>
+                            <li>
+                                <i class="bx bx-check"></i>
+                                এই মাসের বেস্ট সেলার
+                            </li>
+                            <li>
+                                <i class="bx bx-check"></i>
+                                লেখক হতে চাইলে পড়ুন
+                            </li>
+                            <li>
+                                <i class="bx bx-check"></i>
+                                অসাধরণ বাচনভঙ্গি
+                            </li>
+                            <li>
+                                <i class="bx bx-check"></i>
+                                সম্পূর্ণ অফসেট পেপার
+                            </li>
+                            <li>
+                                <i class="bx bx-check"></i>
+                                ভোর বেলার স্বপ্ন পূরণ
+                            </li>
+                        </ul>
+
+                        <a href="#" class="default-btn">
+                            বিস্তারিত দেখুন
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Education Area -->
+
+    <!-- Start Achieve Area -->
+    <section class="achieve-area f5f6fa-bg-color pt-100 pb-70">
+        <div class="container">
+            <div class="section-title">
+                <h2>খুব সহজ</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-sm-6">
+                    <div class="single-achieve">
+                        <div class="achieve-shape shape-1">
+                            <img src="{{ asset('frontend') }}/img/achieve-shape/achieve-shape-1.png" alt="Image">
                         </div>
 
-
-                        <div class="col-lg-8">
-                            <div class="row">
-                                @forelse($offers as $offer)
-                                <div class="col-md-6">
-                                    <x-offer-item :offer="$offer" />
-                                </div>
-                                @empty
-                                    <div class="col-12">
-                                        <h3 class="text-center">এই সপ্তাহের অফারে কোন প্রডাক্ট পাওয়া যায়নি</h3>
-                                    </div>
-                                @endforelse
-                            </div>
-                        </div>
+                        <h3>বই খুজুন</h3>
+                        <p>আমাদের ওয়েবসাইটে আপনার পছন্দের বইটি খুজে বের করুন। প্রয়োজনে সার্চ অপশন ব্যবহার করুন। লেখকের নাম দিয়ে বা ক্যাটাগরি অনুযায়ীও সার্চ করতে পারবেন।</p>
                     </div>
                 </div>
 
-            </section>
-            <!-- End Offer Area -->
-        @endif
-    @endforeach
+                <div class="col-lg-4 col-sm-6">
+                    <div class="single-achieve">
+                        <div class="achieve-shape shape-2">
+                            <img src="{{ asset('frontend') }}/img/achieve-shape/achieve-shape-2.png" alt="Image">
+                        </div>
+
+                        <h3>অর্ডার করুন</h3>
+                        <p>পছন্দের বইটি অর্ডার করে ফেলুন। অর্ডার করার আগে বইটির কিছু অংশ পড়ে নিতে পারেন। যে কোন সমস্যায় আমাদের সাথে যোগাযোগ করুন।</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-6">
+                    <div class="single-achieve">
+                        <div class="achieve-shape shape-3">
+                            <img src="{{ asset('frontend') }}/img/achieve-shape/achieve-shape-3.png" alt="Image">
+                        </div>
+
+                        <h3>বুঝে নিন</h3>
+                        <p>অর্ডারের পর সবচেয়ে দ্রুত সময়ে আমরা চেষ্টা করব আপনার হাতে বইটি পৌছে দিতে ইনশাল্লাহ। অনলাইনে অথবা বই হাতে পেয়ে মূল্য পরিশোধ করুন।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Achieve Area -->
 
 
-@endsection
+    <!-- Start writer Area -->
+    <section class="teachers-area ebeef5-bg-color pt-100 pb-70">
+        <div class="container">
+            <div class="section-title">
+                <span>লেখক</span>
+                <h2>আমাদের জনপ্রিয় লেখকগণ</h2>
+            </div>
 
-@section('javascript')
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <a href="#">
+                        <div class="single-teachers">
+                            <img src="{{ asset('frontend') }}/img/teachers-img/teachers-img-1.jpg" alt="Image">
 
-{{--    <script src="{{ asset('frontend/plugins/slick_slider/slick.min.js') }}"></script>--}}
-    <script src="{{ asset('frontend/plugins/slider/js/jquery.animateSlider.js') }}"></script>
+                            <div class="teachers-content">
+                                <h3>সাকিবুর রাহাত</h3>
+                                <span>কবি ও সাহিত্যিক</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="#">
+                        <div class="single-teachers">
+                            <img src="{{ asset('frontend') }}/img/teachers-img/teachers-img-2.jpg" alt="Image">
 
-    <script>
-        $(function(){
-            var container_width = $('#get_width').width();
-            $('.mega_menu').width(container_width);
+                            <div class="teachers-content">
+                                <h3>মোহাম্মদ আব্দুল্লাহ</h3>
+                                <span>লেখক ও গবেষক</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="#">
+                        <div class="single-teachers">
+                            <img src="{{ asset('frontend') }}/img/teachers-img/teachers-img-3.jpg" alt="Image">
 
-            $('.home_slider').slick({
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 2000,
-                dots: true,
-                arrows: true,
-                prevArrow: '.prev_arrow',
-                nextArrow: '.next_arrow',
-            });
+                            <div class="teachers-content">
+                                <h3>রুহুল আমিন</h3>
+                                <span>সফটওয়্যার ইঞ্জিনিয়ার</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="#">
+                        <div class="single-teachers">
+                            <img src="{{ asset('frontend') }}/img/teachers-img/teachers-img-4.jpg" alt="Image">
 
-            $(".anim-slider").animateSlider(
-                {
-                    autoplay	:true,
-                    interval	:10000,
-                    animations 	:
-                        {
-                            0	: 	//Slide No1
-                                {
-                                    ".slider_text_1"	:
-                                        {
-                                            show   	  : "bounceIn",
-                                            hide 	  : "flipOutX",
-                                            delayShow : "delay1s"
-                                        },
-                                    ".slider_sub_title_1":
-                                        {
-                                            show 	  : "fadeInUpBig",
-                                            hide 	  : "fadeOutDownBig",
-                                            delayShow : "delay1-5s"
-                                        },
-                                    ".slider_main_title_1" 	:
-                                        {
-                                            show   	  : "bounceInRight",
-                                            hide 	  : "fadeOutRightBig",
-                                            delayShow : "delay2s"
-                                        },
-                                    ".slider_button_1":
-                                        {
-                                            show 	  : "bounceInUp",
-                                            hide 	  : "fadeOutLeftBig",
-                                            delayShow : "delay3s"
-                                        },
-                                    ".slider_book_1" :{
-                                        show 	  : "bounceInUp",
-                                        hide 	  : "fadeOutLeftBig",
-                                        delayShow : "delay2-5s"
-                                    }
-                                },
-                            1	: //Slide No2
-                                {
-                                    ".slider_text_2"	:
-                                        {
-                                            show   	  : "bounceIn",
-                                            hide 	  : "flipOutX",
-                                            delayShow : "delay1s"
-                                        },
-                                    ".slider_sub_title_2":
-                                        {
-                                            show 	  : "fadeInUpBig",
-                                            hide 	  : "fadeOutDownBig",
-                                            delayShow : "delay1-5s"
-                                        },
-                                    ".slider_main_title_2" 	:
-                                        {
-                                            show   	  : "bounceInRight",
-                                            hide 	  : "fadeOutRightBig",
-                                            delayShow : "delay2s"
-                                        },
-                                    ".slider_button_2":
-                                        {
-                                            show 	  : "bounceInUp",
-                                            hide 	  : "fadeOutLeftBig",
-                                            delayShow : "delay3s"
-                                        },
-                                    ".slider_book_2" :{
-                                        show 	  : "bounceInUp",
-                                        hide 	  : "fadeOutLeftBig",
-                                        delayShow : "delay2-5s"
-                                    }
-                                },
-                            2	: //Slide No3
-                                {
-                                    ".slider_text_1"	:
-                                        {
-                                            show   	  : "bounceIn",
-                                            hide 	  : "flipOutX",
-                                            delayShow : "delay1s"
-                                        },
-                                    ".slider_sub_title_1":
-                                        {
-                                            show 	  : "fadeInUpBig",
-                                            hide 	  : "fadeOutDownBig",
-                                            delayShow : "delay1-5s"
-                                        },
-                                    ".slider_main_title_1" 	:
-                                        {
-                                            show   	  : "bounceInRight",
-                                            hide 	  : "fadeOutRightBig",
-                                            delayShow : "delay2s"
-                                        },
-                                    ".slider_button_1":
-                                        {
-                                            show 	  : "bounceInUp",
-                                            hide 	  : "fadeOutLeftBig",
-                                            delayShow : "delay3s"
-                                        },
-                                    ".slider_book_1" :{
-                                        show 	  : "bounceInUp",
-                                        hide 	  : "fadeOutLeftBig",
-                                        delayShow : "delay2-5s"
-                                    }
-                                }
-                        }
-                });
+                            <div class="teachers-content">
+                                <h3>মুজাজ্জাজ নাঈম</h3>
+                                <span>আলেম ও গবেষক</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="#" class="default-btn">লেখকবৃন্দদের তালিকা</a>
+            </div>
+        </div>
+    </section>
+    <!-- End writer Area -->
 
-        });
+    <!-- Start Subscribe Area -->
+    <section class="subscribe-area ebeef5-bg-color ptb-100" style="background-color: rgb(245, 245, 245);">
+        <div class="container">
+            <div class="subscribe-wrap">
+                <h2>সাবস্ক্রাইব করুন</h2>
+                <p>পরবর্তী বই প্রকাশের সকল আপডেট পেতে সাবস্ক্রাইব করুন</p>
 
+                <form class="newsletter-form" data-toggle="validator">
+                    <input type="text" class="form-control" placeholder="আপনার ফোন নাম্বার দিন" name="phone" required autocomplete="off">
 
-    </script>
+                    <button class="default-btn" type="submit">
+                        সাবস্ক্রাইব করুন
+                    </button>
+
+                    <div id="validator-newsletter" class="form-result"></div>
+                </form>
+                <div class="subscribe-img">
+                    <img src="{{ asset('frontend') }}/img/subscribe-img.png" alt="Image">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Subscribe Area -->
 @endsection

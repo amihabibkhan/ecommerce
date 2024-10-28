@@ -26,7 +26,7 @@
                                 <td>{{ $single_user->phone }}</td>
                                 <td><x-user-role :role="$single_user->role_id" /></td>
                                 <td>
-                                    @if($single_user->id != auth::id())
+                                    @if($single_user->id != auth()->id())
                                         <a href="#update_user{{ $single_user->id }}" class="btn btn-primary waves-effect waves-light m-r-5" data-animation="push" data-plugin="custommodal"
                                            data-overlaySpeed="100" data-overlayColor="#36404a"><i class="far fa-edit"></i></a>
 

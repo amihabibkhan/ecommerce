@@ -1,15 +1,4 @@
 /* Max width 767px */
-@media only screen and (max-width: 576px) {
-    .single-shop h3,
-    .single-shop h4,
-    .single-shop
-    {
-        font-size: 12px !important;
-    }
-    .single-shop .shop-img{
-        padding: 5px !important;
-    }
-}
 @media only screen and (max-width: 767px) {
   .ptb-100 {
     padding-top: 50px;

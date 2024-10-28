@@ -7,7 +7,7 @@ use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use Searchable;
+
 
     protected $guarded = [];
 

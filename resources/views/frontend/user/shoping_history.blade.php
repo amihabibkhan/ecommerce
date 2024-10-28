@@ -2,7 +2,7 @@
 
 @section('main_content')
 
-    <x-inner-page-banner :title="auth::user()->name" />
+    <x-inner-page-banner :title="auth()->user()->name" />
 
     <div class="dashboard my-5">
         <div class="container">

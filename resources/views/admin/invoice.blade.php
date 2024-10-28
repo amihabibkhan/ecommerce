@@ -227,12 +227,12 @@
                                 <div class="col company-details">
                                     <h2 class="name">
                                         <a target="_blank" href="{{ route('index') }}">
-                                            BIKIRONSHOP
+                                            FALASTIN
                                         </a>
                                     </h2>
-                                    <div>Banglabazar, Dhaka - 1000</div>
+                                    <div>128/1, East Tejturi Bazar, Tejgoan, Dhaka</div>
                                     <div>01770496249</div>
-                                    <div>bikironshop@gmail.com</div>
+                                    <div>info.falastin@gmail.com</div>
                                 </div>
                             </div>
                         </header>
